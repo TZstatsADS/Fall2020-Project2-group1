@@ -7,147 +7,157 @@
 #    http://shiny.rstudio.com/
 #
 #-------------------------------------------------App Server----------------------------------
-library(viridis)
-library(dplyr)
-library(tibble)
-library(tidyverse)
-library(shinythemes)
-library(sf)
-library(RCurl)
-library(tmap)
-library(rgdal)
-library(leaflet)
+
 library(shiny)
 library(shinythemes)
-library(plotly)
-library(ggplot2)
+library(tigris)
+library(leaflet)
+library(tidyverse)
+
+
 #can run RData directly to get the necessary date for the app
 #global.r will enable us to get new data everyday
 #update data with automated script
-source("global.R") 
-#load('./output/covid-19.RData')
+
+
+load("../app/output/covid_zip_code.RData")
+#setwd("~/")
+#load("~/covid_zip_code.RData")
+
+
 shinyServer(function(input, output) {
-#----------------------------------------
-#tab panel 1 - Home Plots
-#preapare data for plot
-output$case_overtime <- renderPlotly({
-    #determin the row index for subset
-    req(input$log_scale)
-    end_date_index <- which(date_choices == input$date)
-    #if log scale is not enabled, we will just use cases
-    if (input$log_scale == FALSE) {
-        #render plotly figure
-        case_fig <- plot_ly()
-        #add comfirmed case lines
-        case_fig <- case_fig %>% add_lines(x = ~date_choices[1:end_date_index], 
-                             y = ~as.numeric(aggre_cases[input$country,])[1:end_date_index],
-                             line = list(color = 'rgba(67,67,67,1)', width = 2),
-                             name = 'Confirmed Cases')
-        #add death line 
-        case_fig <- case_fig %>% add_lines(x = ~date_choices[1:end_date_index],
-                               y = ~as.numeric(aggre_death[input$country,])[1:end_date_index],
-                               name = 'Death Toll')
-        #set the axis for the plot
-        case_fig <- case_fig %>% 
-            layout(title = paste0(input$country,'\t','Trend'),
-                   xaxis = list(title = 'Date',showgrid = FALSE), 
-                   yaxis = list(title = 'Comfirmed Cases/Deaths',showgrid=FALSE)
-                   )
-        }
-    #if enable log scale, we need to take log of the y values
-    else{
-        #render plotly figure
-        case_fig <- plot_ly()
-        #add comfirmed case lines
-        case_fig <- case_fig %>% add_lines(x = ~date_choices[1:end_date_index], 
-                                           y = ~log(as.numeric(aggre_cases[input$country,])[1:end_date_index]),
-                                           line = list(color = 'rgba(67,67,67,1)', width = 2),
-                                           name = 'Confirmed Cases')
-        #add death line 
-        case_fig <- case_fig %>% add_lines(x = ~date_choices[1:end_date_index],
-                                           y = ~log(as.numeric(aggre_death[input$country,])[1:end_date_index]),
-                                           name = 'Death Toll')
-        #set the axis for the plot
-        case_fig <- case_fig %>% 
-            layout(title = paste0(input$country,'<br>','\t','Trends'),
-                   xaxis = list(title = 'Date',showgrid = FALSE), 
-                   yaxis = list(title = 'Comfirmed Cases/Deaths(Log Scale)',showgrid=FALSE)
-            )
-    }
-    return(case_fig)
-        })
-#----------------------------------------
-#tab panel 2 - Maps
-data_countries <- reactive({
-    if(!is.null(input$choices)){
-        if(input$choices == "Cases"){
-            return(aggre_cases_copy)
-            
-        }else{
-            return(aggre_death_copy)
-        }}
-})
-
-#get the largest number of count for better color assignment
-maxTotal<- reactive(max(data_countries()%>%select_if(is.numeric), na.rm = T))    
-#color palette
-pal <- reactive(colorNumeric(c("#FFFFFFFF" ,rev(inferno(256))), domain = c(0,log(binning(maxTotal())))))    
+    #----------------------------------------
+    #tab panel 1 - COVID Zip Code Tracker
     
-output$map <- renderLeaflet({
-    map <-  leaflet(countries) %>%
-        addProviderTiles("Stadia.Outdoors", options = providerTileOptions(noWrap = TRUE)) %>%
-        setView(0, 30, zoom = 3) })
-
-
-observe({
-    if(!is.null(input$date_map)){
-        select_date <- format.Date(input$date_map,'%Y-%m-%d')
-    }
-    if(input$choices == "Cases"){
-        #merge the spatial dataframe and cases dataframe
-        aggre_cases_join <- merge(countries,
-                                  data_countries(),
-                                  by.x = 'NAME',
-                                  by.y = 'country_names',sort = FALSE)
-        #pop up for polygons
-        country_popup <- paste0("<strong>Country: </strong>",
-                                aggre_cases_join$NAME,
-                                "<br><strong>",
-                                "Total Cases: ",
-                                aggre_cases_join[[select_date]],
-                                "<br><strong>")
-        leafletProxy("map", data = aggre_cases_join)%>%
-            addPolygons(fillColor = pal()(log((aggre_cases_join[[select_date]])+1)),
-                        layerId = ~NAME,
-                        fillOpacity = 1,
-                        color = "#BDBDC3",
-                        weight = 1,
-                        popup = country_popup) 
-    } else {
-        #join the two dfs together
-        aggre_death_join<- merge(countries,
-                                 data_countries(),
-                                 by.x = 'NAME',
-                                 by.y = 'country_names',
-                                 sort = FALSE)
-        #pop up for polygons
-        country_popup <- paste0("<strong>Country: </strong>",
-                                aggre_death_join$NAME,
-                                "<br><strong>",
-                                "Total Deaths: ",
-                                aggre_death_join[[select_date]],
-                                "<br><strong>")
         
-        leafletProxy("map", data = aggre_death_join)%>%
-            addPolygons(fillColor = pal()(log((aggre_death_join[[select_date]])+1)),
-                        layerId = ~NAME,
-                        fillOpacity = 1,
-                        color = "#BDBDC3",
-                        weight = 1,
-                        popup = country_popup)
         
+    #----------------------------------------
+    #tab panel 2 - Maps
+        
+    output$myMap <- renderLeaflet({
+        
+        # this determines the chosen parameter the user has selected 
+        # did the user want recent or cumulative data?
+        # what information did the user want to see in the legend?
+        # see "add a legend" and 'create color palette' comment below to see chosen_parameter variable in use
+        chosen_parameter <- if (input$radio == "COVID Case Count") {
+            if(input$checkbox == TRUE){covid_zip_code$COVID_CASE_COUNT_4WEEK} else{covid_zip_code$COVID_CASE_COUNT}
+        } else if (input$radio == "COVID Death Count") {
+            if(input$checkbox == TRUE){covid_zip_code$COVID_DEATH_COUNT_4WEEK} else{covid_zip_code$COVID_DEATH_COUNT}
+        } else if (input$radio == "Total COVID Tests") {
+            if(input$checkbox == TRUE){covid_zip_code$NUM_PEOP_TEST_4WEEK} else{covid_zip_code$TOTAL_COVID_TESTS}
+        } else if (input$radio == "Positive COVID Tests") {
+            if(input$checkbox == TRUE){covid_zip_code$TOTAL_POSITIVE_TESTS_4WEEK} else{covid_zip_code$TOTAL_POSITIVE_TESTS}
+        } else if (input$radio == "Percent Positive COVID Tests") {
+            if(input$checkbox == TRUE){covid_zip_code$PERCENT_POSITIVE_4WEEK} else{covid_zip_code$PERCENT_POSITIVE}
         }
+        
+        
+        
+        # create color palette 
+        pal <- colorNumeric(
+            palette = "Greens",
+            domain = chosen_parameter)
+        
+        # create labels for zipcodes
+        labels <-  paste0(
+            "Zip Code: ", covid_zip_code$GEOID10, "<br/>",
+            "Neighborhood: ", covid_zip_code$NEIGHBORHOOD_NAME, "<br/>",
+            "Borough: ", covid_zip_code$BOROUGH_GROUP, "<br/>",
+            "Population Denominator (Estimate): ", floor(covid_zip_code$POP_DENOMINATOR), "<br/>",
+            
+            # this number change depending on the options the user has selected
+            # did the user want recent or cumulative data?
+            # seperate check from the chosen_parameter variable above 
+            "COVID Case Count: ", if(input$checkbox == TRUE){covid_zip_code$COVID_CASE_COUNT_4WEEK} else{covid_zip_code$COVID_CASE_COUNT}, "<br/>",
+            "COVID Death Count: ", if(input$checkbox == TRUE){covid_zip_code$COVID_DEATH_COUNT_4WEEK} else{covid_zip_code$COVID_DEATH_COUNT}, "<br/>",
+            "Total COVID Tests: ", if(input$checkbox == TRUE){covid_zip_code$NUM_PEOP_TEST_4WEEK} else{covid_zip_code$TOTAL_COVID_TESTS}, "<br/>",
+            "Positive COVID Tests: ", if(input$checkbox == TRUE){covid_zip_code$NUM_PEOP_TEST_4WEEK} else{covid_zip_code$TOTAL_COVID_TESTS}, "<br/>",
+            "Percent Positive COVID Tests: ", if(input$checkbox == TRUE){covid_zip_code$PERCENT_POSITIVE_4WEEK} else{covid_zip_code$PERCENT_POSITIVE}
+        ) %>%
+            
+            lapply(htmltools::HTML)
+        
+        covid_zip_code %>%
+            leaflet %>% 
+            # add base map
+            addProviderTiles("CartoDB") %>% 
+            # mark selected zip code
+            
+            # add zip codes
+            addPolygons(fillColor = ~pal(chosen_parameter),
+                        weight = 2,
+                        opacity = 1,
+                        color = "white",
+                        dashArray = "3",
+                        fillOpacity = 0.7,
+                        highlight = highlightOptions(weight = 2,
+                                                     color = "#666",
+                                                     dashArray = "",
+                                                     fillOpacity = 0.7,
+                                                     bringToFront = TRUE),
+                        label = labels) %>%
+            
+            addPolygons(data = covid_zip_code[covid_zip_code$GEOID10 == input$ZipCode, ], 
+                        color = "blue", weight = 5, fill = FALSE) %>%
+            
+            # add legend
+            addLegend(pal = pal, 
+                      values = ~chosen_parameter,
+                      opacity = 0.7, 
+                      title = htmltools::HTML(input$radio),
+                      position = "bottomright")
+        
+    }) 
+    
+    #----------------------------------------
+    #tab panel 3 - Hospitals
+    
+    
+    
+    
+    #----------------------------------------
+    #tab panel 4 - Hotels
+    
+    
+    
+    #----------------------------------------
+    #tab panel 5 - Restaurants 
+    
+    
+    
+    #----------------------------------------
+    #tab panel 6 - Averages 
+    
+    averages_cumulative <- as.data.frame(covid_zip_code) %>%
+        select(COVID_CASE_COUNT, COVID_DEATH_COUNT, TOTAL_COVID_TESTS, TOTAL_POSITIVE_TESTS, PERCENT_POSITIVE) %>%
+        summarise_all(mean)
+    
+    averages_recent <- as.data.frame(covid_zip_code) %>%
+        select(COVID_CASE_COUNT_4WEEK, COVID_DEATH_COUNT_4WEEK, NUM_PEOP_TEST_4WEEK, TOTAL_POSITIVE_TESTS_4WEEK, PERCENT_POSITIVE_4WEEK) %>%
+        summarise_all(mean)
+    
+    averages_borough_cumulative <- as.data.frame(covid_zip_code) %>% group_by(BOROUGH_GROUP) %>% 
+        select(COVID_CASE_COUNT, COVID_DEATH_COUNT, TOTAL_COVID_TESTS, TOTAL_POSITIVE_TESTS, PERCENT_POSITIVE) %>%
+        summarise_all(mean)
+    
+    averages_borough_recent <- as.data.frame(covid_zip_code) %>% group_by(BOROUGH_GROUP) %>% 
+        select(COVID_CASE_COUNT_4WEEK, COVID_DEATH_COUNT_4WEEK, NUM_PEOP_TEST_4WEEK, TOTAL_POSITIVE_TESTS_4WEEK, PERCENT_POSITIVE_4WEEK) %>%
+        summarise_all(mean)
+    
+    output$myTable1 <- renderTable(averages_cumulative)
+    output$myTable3 <- renderTable(averages_borough_cumulative)
+    
+    
+    output$myTable2 <- renderTable(averages_recent)
+    output$myTable4 <- renderTable(averages_borough_recent)
+    
+    #----------------------------------------
+    #tab panel 7 - Sources
+    
+    
+    
+    
+    
+        
     })
-
-
-})

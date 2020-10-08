@@ -1,20 +1,11 @@
-### A Note on Contributions
+Project 2
 
-Whenever we have team projects, there are always concerns on unequal contributions from members of a project team. In the ideal world, we are all here to put in our best efforts and learn together. Even in that ideal world, we have different skill sets and preparations, and we will still contribute differently to a project. 
+Team members: Zhenglei Chen, Levi Lee, Xinyuan Peng (Presenter), Yuwei Tong, Tianle Zhu
 
-Therefore, you are required to post a *contribution statement* in the root README.md of your GitHub repo. Please beware that your GitHub repo will become public and remain public after the due date of the projects. 
+Summary: In this project, we created an R Shiny app that allowed users (individuals, healthcare providers, newspapers, and businesses) to learn and understand the numbers behind COVID-19 in New York City. 
 
-Post your title, team members, project abstract and a contribution statement in the README.md file.  This is a common practice for research scientific journals. 
+[Contribution Statement] 
 
-Below is an example. If no contribution statement is provided, we will insert a default statement that goes "**All team members contributed equally in all stages of this project. All team members approve our work presented in this GitHub repository including this contributions statement**. "
+Everyone had a hand in creating the NYC COVID-19 map in the Maps tab. 
 
----
-Sample project README statement.
-
-Project xxx
-
-Team members: Avi Bond, Comma Deed, En Funn, Gem Hon
-
-Summary: In this project, we developed a new method and improved the classification accuracy for images of cats and dogs to 99.9%
-
-[Contribution Statement] AB, CD, EF and GH designed the study. AB and CD developed baseline classification model for evaluation. EF and GH explored feature engineering for improving the baseline model. AB, EF and GH discussed and designed the model evaluation protocol. CD carried out the computation for model evaluation. All team members contributed to the GitHub repository and prepared the presentation. All team members approve our work presented in our GitHub repository including this contribution statement.
+Levi added the interactive features (i.e. zip code dropdown menu, legend information ratio buttons, and recent data filter checkbox) and created the tables of averages on the Averages tab. He also established the main framework for the app using the default as a baseline. 

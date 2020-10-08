@@ -57,102 +57,68 @@ if (!require("viridis")) {
   install.packages("viridis")
   library(viridis)
 }
+
 #--------------------------------------------------------------------
-###############################Define Functions#######################
-data_cooker <- function(df){
-  #input dataframe and change the Country/Region column into standard format
-  df$Country.Region <- as.character(df$Country.Region)
-  df$Country.Region[df$Country.Region == "Congo (Kinshasa)"] <- "Dem. Rep. Congo"
-  df$Country.Region[df$Country.Region == "Congo (Brazzaville)"] <- "Congo"
-  df$Country.Region[df$Country.Region == "Central African Republic"] <- "Central African Rep."
-  df$Country.Region[df$Country.Region == "Equatorial Guinea"] <- "Eq. Guinea"
-  df$Country.Region[df$Country.Region == "Western Sahara"]<-"W. Sahara"
-  df$Country.Region[df$Country.Region == "Eswatini"] <- "eSwatini"
-  df$Country.Region[df$Country.Region == "Taiwan*"] <- "Taiwan"
-  df$Country.Region[df$Country.Region== "Cote d'Ivoire"] <-"Côte d'Ivoire"
-  df$Country.Region[df$Country.Region == "Korea, South"] <- "South Korea"
-  df$Country.Region[df$Country.Region == "Bosnia and Herzegovina"] <- "Bosnia and Herz."
-  df$Country.Region[df$Country.Region == "US"] <- "United States of America"
-  df$Country.Region[df$Country.Region == "Burma"]<-"Myanmar"
-  df$Country.Region[df$Country.Region == "Holy See"]<-"Vatican"
-  df$Country.Region[df$Country.Region=="South Sudan"]<-"S. Sudan"
-  return(df)
+
+if (!require("tigris")) {
+  install.packages("tigris")
+  library(tigris)
 }
 
 
-data_transformer <- function(df) {
-  #################################################################
-  ##Given dataframe tranform the dataframe into aggregate level with
-  ##rownames equal to countries name, and colnames equals date
-  #################################################################
-  #clean the country/regionnames
-  df <- data_cooker(df)
-  #columns that don't need 
-  not_select_cols <- c("Province.State","Lat","Long")
-  #aggregate the province into country level
-  aggre_df <- df %>% group_by(Country.Region) %>% 
-    select(-one_of(not_select_cols)) %>% summarise_all(sum)
-  #assign the country name into row names 
-  aggre_df <- aggre_df %>% remove_rownames %>% 
-    tibble::column_to_rownames(var="Country.Region")
-  #change the colume name into date format
-  date_name <- colnames(aggre_df)
-  #change e.g: "x1.22.20" -> "2020-01-22"
-  date_choices <- as.Date(date_name,format = 'X%m.%d.%y')
-  #assign column nam
-  colnames(aggre_df) <- date_choices
-  return(aggre_df)
-}
-#--------------------------------------------------------------------
-###############################Data Preparation#######################
-#Data Sources
-"Dong E, Du H, Gardner L. An interactive web-based dashboard to track COVID-19 in real time. 
-Lancet Inf Dis. 20(5):533-534. doi: 10.1016/S1473-3099(20)30120-1"
-#get the daily global cases data from API
-Cases_URL <- getURL("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv")
-global_cases <- read.csv(text = Cases_URL)
-
-#get the daily global deaths data from API
-Death_URL <- getURL("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv")
-global_death <- read.csv(text = Death_URL)
-
-
-#get aggregate cases 
-aggre_cases <- as.data.frame(data_transformer(global_cases))
-#get aggregate death
-aggre_death <- as.data.frame(data_transformer(global_death))
-#define date_choices 
-date_choices <- as.Date(colnames(aggre_cases),format = '%Y-%m-%d')
-#define country_names
-country_names_choices <- rownames(aggre_cases)
-
-#Download the spatial polygons dataframe in this link
-# https://www.naturalearthdata.com/downloads/50m-cultural-vectors/50m-admin-0-countries-2/
-
-output_shapefile_filepath <- "./output/countries_shapeFile.RData"
-
-#if already has countries_shapeFile.RData under output folder, no need to process it again
-#otherwise, read files from data folder to create countries_shapeFile.RData under output folder
-if(file.exists(output_shapefile_filepath)){
-  load(output_shapefile_filepath)
-}else{
-  countries <- readOGR(dsn ="../data/ne_50m_admin_0_countries",
-                       layer = "ne_50m_admin_0_countries",
-                       encoding = "utf-8",use_iconv = T,
-                       verbose = FALSE)
-  save(countries, file=output_shapefile_filepath)
+if (!require("leaflet")) {
+  install.packages("leaflet")
+  library(leaflet)
 }
 
+#=======================================================================
 
-#make a copy of aggre_cases dataframe
-aggre_cases_copy <- as.data.frame(aggre_cases)
-aggre_cases_copy$country_names <- as.character(rownames(aggre_cases_copy))
+setwd("../data/coronavirus-data-master")
 
-#make a copy of aggre_death dataframe
-aggre_death_copy <- as.data.frame(aggre_death)
-aggre_death_copy$country_names <- as.character(rownames(aggre_death_copy))
+library(tigris)
+library(leaflet)
 
-binning<- function(x) {10^(ceiling(log10(x)))}
+#=======================================================================
 
-#use save.image() at any time to save all environment data into an .RData file
-save.image(file='./output/covid-19.RData')
+# read in data file
+data_modzcta <- read.csv("data-by-modzcta.csv")
+recent_modzcta <- read.csv("recent/recent-4-week-by-modzcta.csv")
+
+# drop redundant columns 
+recent_modzcta_mod <- recent_modzcta[, -1:-2]
+
+# combine data frames
+covid_modzcta <- cbind(data_modzcta, recent_modzcta_mod)
+
+# get zip boundaries that start with 1
+covid_zip_code <- zctas(cb = TRUE, starts_with = "1")
+covid_zip_code <- covid_zip_code[as.numeric(covid_zip_code$ZCTA5CE10) < 11436, ]
+
+covid_modzcta$MODIFIED_ZCTA <- as.character(covid_modzcta$MODIFIED_ZCTA)
+
+
+# join zip boundaries and covid data 
+covid_zip_code <- geo_join(covid_zip_code, 
+                      covid_modzcta, 
+                      by_sp = "GEOID10", 
+                      by_df = "MODIFIED_ZCTA",
+                      how = "left")
+
+covid_zip_code <- na.omit(covid_zip_code)
+
+covid_zip_code <- covid_zip_code[order(covid_zip_code$GEOID10), ]
+
+# create two new variables 
+covid_zip_code$TOTAL_POSITIVE_TESTS <- floor((covid_zip_code$PERCENT_POSITIVE/100)*covid_zip_code$TOTAL_COVID_TESTS)
+covid_zip_code$TOTAL_POSITIVE_TESTS_4WEEK <- floor((covid_zip_code$PERCENT_POSITIVE_4WEEK/100)*covid_zip_code$NUM_PEOP_TEST_4WEEK)
+
+# round off population to nearest whole number 
+covid_zip_code$POP_DENOMINATOR <- floor(covid_zip_code$POP_DENOMINATOR)
+
+#=======================================================================
+
+setwd("../app/output")
+save(covid_zip_code, file = "covid_zip_code.RData")
+
+#=======================================================================
+

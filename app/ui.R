@@ -3,25 +3,25 @@
 # run the application by clicking 'Run App' above.
 #
 # Find out more about building applications with Shiny here:
-#ag
+#
 #    http://shiny.rstudio.com/
 #
 # Define UI for application that draws a histogram
-library(viridis)
-library(dplyr)
-library(tibble)
-library(tidyverse)
-library(shinythemes)
-library(sf)
-library(RCurl)
-library(tmap)
-library(rgdal)
-library(leaflet)
+
+
+
 library(shiny)
 library(shinythemes)
-library(plotly)
-library(ggplot2)
-#load('./output/covid-19.RData')
+library(tigris)
+library(leaflet)
+library(tidyverse)
+
+
+load("../app/output/covid_zip_code.RData")
+#setwd("~/")
+#load("~/covid_zip_code.RData")
+
+
 shinyUI(navbarPage(title = 'COVID-19',
                    fluid = TRUE,
                    collapsible = TRUE,
@@ -30,68 +30,154 @@ shinyUI(navbarPage(title = 'COVID-19',
                    #--------------------------
                    #tab panel 1 - Home
                    tabPanel("Home",icon = icon("home"),
-                            fluidPage(
-                              fluidRow(
-                                column(12,
-                                       h1("Global Cases overview across time"),
-                                       fluidRow(
-                                         #select the date until now
-                                         column(6,
-                                                sliderInput('date','Date Unitl:',
-                                                            #first day of data recording
-                                                            min = as.Date(date_choices[1]),
-                                                            #present day of data recording
-                                                            max = as.Date(tail(date_choices,1)),
-                                                            value = as.Date(date_choices[1]),
-                                                            timeFormat = "%Y-%m-%d",
-                                                            animate = TRUE, step = 5),
-                                                fluidRow(
-                                                  #select the country we want to see the trend
-                                                  column(6, 
-                                                         selectInput('country','Which Country?',
-                                                                     choices = country_names_choices,
-                                                                     selected = 'United States of America')),
-                                                  #select whether want case number in log-scale or not
-                                                  column(6,
-                                                         radioButtons("log_scale", "In Log Scale:",
-                                                                      choices = c(TRUE,FALSE),
-                                                                      selected = FALSE))
-                                                          )
-                                                ),
-                                         #render plotly output
-                                         column(width = 6,
-                                                plotlyOutput('case_overtime'))
-                                              )
-                                        )
-                                      )
-                                    )
+                            
+                            titlePanel("COVID-19 NYC Zip Code Tracker"),
+
+                            titlePanel("Welcome"),
+                            
+                            HTML("Thank you for using our COVID-19 tracker app! <br />"), 
+                            
+                            HTML("We understand that in spite of COVID-19, people still must travel to and from New York. 
+                            However, practicing social distancing and being aware of recent cases is important. <br />"), 
+                            
+                            HTML("We are here to help! <br />"), 
+                            
+                            
+                            titlePanel("Who can benefit?"),
+                            
+                            HTML("<b>Individuals:</b> We hope that this app can help locals and travelers alike in making informed decisons in how they choose to spend their time in here in New York City. 
+                                 They are able to select hospitals, hotels, and restuarants based on a zip code of their choice. <br />"),
+                            
+                            HTML("<b>Local Healthcare Providers:</b> Since our app contains recent cases of COVID-19, local clinics and hospitals can use this information to make predictions about future cases in their areas. <br />"),
+                            
+                            HTML("<b>Local Newspapers:</b> We also believe that local papers can help keep the public more informed about <i>recent and local</i> cases so that those living in severely affected neighborhoods know to take proper precautions. <br />"),
+                            
+                            HTML("<b>Local Businesses:</b> Local shops can get a better sense of how COVID-19 is spreading throughout their area so they can change store hours and inventory as needed. 
+                                 Mobile store and restaurants, such as food trucks, can also use this app to move and set up shop accordingly. <br />"),
+                            
+                            titlePanel("How to Use this App"),
+                            
+                            HTML("It's easy!<br />"), 
+                            HTML("1. Click on the Map tab to learn about COVID cases in your area. <br />"), 
+                            HTML("2. If you need or want accommodations in a particular zip code or tourist spot, click the Hospitals, Hotels, and Restaurants tabs.  <br />"), 
+                            HTML("3. If you would like to learn more about the data, please take a look at the Averages and Sources tabs, where we show both recent and cumulative NYC and Borough averages as well as links to the raw data, respectively."), 
+                            
                                 ),
                    #--------------------------
                    #tab panel 2 - Map
-                   tabPanel("Maps",icon = icon("map-marker-alt"),div(class = 'outer',
-                            leafletOutput("map", width = "100%", height = "1200"),
-                            absolutePanel(id = "control", class = "panel panel-default", fixed = TRUE, draggable = TRUE,
-                                          top = 300, left = 20, right = "auto", bottom = "auto", width = 250, height = "auto",
-                                          selectInput('choices','Which data to visualize:',
-                                                      choices = c('Cases','Death'),
-                                                      selected = c('Cases')),
-                                          sliderInput('date_map','Input Date:',
-                                                      #first day of data recording
-                                                      min = as.Date(date_choices[1]),
-                                                      #present day of data recording
-                                                      max = as.Date(tail(date_choices,1)),
-                                                      value = as.Date('2020-04-01','%Y-%m-%d'),
-                                                      timeFormat = "%Y-%m-%d",
-                                                      animate = TRUE, step = 5),
-                                          style = "opacity: 0.80"))),
+                   tabPanel("Map", icon = icon("map-marker-alt"),
+
+                            titlePanel("Local NYC COVID-19 Cases"),
+                            
+                            # Sidebar with a slider input for number of bins
+                            sidebarLayout(
+                              
+                              sidebarPanel(
+                                helpText("Locate an area zip code on the map using the dropdown menu below.", br(), 
+                                         "Select up to two zip codes at a time.", br()), 
+                                selectInput("ZipCode", 
+                                            label = "Zip Code:",
+                                            choices = covid_zip_code$GEOID10, selected = 10001, multiple = TRUE),
+                                
+                                helpText("To see cases near popular tourist attractions, use the following guide.", br(), 
+                                         "Central Park: 10019", br(),
+                                         "Chinatown: 10002 & 10038", br(),
+                                         "Columbia University: 10027", br(),
+                                         "Coney Island: 11224", br(),
+                                         "Empire State Building: 10001", br(),
+                                         "Madison Square Garden: 10010", br(),
+                                         "Statue of Liberty: 10004", br(),
+                                         "Times Square: 10036", br(), 
+                                         "", br()), 
+                                
+                                helpText("Select what information that should be displayed on the legend.", 
+                                         "Colors and scale will adjust according to user selection."), 
+                                
+                                radioButtons("radio", label = "Legend Information:",
+                                             choices = list("COVID Case Count" = "COVID Case Count", 
+                                                            "COVID Death Count" = "COVID Death Count", 
+                                                            "Total COVID Tests" = "Total COVID Tests", 
+                                                            "Positive COVID Tests" = "Positive COVID Tests", 
+                                                            "Percent Positive COVID Tests" = "Percent Positive COVID Tests"), 
+                                             selected = "COVID Case Count"), 
+                                
+                                helpText("", br(), 
+                                         "Check the box below to display only the most recent COVID-19 cases from the past four weeks.", 
+                                         "Most recent 4 week data available: June 21st, 2020 to July 18th, 2020", 
+                                         "", br()), 
+                                
+                                
+                                checkboxInput("checkbox", label = "Recent 4 Week Data?", value = FALSE), 
+                                
+                                helpText("", br(), 
+                                         "Note: NYCHealth Open Data Last Updated September 30th, 2020.", 
+                                         "", br())
+                                
+                                
+                              ), # end sidebar panel 
+                              
+                              mainPanel(leafletOutput("myMap", height = 800))
+
+                            ) # end side bar layout
+                            
+                            
+                            
+                        ), # end tab 2 panel 
+                   
+                   
+                   
+                   
+                   #--------------------------
+                   #tab panel 3 - Hospitals
+                   tabPanel("Hospitals", icon = icon("fas fa-hospital"),
+                            
+                            
+                            
+                            
+                            
+                   ),
+                   #--------------------------
+                   #tab panel 4 - Hotels
+                   tabPanel("Hotels", icon = icon("fas fa-hotel"),
+                            
+                            
+                            
+                            
+                            
+                   ),
+                   
+                   #--------------------------
+                   #tab panel 5 - Restaurants
+                   tabPanel("Restaurants", icon = icon("fas fa-utensils"),
+                            
+                            
+                            
+                            
+                            
+                   ),
+                   
+                   #--------------------------
+                   #tab panel 6 - Averages
+                   tabPanel("Averages", icon = icon("fas fa-table"),
+                            
+                            titlePanel("NYC Cumulative Average"), 
+                            fluidRow(column(12, tableOutput("myTable1"))), 
+                            titlePanel("Borough Cumulative Averages"), 
+                            fluidRow(column(12, tableOutput("myTable3"))),   
+                            titlePanel("NYC Recent Four Week Average"), 
+                            fluidRow(column(12, tableOutput("myTable2"))),   
+                            titlePanel("Borough Recent Four Week Averages"), 
+                            fluidRow(column(12, tableOutput("myTable4"))), # end fluid row
+                            
+                            HTML("NYCHealth Open Data Last Updated September 30th, 2020."), 
+                   ), #end tab panel
                    # ----------------------------------
-                   #tab panel 3 - Source
-                   tabPanel("Data Source",icon = icon("cloud-download"),
+                   #tab panel 7 - Source
+                   tabPanel("Data Source", icon = icon("cloud-download"),
                             HTML(
                               "<h2> Data Source : </h2>
                               <h4> <p><li><a href='https://coronavirus.jhu.edu/map.html'>Coronavirus COVID-19 Global Cases map Johns Hopkins University</a></li></h4>
                               <h4><li>COVID-19 Cases : <a href='https://github.com/CSSEGISandData/COVID-19' target='_blank'>Github Johns Hopkins University</a></li></h4>
                               <h4><li>Spatial Polygons : <a href='https://www.naturalearthdata.com/downloads/' target='_blank'> Natural Earth</a></li></h4>"
                             ))
-                   
-))
+                   ))
