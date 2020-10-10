@@ -17,7 +17,7 @@ library(leaflet)
 library(tidyverse)
 
 
-load("C:/Users/Charlie/Documents/GitHub/Fall2020-Project2-group1/app/output/covid_zip_code.RData")
+load("C:/Users/60171/Documents/GitHub/Fall2020-Project2-group1/app/output/covid_zip_code.RData")
 #setwd("~/")
 #load("~/covid_zip_code.RData")
 
@@ -201,11 +201,34 @@ shinyUI(navbarPage(title = 'COVID-19',
                    #tab panel 5 - Hotels
                    tabPanel("Hotels", icon = icon("fas fa-hotel"),
                             
+                            titlePanel("NYC Hotel Map"),
+                            
+                            # Sidebar with a slider input for number of bins
+                            sidebarLayout(
+                              
+                              sidebarPanel(
+                                
+                                helpText("Enter or select a zip code to find hotels' information in this area.", br()),
+                                
+                                selectInput("hotelcode", 
+                                            label = "Zip Code:",
+                                            choices = covid_zip_code$GEOID10, selected = 10001),
+                                
+                                helpText("Hotels in the area:", br()),
+                                
+                                tableOutput("hotelInfo"),
+                                
+                                width = 12
+                                
+                              ), # end sidebar panel
+                              
+                              mainPanel(leafletOutput("hotelMap", height = 600), width = 12)
+                              
+                            ) # end side bar layout
                             
                             
-                            
-                            
-                   ),
+                   ), # end tab 5 panel
+                   
                    
                    #--------------------------
                    #tab panel 6 - Restaurants

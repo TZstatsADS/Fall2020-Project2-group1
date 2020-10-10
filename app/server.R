@@ -20,7 +20,7 @@ library(tidyverse)
 #update data with automated script
 
 
-load("C:/Users/Charlie/Documents/GitHub/Fall2020-Project2-group1/app/output/covid_zip_code.RData")
+load("C:/Users/60171/Documents/GitHub/Fall2020-Project2-group1/app/output/covid_zip_code.RData")
 #setwd("~/")
 #load("~/covid_zip_code.RData")
 
@@ -286,9 +286,93 @@ shinyServer(function(input, output) {
     
     
     #----------------------------------------
-    #tab panel 4 - Hotels
+    #tab panel 5 - Hotels
+    
+    output$hotelMap <- renderLeaflet({
+        
+        parameter <- covid_zip_code$COVID_CASE_COUNT
+        
+        # create color palette 
+        pal <- colorNumeric(
+            palette = "Greens",
+            domain = parameter)
+        
+        # create labels for zipcodes
+        labels <- paste(
+            "Zip Code: ", covid_zip_code$GEOID10, "<br/>",
+            "District: ", covid_zip_code$NEIGHBORHOOD_NAME, "<br/>",
+            "Confirmed Case: ", covid_zip_code$COVID_CASE_COUNT) %>%
+            lapply(htmltools::HTML)
+        
+        # add popup features
+        pop_boro <- paste('Borough name:',case_by_boro$region,'</br>',
+                          'Confirmed cases:',case_by_boro$CASE_COUNT,'</br>',
+                          'Death cases:',case_by_boro$DEATH_COUNT,'</br>',
+                          'Hospitalized cases:',case_by_boro$HOSPITALIZED_COUNT)
+        
+        pop_hotels=paste(hotels$name)
+        
+        # add icon feature
+        myIcon = makeAwesomeIcon(icon = "hotel", library = "fa",markerColor = "blue",iconColor = "black")
+        myIcon_selected = makeAwesomeIcon(icon = "hotel", library = "fa",markerColor = "green",iconColor = "black")
+        
+        covid_zip_code %>%
+            leaflet %>% 
+            # add base map
+            addProviderTiles("CartoDB") %>% 
+            
+            # add zip codes
+            addPolygons(fillColor = ~pal(parameter),
+                        weight = 2,
+                        opacity = 1,
+                        color = "white",
+                        dashArray = "3",
+                        fillOpacity = 0.7,
+                        highlight = highlightOptions(weight = 2,
+                                                     color = "#666",
+                                                     dashArray = "",
+                                                     fillOpacity = 0.7,
+                                                     bringToFront = TRUE),
+                        label = labels) %>%
+            
+            addPolygons(data = covid_zip_code[covid_zip_code$GEOID10 == input$hotelcode, ], 
+                        color = "blue", weight = 5, fill = FALSE) %>%
+            
+            # add legend
+            addLegend(pal = pal, 
+                      values = ~parameter, 
+                      opacity = 0.7, 
+                      title = htmltools::HTML("Confirmed COVID Cases <br> 
+                                     in NYC by Zip Code"),
+                      position = "bottomright")%>%
+            
+            # add markers for boroughs
+            addMarkers(data=case_by_boro,~Long, ~Lat, popup = pop_boro) %>%
+            
+            # add markers for hotels
+            addAwesomeMarkers(data = hotels, ~longitude, ~latitude, popup = pop_hotels, icon=myIcon) %>%
+            
+            addAwesomeMarkers(data = hotels[hotels$postal_code == input$hotelcode, ], 
+                              ~longitude, ~latitude, popup = pop_hotels,icon=myIcon_selected)
+        
+    }) 
     
     
+    output$hotelInfo <- renderTable(
+        
+        if (sum(input$hotelcode %in% hotels$postal_code) != 0){
+            
+            hotel_selected <- hotels[hotels$postal_code == input$hotelcode,c('name','address','city','rating','highest_room_rate', 'lowest_room_rate')]
+            colnames(hotel_selected) <- c('name','address','city','rating','highest_room_rate', 'lowest_room_rate')
+            No. <- seq(1,nrow(hotel_selected))
+            print(cbind(No., hotel_selected))
+            
+        }
+        
+        else{print('Cannot find hotels in this area.')}
+    )
+    
+
     
     #----------------------------------------
     #tab panel 5 - Restaurants 
