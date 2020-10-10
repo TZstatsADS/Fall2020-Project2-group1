@@ -20,7 +20,7 @@ library(tidyverse)
 #update data with automated script
 
 
-load("../app/output/covid_zip_code.RData")
+load("C:/Users/Charlie/Documents/GitHub/Fall2020-Project2-group1/app/output/covid_zip_code.RData")
 #setwd("~/")
 #load("~/covid_zip_code.RData")
 
@@ -196,6 +196,94 @@ shinyServer(function(input, output) {
         
         else{print('Cannot find hospitals in this area.')}
     )
+    
+    #----------------------------------------
+    #tab panel 4 - Testing Centers
+    
+    output$testmap <- renderLeaflet({
+        
+        parameter <- covid_zip_code$COVID_CASE_COUNT
+        
+        # create color palette 
+        pal <- colorNumeric(
+            palette = "Greens",
+            domain = parameter)
+        
+        # create labels for zipcodes
+        labels <- paste(
+            "Zip Code: ", covid_zip_code$GEOID10, "<br/>",
+            "District: ", covid_zip_code$NEIGHBORHOOD_NAME, "<br/>",
+            "Confirmed Case: ", covid_zip_code$COVID_CASE_COUNT) %>%
+            lapply(htmltools::HTML)
+        
+        # add popup features
+        pop_boro <- paste('Borough name:',case_by_boro$region,'</br>',
+                          'Confirmed cases:',case_by_boro$CASE_COUNT,'</br>',
+                          'Death cases:',case_by_boro$DEATH_COUNT,'</br>',
+                          'Hospitalized cases:',case_by_boro$HOSPITALIZED_COUNT)
+        
+        pop_hos=paste(testingcenter$Testing_Name)
+        
+        # add icon feature
+        myIcon = makeAwesomeIcon(icon = "medkit", library = "fa",markerColor = "blue",iconColor = "black")
+        myIcon_selected = makeAwesomeIcon(icon = "medkit", library = "fa",markerColor = "red",iconColor = "black")
+        
+        covid_zip_code %>%
+            leaflet %>% 
+            # add base map
+            addProviderTiles("CartoDB") %>% 
+            
+            # add zip codes
+            addPolygons(fillColor = ~pal(parameter),
+                        weight = 2,
+                        opacity = 1,
+                        color = "white",
+                        dashArray = "3",
+                        fillOpacity = 0.7,
+                        highlight = highlightOptions(weight = 2,
+                                                     color = "#666",
+                                                     dashArray = "",
+                                                     fillOpacity = 0.7,
+                                                     bringToFront = TRUE),
+                        label = labels) %>%
+            
+            addPolygons(data = covid_zip_code[covid_zip_code$GEOID10 == input$testingcentercode, ], 
+                        color = "blue", weight = 5, fill = FALSE) %>%
+            
+            # add legend
+            addLegend(pal = pal, 
+                      values = ~parameter, 
+                      opacity = 0.7, 
+                      title = htmltools::HTML("Confirmed COVID Cases <br> 
+                                     in NYC by Zip Code"),
+                      position = "bottomright")%>%
+            
+            # add markers for boroughs
+            addMarkers(data=case_by_boro,~Long, ~Lat, popup = pop_boro) %>%
+            
+            # add markers for testing centers
+            addAwesomeMarkers(data = testingcenter,~lon, ~lat, popup = pop_hos,icon=myIcon) %>%
+            
+            addAwesomeMarkers(data = testingcenter[testingcenter$zip == input$testingcentercode, ], 
+                              ~lon, ~lat, popup = pop_hos,icon=myIcon_selected)
+        
+    }) 
+    
+    
+    output$testingcenterInfo <- renderTable(
+        
+        if (sum(input$testingcentercode %in% testingcenter$zip) != 0){
+            
+            testcenter_selected <- testingcenter[testingcenter$zip == input$testingcentercode,c('Testing_Name','Address')]
+            colnames(testcenter_selected) <- c('Test Center Name','Address')
+            No. <- seq(1,nrow(testcenter_selected))
+            print(cbind(No., testcenter_selected))
+            
+        }
+        
+        else{print('Cannot find testing centers in this area.')}
+    )
+    
     
     #----------------------------------------
     #tab panel 4 - Hotels
