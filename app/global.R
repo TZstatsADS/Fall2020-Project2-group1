@@ -77,7 +77,8 @@ if (!require("leaflet")) {
 
 #=======================================================================
 
-setwd("~/Documents/Columbia/2020Fall/Applied Data Science/Project 2/ADS-group-1/data/coronavirus-data-master")
+setwd("../data/coronavirus-data-master")
+
 
 library(tigris)
 library(leaflet)
@@ -89,6 +90,7 @@ data_modzcta <- read.csv("data-by-modzcta.csv")
 recent_modzcta <- read.csv("recent/recent-4-week-by-modzcta.csv")
 case_by_boro <- read.csv("by-boro.csv")
 hospitals <- read.csv("hospital.csv")
+testingcenter <- read.csv("testingcenter_geocode.csv")
 
 # drop redundant columns/rows
 recent_modzcta_mod <- recent_modzcta[, -1:-2]
@@ -133,7 +135,7 @@ case_by_boro <-
 
 #=======================================================================
 
-setwd("~/Documents/Columbia/2020Fall/Applied Data Science/Project 2/ADS-group-1/app/output")
+setwd("C:/Users/Charlie/Documents/GitHub/Fall2020-Project2-group1/app/output")
 save(covid_zip_code, file = "covid_zip_code.RData")
 
 #=======================================================================
