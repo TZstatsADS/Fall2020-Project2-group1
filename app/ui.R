@@ -32,7 +32,7 @@ shinyUI(navbarPage(title = 'COVID-19',
                    tabPanel("Home",icon = icon("home"),
                             
                             titlePanel("COVID-19 NYC Zip Code Tracker"),
-
+                            
                             titlePanel("Welcome"),
                             
                             HTML("Thank you for using our COVID-19 tracker app! <br />"), 
@@ -62,11 +62,11 @@ shinyUI(navbarPage(title = 'COVID-19',
                             HTML("2. If you need or want accommodations in a particular zip code or tourist spot, click the Hospitals, Hotels, and Restaurants tabs.  <br />"), 
                             HTML("3. If you would like to learn more about the data, please take a look at the Averages and Sources tabs, where we show both recent and cumulative NYC and Borough averages as well as links to the raw data, respectively."), 
                             
-                                ),
+                   ),
                    #--------------------------
                    #tab panel 2 - Map
                    tabPanel("Map", icon = icon("map-marker-alt"),
-
+                            
                             titlePanel("Local NYC COVID-19 Cases"),
                             
                             # Sidebar with a slider input for number of bins
@@ -117,12 +117,12 @@ shinyUI(navbarPage(title = 'COVID-19',
                               ), # end sidebar panel 
                               
                               mainPanel(leafletOutput("myMap", height = 800))
-
+                              
                             ) # end side bar layout
                             
                             
                             
-                        ), # end tab 2 panel 
+                   ), # end tab 2 panel 
                    
                    
                    
@@ -131,11 +131,37 @@ shinyUI(navbarPage(title = 'COVID-19',
                    #tab panel 3 - Hospitals
                    tabPanel("Hospitals", icon = icon("fas fa-hospital"),
                             
+                            titlePanel("NYC Hospital Map"),
+                            
+                            # Sidebar with a slider input for number of bins
+                            sidebarLayout(
+                              
+                              sidebarPanel(
+                                
+                                helpText("Enter or select a zip code to find hospital information in this area.", br()),
+                                
+                                selectInput("hos_ZipCode", 
+                                            label = "Zip Code:",
+                                            choices = covid_zip_code$GEOID10, selected = 10001),
+                                
+                                helpText("Hospital List", br()),
+                                
+                                tableOutput("hosInfo"),
+                                
+                                width = 12
+                                
+                              ), # end sidebar panel
+                              
+                              mainPanel(leafletOutput("hosMap", height = 600), width = 12)
+                              
+                            ) # end side bar layout
                             
                             
                             
-                            
-                   ),
+                   ), # end tab 3 panel 
+                   
+                   
+                   
                    #--------------------------
                    #tab panel 4 - Hotels
                    tabPanel("Hotels", icon = icon("fas fa-hotel"),
@@ -178,6 +204,8 @@ shinyUI(navbarPage(title = 'COVID-19',
                               "<h2> Data Source : </h2>
                               <h4> <p><li><a href='https://coronavirus.jhu.edu/map.html'>Coronavirus COVID-19 Global Cases map Johns Hopkins University</a></li></h4>
                               <h4><li>COVID-19 Cases : <a href='https://github.com/CSSEGISandData/COVID-19' target='_blank'>Github Johns Hopkins University</a></li></h4>
+                              <h4><li>NYC COVID-19 Data : <a href='https://github.com/nychealth/coronavirus-data' target='_blank'>Github NYC Health</a></li></h4>
+                              <h4><li>NYC hospitals Data : <a href='https://opendata.cityofnewyork.us/data/' target='_blank'>NYC Open Data</a></li></h4>
                               <h4><li>Spatial Polygons : <a href='https://www.naturalearthdata.com/downloads/' target='_blank'> Natural Earth</a></li></h4>"
                             ))
-                   ))
+))

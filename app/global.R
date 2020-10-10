@@ -57,6 +57,10 @@ if (!require("viridis")) {
   install.packages("viridis")
   library(viridis)
 }
+if (!require("emojifont")) {
+  install.packages("emojifont")
+  library(emojifont)
+}
 
 #--------------------------------------------------------------------
 
@@ -73,7 +77,7 @@ if (!require("leaflet")) {
 
 #=======================================================================
 
-setwd("../data/coronavirus-data-master")
+setwd("~/Documents/Columbia/2020Fall/Applied Data Science/Project 2/ADS-group-1/data/coronavirus-data-master")
 
 library(tigris)
 library(leaflet)
@@ -83,9 +87,12 @@ library(leaflet)
 # read in data file
 data_modzcta <- read.csv("data-by-modzcta.csv")
 recent_modzcta <- read.csv("recent/recent-4-week-by-modzcta.csv")
+case_by_boro <- read.csv("by-boro.csv")
+hospitals <- read.csv("hospital.csv")
 
-# drop redundant columns 
+# drop redundant columns/rows
 recent_modzcta_mod <- recent_modzcta[, -1:-2]
+case_by_boro <- case_by_boro[1:5,]
 
 # combine data frames
 covid_modzcta <- cbind(data_modzcta, recent_modzcta_mod)
@@ -99,10 +106,10 @@ covid_modzcta$MODIFIED_ZCTA <- as.character(covid_modzcta$MODIFIED_ZCTA)
 
 # join zip boundaries and covid data 
 covid_zip_code <- geo_join(covid_zip_code, 
-                      covid_modzcta, 
-                      by_sp = "GEOID10", 
-                      by_df = "MODIFIED_ZCTA",
-                      how = "left")
+                           covid_modzcta, 
+                           by_sp = "GEOID10", 
+                           by_df = "MODIFIED_ZCTA",
+                           how = "left")
 
 covid_zip_code <- na.omit(covid_zip_code)
 
@@ -115,10 +122,18 @@ covid_zip_code$TOTAL_POSITIVE_TESTS_4WEEK <- floor((covid_zip_code$PERCENT_POSIT
 # round off population to nearest whole number 
 covid_zip_code$POP_DENOMINATOR <- floor(covid_zip_code$POP_DENOMINATOR)
 
+# add latitude and longitude data to case_by_boro
+latitude=c(40.8448,40.6782,40.7831,40.7282,40.5795)
+longitude=c(-73.8648,-73.9442,-73.9712,-73.7949,-74.1502)
+case_by_boro$Lat=latitude
+case_by_boro$Long=longitude
+case_by_boro <- 
+  case_by_boro%>%
+  mutate(region=as.character(BOROUGH_GROUP))
+
 #=======================================================================
 
-setwd("../app/output")
+setwd("~/Documents/Columbia/2020Fall/Applied Data Science/Project 2/ADS-group-1/app/output")
 save(covid_zip_code, file = "covid_zip_code.RData")
 
 #=======================================================================
-

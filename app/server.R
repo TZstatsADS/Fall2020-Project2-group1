@@ -29,11 +29,11 @@ shinyServer(function(input, output) {
     #----------------------------------------
     #tab panel 1 - COVID Zip Code Tracker
     
-        
-        
+    
+    
     #----------------------------------------
     #tab panel 2 - Maps
-        
+    
     output$myMap <- renderLeaflet({
         
         # this determines the chosen parameter the user has selected 
@@ -113,8 +113,89 @@ shinyServer(function(input, output) {
     #----------------------------------------
     #tab panel 3 - Hospitals
     
+    output$hosMap <- renderLeaflet({
+        
+        parameter <- covid_zip_code$COVID_CASE_COUNT
+        
+        # create color palette 
+        pal <- colorNumeric(
+            palette = "Greens",
+            domain = parameter)
+        
+        # create labels for zipcodes
+        labels <- paste(
+            "Zip Code: ", covid_zip_code$GEOID10, "<br/>",
+            "District: ", covid_zip_code$NEIGHBORHOOD_NAME, "<br/>",
+            "Confirmed Case: ", covid_zip_code$COVID_CASE_COUNT) %>%
+            lapply(htmltools::HTML)
+        
+        # add popup features
+        pop_boro <- paste('Borough name:',case_by_boro$region,'</br>',
+                          'Confirmed cases:',case_by_boro$CASE_COUNT,'</br>',
+                          'Death cases:',case_by_boro$DEATH_COUNT,'</br>',
+                          'Hospitalized cases:',case_by_boro$HOSPITALIZED_COUNT)
+        
+        pop_hos=paste(hospitals$Facility.Name)
+        
+        # add icon feature
+        myIcon = makeAwesomeIcon(icon = "medkit", library = "fa",markerColor = "blue",iconColor = "black")
+        myIcon_selected = makeAwesomeIcon(icon = "medkit", library = "fa",markerColor = "red",iconColor = "black")
+        
+        covid_zip_code %>%
+            leaflet %>% 
+            # add base map
+            addProviderTiles("CartoDB") %>% 
+            
+            # add zip codes
+            addPolygons(fillColor = ~pal(parameter),
+                        weight = 2,
+                        opacity = 1,
+                        color = "white",
+                        dashArray = "3",
+                        fillOpacity = 0.7,
+                        highlight = highlightOptions(weight = 2,
+                                                     color = "#666",
+                                                     dashArray = "",
+                                                     fillOpacity = 0.7,
+                                                     bringToFront = TRUE),
+                        label = labels) %>%
+            
+            addPolygons(data = covid_zip_code[covid_zip_code$GEOID10 == input$hos_ZipCode, ], 
+                        color = "blue", weight = 5, fill = FALSE) %>%
+            
+            # add legend
+            addLegend(pal = pal, 
+                      values = ~parameter, 
+                      opacity = 0.7, 
+                      title = htmltools::HTML("Confirmed COVID Cases <br> 
+                                     in NYC by Zip Code"),
+                      position = "bottomright")%>%
+            
+            # add markers for boroughs
+            addMarkers(data=case_by_boro,~Long, ~Lat, popup = pop_boro) %>%
+            
+            # add markers for hospitals
+            addAwesomeMarkers(data = hospitals,~long, ~lat, popup = pop_hos,icon=myIcon) %>%
+            
+            addAwesomeMarkers(data = hospitals[hospitals$zipcode == input$hos_ZipCode, ], 
+                              ~long, ~lat, popup = pop_hos,icon=myIcon_selected)
+        
+    }) 
     
     
+    output$hosInfo <- renderTable(
+        
+        if (sum(input$hos_ZipCode %in% hospitals$zipcode) != 0){
+            
+            hos_selected <- hospitals[hospitals$zipcode == input$hos_ZipCode,c('Facility.Name','Facility.Type','address','Phone')]
+            colnames(hos_selected) <- c('Hospital Name','Type','Address','Phone')
+            No. <- seq(1,nrow(hos_selected))
+            print(cbind(No., hos_selected))
+            
+        }
+        
+        else{print('Cannot find hospitals in this area.')}
+    )
     
     #----------------------------------------
     #tab panel 4 - Hotels
@@ -159,5 +240,5 @@ shinyServer(function(input, output) {
     
     
     
-        
-    })
+    
+})
