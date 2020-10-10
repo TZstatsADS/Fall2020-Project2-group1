@@ -17,7 +17,7 @@ library(leaflet)
 library(tidyverse)
 
 
-load("../app/output/covid_zip_code.RData")
+load("C:/Users/Charlie/Documents/GitHub/Fall2020-Project2-group1/app/output/covid_zip_code.RData")
 #setwd("~/")
 #load("~/covid_zip_code.RData")
 
@@ -161,9 +161,44 @@ shinyUI(navbarPage(title = 'COVID-19',
                    ), # end tab 3 panel 
                    
                    
+                   #--------------------------
+                   #tab panel 4 - Testing Center
+                   tabPanel("Testing Centers", icon = icon("fas fa-hospital"),
+                                     
+                                     titlePanel("NYC Testing Center Map"),
+                                     
+                                     # Sidebar with a slider input for number of bins
+                                     sidebarLayout(
+                                       
+                                       sidebarPanel(
+                                         
+                                         helpText("Enter or select a zip code to find Testing Center information in this area.", br()),
+                                         
+                                         selectInput("testingcentercode", 
+                                                     label = "Zip Code:",
+                                                     choices = covid_zip_code$GEOID10, selected = 10001),
+                                         
+                                         helpText("Testing Center List", br()),
+                                         
+                                         tableOutput("testingcenterInfo"),
+                                         
+                                         width = 12
+                                         
+                                       ), # end sidebar panel
+                                       
+                                       mainPanel(leafletOutput("testmap", height = 600), width = 12)
+                                       
+                                     ) # end side bar layout
+                                     
+                                     
+                                     
+                            ), # end tab 3 panel 
+                   
+                   
+                   
                    
                    #--------------------------
-                   #tab panel 4 - Hotels
+                   #tab panel 5 - Hotels
                    tabPanel("Hotels", icon = icon("fas fa-hotel"),
                             
                             
@@ -173,7 +208,7 @@ shinyUI(navbarPage(title = 'COVID-19',
                    ),
                    
                    #--------------------------
-                   #tab panel 5 - Restaurants
+                   #tab panel 6 - Restaurants
                    tabPanel("Restaurants", icon = icon("fas fa-utensils"),
                             
                             
@@ -183,7 +218,7 @@ shinyUI(navbarPage(title = 'COVID-19',
                    ),
                    
                    #--------------------------
-                   #tab panel 6 - Averages
+                   #tab panel 7 - Averages
                    tabPanel("Averages", icon = icon("fas fa-table"),
                             
                             titlePanel("NYC Cumulative Average"), 
@@ -198,7 +233,7 @@ shinyUI(navbarPage(title = 'COVID-19',
                             HTML("NYCHealth Open Data Last Updated September 30th, 2020."), 
                    ), #end tab panel
                    # ----------------------------------
-                   #tab panel 7 - Source
+                   #tab panel 8 - Source
                    tabPanel("Data Source", icon = icon("cloud-download"),
                             HTML(
                               "<h2> Data Source : </h2>
