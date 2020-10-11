@@ -30,7 +30,7 @@ shinyUI(navbarPage(title = 'COVID-19',
                    #tab panel 1 - Home
                    tabPanel("Home",icon = icon("home"),
                             
-                            titlePanel("COVID-19 NYC Zip Code Tracker"),
+                            titlePanel("COVID-19 NYC Zip Code Tracker"), 
                             
                             
                             titlePanel("Welcome"),
@@ -261,6 +261,10 @@ shinyUI(navbarPage(title = 'COVID-19',
                             fluidRow(column(12, tableOutput("myTable2"))),   
                             titlePanel("Borough Recent Four Week Averages"), 
                             fluidRow(column(12, tableOutput("myTable4"))), # end fluid row
+                            
+                            titlePanel("NYC Covid-19 cases by Boro Bar plot"), 
+                            fluidRow(column(12, plotOutput("barplot1"))),
+                            
                             
                             HTML("NYCHealth Open Data Last Updated September 30th, 2020."), 
                    ), #end tab 7 panel
