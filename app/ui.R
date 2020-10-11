@@ -16,7 +16,7 @@ library(tigris)
 library(leaflet)
 library(tidyverse)
 
-load("C:/Users/60171/Desktop/Project2/app/output/covid_zip_code.RData")
+load("C:/Users/Charlie/Documents/GitHub/Fall2020-Project2-group1/app/output/covid_zip_code.RData")
 #setwd("~/")
 #load("~/covid_zip_code.RData")
 
@@ -31,6 +31,7 @@ shinyUI(navbarPage(title = 'COVID-19',
                    tabPanel("Home",icon = icon("home"),
                             
                             titlePanel("COVID-19 NYC Zip Code Tracker"),
+                            
                             
                             titlePanel("Welcome"),
                             
@@ -60,8 +61,13 @@ shinyUI(navbarPage(title = 'COVID-19',
                             HTML("1. Click on the Map tab to learn about COVID cases in your area. <br />"), 
                             HTML("2. If you need or want accommodations in a particular zip code or tourist spot, click the Hospitals, Hotels, and Restaurants tabs.  <br />"), 
                             HTML("3. If you would like to learn more about the data, please take a look at the Averages and Sources tabs, where we show both recent and cumulative NYC and Borough averages as well as links to the raw data, respectively."), 
+                    
+                            titlePanel(
+                              img(src='homepic.png', style = 'position:absolute; center'),
+                            )
                             
                    ),
+                   
                    #--------------------------
                    #tab panel 2 - Map
                    tabPanel("Map", icon = icon("map-marker-alt"),
