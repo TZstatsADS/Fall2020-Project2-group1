@@ -21,7 +21,7 @@ library(ggplot2)
 #update data with automated script
 
 
-load("/Users/tianle/Documents/GitHub/Fall2020-Project2-group1/app/output/covid_zip_code.RData")
+load("/Users/60171/Documents/GitHub/Fall2020-Project2-group1/app/output/covid_zip_code.RData")
 #setwd("~/")
 #load("~/covid_zip_code.RData")
 
@@ -355,9 +355,9 @@ shinyServer(function(input, output) {
             addMarkers(data=case_by_boro,~Long, ~Lat, popup = pop_boro) %>%
             
             # add markers for hotels
-            addAwesomeMarkers(data = hotels, ~longitude, ~latitude, popup = pop_hotels, icon=myIcon) %>%
+            #addAwesomeMarkers(data = hotels, ~longitude, ~latitude, popup = pop_hotels, icon=myIcon) %>%
             
-            addAwesomeMarkers(data = hotels[hotels$postal_code == input$hotelcode, ], 
+            addAwesomeMarkers(data = filter(hotels, hotels$postal_code == input$hotelcode & hotels$rating == input$hotelrate),
                               ~longitude, ~latitude, popup = pop_hotels,icon=myIcon_selected)
         
     }) 

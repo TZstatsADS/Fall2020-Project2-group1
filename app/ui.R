@@ -17,13 +17,13 @@ library(leaflet)
 library(tidyverse)
 
 
-load("/Users/tianle/Documents/GitHub/Fall2020-Project2-group1/app/output/covid_zip_code.RData")
+load("/Users/60171/Documents/GitHub/Fall2020-Project2-group1/app/output/covid_zip_code.RData")
 
 #setwd("~/")
 #load("~/covid_zip_code.RData")
 
 
-shinyUI(navbarPage(title = 'COVID-19',
+shinyUI(navbarPage(title = 'Safe Travel in NYC',
                    fluid = TRUE,
                    collapsible = TRUE,
                    #Select whichever theme works for the app 
@@ -31,19 +31,42 @@ shinyUI(navbarPage(title = 'COVID-19',
                    #--------------------------
                    #tab panel 1 - Home
                    tabPanel("Home",icon = icon("home"),
+                            fluidRow(column(tags$img(src="homepic_crop.png",width="260px",height="260px"),width=2),
+                                     column(
+                                       
+                                       br(),
+                                       p(strong("Warning:"),"Travel increases your chance of getting and spreading COVID-19. Staying home is the best way to protect yourself and others from COVID-19.
+                                       Dont't travel if you are sick or if you have been around someone with COVID-19 in the past 14 days.",style="text-align:justify;color:black;background-color:yellow;padding:15px;border-radius:10px"),
+                                       br(),
+                                       
+                                       p(strong("Latest Policies in NYC (Last Updated: Sep 30, 2020):"),
+                                         HTML("<h5><li>A travel advisory is in effect for individuals traveling to New York from states with significant community spread of COVID-19, requiring a quarantine for 14 days. </li></h5>"), 
+                                         HTML("<h5><li>Indoor dining in New York City will be allowed to reopen starting September 30 with a 25 percent occupancy but will be subject to strict safety protocols. </li></h5>"), 
+                                         HTML("<h5><li>Governor Cuomo issued Executive Order 205, requiring all travelers coming from states with significant rates of transmission of COVID-19 to quarantine for a 14-day period from the time of their last contact. </li></h5>"),                             
+                                         style="text-align:justify;color:black;background-color:orange;padding:15px;border-radius:14px"),
+                                       
+                                       width=8),
+                                     column(
+                                       br(),
+                                       tags$img(src="Gobernacion.png",width="200px",height="130px"),
+                                       br(),
+                                       br(),
+                                       p("For more information please check the New York State official page",
+                                         br(),
+                                         a(href="https://coronavirus.health.ny.gov/home", "Here",target="_blank"),style="text-align:center;color:black"),
+                                       
+                                       width=2)),
                             
-                            titlePanel("COVID-19 NYC Zip Code Tracker"),
-                            
+                            hr(),
                             
                             titlePanel("Welcome"),
                             
-                            HTML("Thank you for using our COVID-19 tracker app! <br />"), 
+                            HTML("Thank you for using our COVID-19 Travel Advisory app. <br />"), 
                             
-                            HTML("We understand that in spite of COVID-19, people still must travel to and from New York. 
-                            However, practicing social distancing and being aware of recent cases is important. <br />"), 
+                            HTML("If you are planning to travel to and from NYC. Our app will provide you information about recent cases and local policies, guide you nearby hospitals and testing centers. In addition, we 
+                            have recommendations on hotels and restaurants in safe areas! <br />"), 
                             
-                            HTML("We are here to help! <br />"), 
-                            
+                            HTML("We got you covered! Wish you had a safe trip in NYC! <br />"), 
                             
                             titlePanel("Who can benefit?"),
                             
@@ -60,16 +83,11 @@ shinyUI(navbarPage(title = 'COVID-19',
                             titlePanel("How to Use this App"),
                             
                             HTML("It's easy!<br />"), 
-                            HTML("1. Click on the Map tab to learn about COVID cases in your area. <br />"), 
+                            HTML("1. Click on the Map tab to learn about COVID cases in your interested areas. <br />"), 
                             HTML("2. If you need or want accommodations in a particular zip code or tourist spot, click the Hospitals, Hotels, and Restaurants tabs.  <br />"), 
                             HTML("3. If you would like to learn more about the data, please take a look at the Averages and Sources tabs, where we show both recent and cumulative NYC and Borough averages as well as links to the raw data, respectively."), 
-                    
-                            titlePanel(
-                              img(src='homepic.png', style = 'position:absolute; center'),
-                            )
                             
                    ),
-                   
                    #--------------------------
                    #tab panel 2 - Map
                    tabPanel("Map", icon = icon("map-marker-alt"),
@@ -136,7 +154,7 @@ shinyUI(navbarPage(title = 'COVID-19',
                    
                    #--------------------------
                    #tab panel 3 - Hospitals
-                   tabPanel("Hospitals", icon = icon("fas fa-hospital"),
+                   tabPanel("Hospital", icon = icon("fas fa-hospital"),
                             
                             titlePanel("NYC Hospital Map"),
                             
@@ -170,7 +188,7 @@ shinyUI(navbarPage(title = 'COVID-19',
                    
                    #--------------------------
                    #tab panel 4 - Testing Center
-                   tabPanel("Testing Centers", icon = icon("fas fa-hospital"),
+                   tabPanel("Testing Center", icon = icon("fas fa-hospital"),
                                      
                                      titlePanel("NYC Testing Center Map"),
                                      
@@ -206,7 +224,7 @@ shinyUI(navbarPage(title = 'COVID-19',
                    
                    #--------------------------
                    #tab panel 5 - Hotels
-                   tabPanel("Hotels", icon = icon("fas fa-hotel"),
+                   tabPanel("Hotel", icon = icon("fas fa-hotel"),
                             
                                   titlePanel("NYC Hotel Map"),
                             
@@ -243,7 +261,7 @@ shinyUI(navbarPage(title = 'COVID-19',
                    
                    #--------------------------
                    #tab panel 6 - Restaurants
-                   tabPanel("Restaurants", icon = icon("fas fa-utensils"),
+                   tabPanel("Restaurant", icon = icon("fas fa-utensils"),
                             titlePanel("NYC Restaurant Map"),
                             
                             # Sidebar with a slider input for number of bins
@@ -278,7 +296,7 @@ shinyUI(navbarPage(title = 'COVID-19',
                    
                    #--------------------------
                    #tab panel 7 - Averages
-                   tabPanel("Averages", icon = icon("fas fa-table"),
+                   tabPanel("Average", icon = icon("fas fa-table"),
                             
                             titlePanel("NYC Cumulative Average"), 
                             fluidRow(column(12, tableOutput("myTable1"))), 
@@ -300,6 +318,7 @@ shinyUI(navbarPage(title = 'COVID-19',
                               <h4><li>COVID-19 Cases : <a href='https://github.com/CSSEGISandData/COVID-19' target='_blank'>Github Johns Hopkins University</a></li></h4>
                               <h4><li>NYC COVID-19 Data : <a href='https://github.com/nychealth/coronavirus-data' target='_blank'>Github NYC Health</a></li></h4>
                               <h4><li>NYC hospitals Data : <a href='https://opendata.cityofnewyork.us/data/' target='_blank'>NYC Open Data</a></li></h4>
-                              <h4><li>Spatial Polygons : <a href='https://www.naturalearthdata.com/downloads/' target='_blank'> Natural Earth</a></li></h4>"
+                              <h4><li>Spatial Polygons : <a href='https://www.naturalearthdata.com/downloads/' target='_blank'> Natural Earth</a></li></h4>
+                              <h4><li>NYC COVID-19 Policy : <a href='https://coronavirus.health.ny.gov/covid-19-travel-advisory' target='_blank'> New York State Official Website</a></li></h4>"
                             ))
 ))
