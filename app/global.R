@@ -136,7 +136,7 @@ case_by_boro <-
 
 #=======================================================================
 
-setwd("C:/Users/60171/Documents/GitHub/Fall2020-Project2-group1/app/output")
+setwd("C:/Users/Charlie/Documents/GitHub/Fall2020-Project2-group1/app/output")
 save(covid_zip_code, file = "covid_zip_code.RData")
 
 #=======================================================================
