@@ -16,8 +16,7 @@ library(tigris)
 library(leaflet)
 library(tidyverse)
 
-
-load("C:/Users/60171/Documents/GitHub/Fall2020-Project2-group1/app/output/covid_zip_code.RData")
+load("C:/Users/60171/Desktop/Project2/app/output/covid_zip_code.RData")
 #setwd("~/")
 #load("~/covid_zip_code.RData")
 
@@ -192,7 +191,7 @@ shinyUI(navbarPage(title = 'COVID-19',
                                      
                                      
                                      
-                            ), # end tab 3 panel 
+                   ), # end tab 4 panel 
                    
                    
                    
@@ -201,34 +200,38 @@ shinyUI(navbarPage(title = 'COVID-19',
                    #tab panel 5 - Hotels
                    tabPanel("Hotels", icon = icon("fas fa-hotel"),
                             
-                            titlePanel("NYC Hotel Map"),
+                                  titlePanel("NYC Hotel Map"),
                             
-                            # Sidebar with a slider input for number of bins
-                            sidebarLayout(
-                              
-                              sidebarPanel(
-                                
-                                helpText("Enter or select a zip code to find hotels' information in this area.", br()),
-                                
-                                selectInput("hotelcode", 
-                                            label = "Zip Code:",
-                                            choices = covid_zip_code$GEOID10, selected = 10001),
-                                
-                                helpText("Hotels in the area:", br()),
-                                
-                                tableOutput("hotelInfo"),
-                                
-                                width = 12
-                                
-                              ), # end sidebar panel
-                              
-                              mainPanel(leafletOutput("hotelMap", height = 600), width = 12)
-                              
-                            ) # end side bar layout
+                            # Create a new Row in the UI for selectInputs of hotel's zipcode, city, and rate
+                            fluidRow(
+                              column(4,
+                                     selectInput("hotelcode",
+                                                 "Zip Code:",
+                                                 c("All",
+                                                   sort(unique(hotels$postal_code, decreasing=F))))
+                              ),
+                              column(4,
+                                     selectInput("hotelcity",
+                                                 "City:",
+                                                 c("All",
+                                                   unique(as.character(hotels$city))))
+                              ),
+                              column(4,
+                                     selectInput("hotelrate",
+                                                 "Rate:",
+                                                 c("All",
+                                                   sort(unique(hotels$rating),decreasing=T)))
+                              )
+                            ),
+                            # Create a new row for the table of hotel information.
+                            DT::dataTableOutput("hotelInfo"),
                             
+                            #Adding the map at the bottom of table     
+                            mainPanel(leafletOutput("hotelMap", height = 600), width = 12)
+
+
                             
                    ), # end tab 5 panel
-                   
                    
                    #--------------------------
                    #tab panel 6 - Restaurants
@@ -254,7 +257,7 @@ shinyUI(navbarPage(title = 'COVID-19',
                             fluidRow(column(12, tableOutput("myTable4"))), # end fluid row
                             
                             HTML("NYCHealth Open Data Last Updated September 30th, 2020."), 
-                   ), #end tab panel
+                   ), #end tab 7 panel
                    # ----------------------------------
                    #tab panel 8 - Source
                    tabPanel("Data Source", icon = icon("cloud-download"),

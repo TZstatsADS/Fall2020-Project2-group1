@@ -13,6 +13,7 @@ library(shinythemes)
 library(tigris)
 library(leaflet)
 library(tidyverse)
+library(ggplot2)
 
 
 #can run RData directly to get the necessary date for the app
@@ -20,7 +21,7 @@ library(tidyverse)
 #update data with automated script
 
 
-load("C:/Users/60171/Documents/GitHub/Fall2020-Project2-group1/app/output/covid_zip_code.RData")
+load("C:/Users/60171/Desktop/Project2/app/output/covid_zip_code.RData")
 #setwd("~/")
 #load("~/covid_zip_code.RData")
 
@@ -357,30 +358,30 @@ shinyServer(function(input, output) {
         
     }) 
     
-    
-    output$hotelInfo <- renderTable(
-        
-        if (sum(input$hotelcode %in% hotels$postal_code) != 0){
-            
-            hotel_selected <- hotels[hotels$postal_code == input$hotelcode,c('name','address','city','rating','highest_room_rate', 'lowest_room_rate')]
-            colnames(hotel_selected) <- c('name','address','city','rating','highest_room_rate', 'lowest_room_rate')
-            No. <- seq(1,nrow(hotel_selected))
-            print(cbind(No., hotel_selected))
-            
+    #Adding the table contains hotel's information
+    output$hotelInfo <- DT::renderDataTable(DT::datatable({
+        hotel_table <- hotels[c('name','address','city','postal_code','rating','highest_room_rate', 'lowest_room_rate')]
+        if (input$hotelcode != "All") {
+            hotel_table <- hotel_table[hotel_table$postal_code == input$hotelcode,]
         }
-        
-        else{print('Cannot find hotels in this area.')}
-    )
-    
+        if (input$hotelcity != "All") {
+            hotel_table <- hotel_table[hotel_table$city == input$hotelcity,]
+        }
+        if (input$hotelrate != "All") {
+            hotel_table <- hotel_table[hotel_table$rating == input$hotelrate,]
+        }
+        hotel_table
+    }))
 
     
-    #----------------------------------------
-    #tab panel 5 - Restaurants 
-    
-    
     
     #----------------------------------------
-    #tab panel 6 - Averages 
+    #tab panel 6 - Restaurants 
+    
+    
+    
+    #----------------------------------------
+    #tab panel 7 - Averages 
     
     averages_cumulative <- as.data.frame(covid_zip_code) %>%
         select(COVID_CASE_COUNT, COVID_DEATH_COUNT, TOTAL_COVID_TESTS, TOTAL_POSITIVE_TESTS, PERCENT_POSITIVE) %>%
@@ -406,7 +407,7 @@ shinyServer(function(input, output) {
     output$myTable4 <- renderTable(averages_borough_recent)
     
     #----------------------------------------
-    #tab panel 7 - Sources
+    #tab panel 8 - Sources
     
     
     
