@@ -21,12 +21,16 @@ library(ggplot2)
 #update data with automated script
 
 
-load("C:/Users/60171/Desktop/Project2/app/output/covid_zip_code.RData")
+load("C:/Users/Charlie/Documents/GitHub/Fall2020-Project2-group1/app/output/covid_zip_code.RData")
 #setwd("~/")
 #load("~/covid_zip_code.RData")
 
 
 shinyServer(function(input, output) {
+    #----------------------------------------
+    #tab panel 0 - Home
+    
+    
     #----------------------------------------
     #tab panel 1 - COVID Zip Code Tracker
     
