@@ -92,10 +92,7 @@ case_by_boro <- read.csv("by-boro.csv")
 hospitals <- read.csv("hospital.csv")
 testingcenter <- read.csv("testingcenter_geocode.csv")
 hotels <- read.csv("hotels.csv")
-<<<<<<< HEAD
 Restaurant <- read.csv("Restaurant_cleaned.csv")
-=======
->>>>>>> 83d725d74c6fe28057af9344dd4aa039f049970a
 
 # drop redundant columns/rows
 recent_modzcta_mod <- recent_modzcta[, -1:-2]

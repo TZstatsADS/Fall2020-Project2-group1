@@ -16,11 +16,9 @@ library(tigris)
 library(leaflet)
 library(tidyverse)
 
-<<<<<<< HEAD
+
 load("/Users/tianle/Documents/GitHub/Fall2020-Project2-group1/app/output/covid_zip_code.RData")
-=======
-load("C:/Users/Charlie/Documents/GitHub/Fall2020-Project2-group1/app/output/covid_zip_code.RData")
->>>>>>> 83d725d74c6fe28057af9344dd4aa039f049970a
+
 #setwd("~/")
 #load("~/covid_zip_code.RData")
 
