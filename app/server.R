@@ -410,6 +410,16 @@ shinyServer(function(input, output) {
     output$myTable2 <- renderTable(averages_recent)
     output$myTable4 <- renderTable(averages_borough_recent)
     
+    
+   
+    output$barplot1 <-renderPlot({
+        ggplot(data=case_by_boro, aes(x=case_by_boro$BOROUGH_GROUP, y = case_by_boro$CASE_COUNT )) +
+            geom_bar(stat="identity", fill="steelblue", width=0.5) +
+            geom_text(aes(label=case_by_boro$CASE_COUNT), position=position_dodge(width=0.9), vjust=-0.25) +
+            theme_classic()
+    })
+    
+    
     #----------------------------------------
     #tab panel 8 - Sources
     
