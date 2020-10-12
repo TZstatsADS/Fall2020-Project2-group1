@@ -21,7 +21,7 @@ library(ggplot2)
 #update data with automated script
 
 
-load("C:/Users/Charlie/Documents/GitHub/Fall2020-Project2-group1/app/output/covid_zip_code.RData")
+load("~/Documents/Columbia/2020Fall/Applied Data Science/Project 2/ADS-group-1/app/output/covid_zip_code.RData")
 #setwd("~/")
 #load("~/covid_zip_code.RData")
 
@@ -116,9 +116,9 @@ shinyServer(function(input, output) {
     }) 
     
     #----------------------------------------
-    #tab panel 3 - Hospitals
+    #tab panel 3 - Hospitals & Testing Center
     
-    output$hosMap <- renderLeaflet({
+    output$hos_tc_Map <- renderLeaflet({
         
         parameter <- covid_zip_code$COVID_CASE_COUNT
         
@@ -141,10 +141,13 @@ shinyServer(function(input, output) {
                           'Hospitalized cases:',case_by_boro$HOSPITALIZED_COUNT)
         
         pop_hos=paste(hospitals$Facility.Name)
+        pop_test=paste(testingcenter$Testing_Name)
         
         # add icon feature
         myIcon = makeAwesomeIcon(icon = "medkit", library = "fa",markerColor = "blue",iconColor = "black")
         myIcon_selected = makeAwesomeIcon(icon = "medkit", library = "fa",markerColor = "red",iconColor = "black")
+        
+        df <- if (input$choice=="hos"){hospitals}else{testingcenter}
         
         covid_zip_code %>%
             leaflet %>% 
@@ -165,7 +168,7 @@ shinyServer(function(input, output) {
                                                      bringToFront = TRUE),
                         label = labels) %>%
             
-            addPolygons(data = covid_zip_code[covid_zip_code$GEOID10 == input$hos_ZipCode, ], 
+            addPolygons(data = covid_zip_code[covid_zip_code$GEOID10 == input$hos_tc_ZipCode, ], 
                         color = "blue", weight = 5, fill = FALSE) %>%
             
             # add legend
@@ -180,26 +183,49 @@ shinyServer(function(input, output) {
             addMarkers(data=case_by_boro,~Long, ~Lat, popup = pop_boro) %>%
             
             # add markers for hospitals
-            addAwesomeMarkers(data = hospitals,~long, ~lat, popup = pop_hos,icon=myIcon) %>%
+        
+            addAwesomeMarkers(data = df,if (input$choice=="hos"){~long}else{~lon}, ~lat, 
+                              popup = if (input$choice=="hos"){pop_hos}else{pop_test},icon=myIcon) %>%
             
-            addAwesomeMarkers(data = hospitals[hospitals$zipcode == input$hos_ZipCode, ], 
-                              ~long, ~lat, popup = pop_hos,icon=myIcon_selected)
+            addAwesomeMarkers(data = df[df$zip == input$hos_tc_ZipCode, ], 
+                              if (input$choice=="hos"){~long}else{~lon}, ~lat, 
+                              popup = if (input$choice=="hos"){pop_hos}else{pop_test},icon=myIcon_selected)
         
     }) 
     
     
-    output$hosInfo <- renderTable(
+    output$hos_tc_Info <- renderTable(
         
-        if (sum(input$hos_ZipCode %in% hospitals$zipcode) != 0){
+        if (input$choice=="hos"){
             
-            hos_selected <- hospitals[hospitals$zipcode == input$hos_ZipCode,c('Facility.Name','Facility.Type','address','Phone')]
-            colnames(hos_selected) <- c('Hospital Name','Type','Address','Phone')
-            No. <- seq(1,nrow(hos_selected))
-            print(cbind(No., hos_selected))
+            if (sum(input$hos_tc_ZipCode %in% hospitals$zipcode) != 0){
+                
+                hos_selected <- hospitals[hospitals$zipcode == input$hos_tc_ZipCode,c('Facility.Name','Facility.Type','address','Phone')]
+                colnames(hos_selected) <- c('Hospital Name','Type','Address','Phone')
+                No. <- seq(1,nrow(hos_selected))
+                print(cbind(No., hos_selected))
+                
+            }
+            
+            else{print('Cannot find hospitals in this area.')}
             
         }
         
-        else{print('Cannot find hospitals in this area.')}
+        else{
+            
+            if (sum(input$hos_tc_ZipCode %in% testingcenter$zip) != 0){
+                
+                testcenter_selected <- testingcenter[testingcenter$zip == input$hos_tc_ZipCode,c('Testing_Name','Address')]
+                colnames(testcenter_selected) <- c('Test Center Name','Address')
+                No. <- seq(1,nrow(testcenter_selected))
+                print(cbind(No., testcenter_selected))
+                
+            }
+            
+            else{print('Cannot find testing centers in this area.')}
+            
+        }
+        
     )
     
     #----------------------------------------
@@ -355,9 +381,9 @@ shinyServer(function(input, output) {
             addMarkers(data=case_by_boro,~Long, ~Lat, popup = pop_boro) %>%
             
             # add markers for hotels
-            addAwesomeMarkers(data = hotels, ~longitude, ~latitude, popup = pop_hotels, icon=myIcon) %>%
+            #addAwesomeMarkers(data = hotels, ~longitude, ~latitude, popup = pop_hotels, icon=myIcon) %>%
             
-            addAwesomeMarkers(data = hotels[hotels$postal_code == input$hotelcode, ], 
+            addAwesomeMarkers(data = filter(hotels, hotels$postal_code == input$hotelcode & hotels$rating == input$hotelrate),
                               ~longitude, ~latitude, popup = pop_hotels,icon=myIcon_selected)
         
     }) 
@@ -382,6 +408,90 @@ shinyServer(function(input, output) {
     #----------------------------------------
     #tab panel 6 - Restaurants 
     
+    output$restaurant_Map <- renderLeaflet({
+        
+        parameter <- covid_zip_code$COVID_CASE_COUNT
+        
+        # create color palette 
+        pal <- colorNumeric(
+            palette = "Greens",
+            domain = parameter)
+        
+        # create labels for zipcodes
+        labels <- paste(
+            "Zip Code: ", covid_zip_code$GEOID10, "<br/>",
+            "District: ", covid_zip_code$NEIGHBORHOOD_NAME, "<br/>",
+            "Confirmed Case: ", covid_zip_code$COVID_CASE_COUNT) %>%
+            lapply(htmltools::HTML)
+        
+        # add popup features
+        pop_boro <- paste('Borough name:',case_by_boro$region,'</br>',
+                          'Confirmed cases:',case_by_boro$CASE_COUNT,'</br>',
+                          'Death cases:',case_by_boro$DEATH_COUNT,'</br>',
+                          'Hospitalized cases:',case_by_boro$HOSPITALIZED_COUNT)
+        
+        pop_restaurant = paste(Restaurant$Restaurant.Name)
+        
+        # add icon feature
+        myIcon = makeAwesomeIcon(icon = "medkit", library = "fa",markerColor = "blue",iconColor = "black")
+        myIcon_selected = makeAwesomeIcon(icon = "medkit", library = "fa",markerColor = "red",iconColor = "black")
+        
+        covid_zip_code %>%
+            leaflet %>% setView( -73.9683,40.7999, zoom = 13) %>% 
+            # add base map
+            addProviderTiles("CartoDB") %>% 
+            
+            # add zip codes
+            addPolygons(fillColor = ~pal(parameter),
+                        weight = 2,
+                        opacity = 1,
+                        color = "white",
+                        dashArray = "3",
+                        fillOpacity = 0.7,
+                        highlight = highlightOptions(weight = 2,
+                                                     color = "#666",
+                                                     dashArray = "",
+                                                     fillOpacity = 0.7,
+                                                     bringToFront = TRUE),
+                        label = labels) %>%
+            
+            addPolygons(data = covid_zip_code[covid_zip_code$GEOID10 == input$restaurant_ZipCode, ], 
+                        color = "blue", weight = 5, fill = FALSE) %>%
+            
+            # add legend
+            addLegend(pal = pal, 
+                      values = ~parameter, 
+                      opacity = 0.7, 
+                      title = htmltools::HTML("Confirmed COVID Cases <br> 
+                                     in NYC by Zip Code"),
+                      position = "bottomright")%>%
+            
+            # add markers for boroughs
+            addMarkers(data=case_by_boro, ~ Long, ~Lat, popup = pop_boro) %>%
+            
+            # add markers for Restaurant
+            addAwesomeMarkers(data = Restaurant, ~ Longitude, ~ Latitude, popup = pop_restaurant, icon = myIcon) %>%
+            
+            addAwesomeMarkers(data = Restaurant[Restaurant$Postcode == input$restaurant_ZipCode, ], 
+                              ~ Longitude, ~ Latitude, popup = pop_restaurant,icon = myIcon_selected)
+        
+    }) 
+    
+    
+    output$restaurant_Info <- DT::renderDataTable(
+        if (sum(input$restaurant_ZipCode %in% Restaurant$Postcode) != 0){
+            restaurant_selected <- Restaurant[Restaurant$Postcode == input$restaurant_ZipCode & as.character(Restaurant$GRADE) == input$Grade, c('Restaurant.Name','CUISINE.DESCRIPTION','Business.Address','GRADE')]
+            colnames(restaurant_selected) <- c('Restaurant.Name','CUISINE.DESCRIPTION','Business.Address','GRADE')
+            No. <- seq(1,nrow(restaurant_selected))
+            tb <- cbind(No., restaurant_selected)
+            DT::datatable(tb, options = list(lengthMenu = list(c(5, 15, -1), c('5', '15', 'All')),
+                                             pageLength = 5))
+            
+        }
+        else{print('Cannot find restaurants in this area.')}
+        
+        
+    )
     
     
     #----------------------------------------
