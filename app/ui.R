@@ -17,7 +17,9 @@ library(leaflet)
 library(tidyverse)
 
 
-load("~/Documents/Columbia/2020Fall/Applied Data Science/Project 2/ADS-group-1/app/output/covid_zip_code.RData")
+load("/Users/tianle/Documents/GitHub/Fall2020-Project2-group1/app/output/covid_zip_code.RData")
+
+#load("~/Documents/Columbia/2020Fall/Applied Data Science/Project 2/ADS-group-1/app/output/covid_zip_code.RData")
 
 #setwd("~/")
 #load("~/covid_zip_code.RData")
@@ -266,37 +268,29 @@ shinyUI(navbarPage(title = 'Safe Travel in NYC',
                    
                    #--------------------------
                    #tab panel 6 - Restaurants
-                   tabPanel("Restaurant", icon = icon("fas fa-utensils"),
+                   tabPanel("Restaurants", icon = icon("fas fa-utensils"),
                             titlePanel("NYC Restaurant Map"),
-                            
                             # Sidebar with a slider input for number of bins
                             sidebarLayout(
-                              
                               sidebarPanel(
-                                
-                                helpText("Enter or select a zip code to find Restaurant information in this area.", br()),
-                                
-                                selectInput("restaurant_ZipCode", 
-                                            label = "Zip Code:",
-                                            choices = covid_zip_code$GEOID10, selected = 10025),
-                                
-                                selectInput("Grade", 
-                                            label = "Grade: ",
-                                            choices = c("A", "B", "C", "Z", "P"), selected = "C"),
-                                
+                                helpText("Enter a zip code and select Grade and Cuisine type to find Restaurant information in this area.", br()),
+                                fluidRow(
+                                  column(4, selectInput("restaurant_ZipCode", 
+                                                        label = "Zip Code:",
+                                                        choices = covid_zip_code$GEOID10, selected = 10025)),
+                                  column(4, checkboxGroupInput("Grade", "Choose Grade:",
+                                                               choices = c("A", "B", "C", "N", "Z"),
+                                                               selected = c("C"))),
+                                  column(4, checkboxGroupInput("categories", "Choose Categories:",
+                                                               choices = c("European", "Asian", "Fast_food", "Seafood", "Vegetarian", "Americas", 
+                                                                           "Dessert", "Others", "BBQ", "Oceanian", "Steak", "African"),
+                                                               selected = c("European", "Fast_food", "Americas"))),
+                                ),
                                 helpText("Restaurant List", br()),
-                                
-                                DT::dataTableOutput("restaurant_Info"),
-                                
-                                width = 12
-                                
+                                DT::dataTableOutput("restaurant_Info"), width = 14
                               ), # end sidebar panel
-                              
-                              mainPanel(leafletOutput("restaurant_Map", height = 600), width = 12)
-                              
+                              mainPanel(leafletOutput("restaurant_Map", height = 600), width = 14),
                             ) # end side bar layout
-                            
-                            
                    ),
                    
                    #--------------------------

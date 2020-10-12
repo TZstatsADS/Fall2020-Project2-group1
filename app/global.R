@@ -77,7 +77,8 @@ if (!require("leaflet")) {
 
 #=======================================================================
 
-setwd("~/Documents/Columbia/2020Fall/Applied Data Science/Project 2/ADS-group-1/data/coronavirus-data-master")
+#setwd("~/Documents/Columbia/2020Fall/Applied Data Science/Project 2/ADS-group-1/data/coronavirus-data-master")
+setwd("../data/coronavirus-data-master")
 
 
 library(tigris)
@@ -92,7 +93,8 @@ case_by_boro <- read.csv("by-boro.csv")
 hospitals <- read.csv("hospital.csv")
 testingcenter <- read.csv("testingcenter_geocode.csv")
 hotels <- read.csv("hotels.csv")
-Restaurant <- read.csv("Restaurant_cleaned.csv")
+Restaurant <- read.csv("../Restaurant_cleaned.csv")
+center_zipcode <- read.csv("../center_zipcode.csv")
 
 # drop redundant columns/rows
 recent_modzcta_mod <- recent_modzcta[, -1:-2]
@@ -137,7 +139,8 @@ case_by_boro <-
 
 #=======================================================================
 
-setwd("~/Documents/Columbia/2020Fall/Applied Data Science/Project 2/ADS-group-1/app/output")
+#setwd("~/Documents/Columbia/2020Fall/Applied Data Science/Project 2/ADS-group-1/app/output")
+setwd("/Users/tianle/Documents/GitHub/Fall2020-Project2-group1/app/output")
 save(covid_zip_code, file = "covid_zip_code.RData")
 
 #=======================================================================

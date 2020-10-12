@@ -20,8 +20,9 @@ library(ggplot2)
 #global.r will enable us to get new data everyday
 #update data with automated script
 
+load("/Users/tianle/Documents/GitHub/Fall2020-Project2-group1/app/output/covid_zip_code.RData")
 
-load("~/Documents/Columbia/2020Fall/Applied Data Science/Project 2/ADS-group-1/app/output/covid_zip_code.RData")
+#load("~/Documents/Columbia/2020Fall/Applied Data Science/Project 2/ADS-group-1/app/output/covid_zip_code.RData")
 #setwd("~/")
 #load("~/covid_zip_code.RData")
 
@@ -409,90 +410,62 @@ shinyServer(function(input, output) {
     #tab panel 6 - Restaurants 
     
     output$restaurant_Map <- renderLeaflet({
-        
         parameter <- covid_zip_code$COVID_CASE_COUNT
-        
         # create color palette 
         pal <- colorNumeric(
             palette = "Greens",
             domain = parameter)
-        
         # create labels for zipcodes
         labels <- paste(
             "Zip Code: ", covid_zip_code$GEOID10, "<br/>",
             "District: ", covid_zip_code$NEIGHBORHOOD_NAME, "<br/>",
             "Confirmed Case: ", covid_zip_code$COVID_CASE_COUNT) %>%
             lapply(htmltools::HTML)
-        
         # add popup features
         pop_boro <- paste('Borough name:',case_by_boro$region,'</br>',
                           'Confirmed cases:',case_by_boro$CASE_COUNT,'</br>',
                           'Death cases:',case_by_boro$DEATH_COUNT,'</br>',
                           'Hospitalized cases:',case_by_boro$HOSPITALIZED_COUNT)
-        
         pop_restaurant = paste(Restaurant$Restaurant.Name)
-        
         # add icon feature
-        myIcon = makeAwesomeIcon(icon = "medkit", library = "fa",markerColor = "blue",iconColor = "black")
-        myIcon_selected = makeAwesomeIcon(icon = "medkit", library = "fa",markerColor = "red",iconColor = "black")
-        
-        covid_zip_code %>%
-            leaflet %>% setView( -73.9683,40.7999, zoom = 13) %>% 
+        myIcon_selected = makeAwesomeIcon(icon = "utensils", library = "fa", markerColor = "orange",iconColor = "black")
+        covid_zip_code %>% leaflet %>% setView(center_zipcode[center_zipcode$Zip == input$restaurant_ZipCode,]$Longitude, center_zipcode[center_zipcode$Zip == input$restaurant_ZipCode,]$Latitude, zoom = 15) %>%
             # add base map
             addProviderTiles("CartoDB") %>% 
-            
             # add zip codes
-            addPolygons(fillColor = ~pal(parameter),
-                        weight = 2,
-                        opacity = 1,
-                        color = "white",
-                        dashArray = "3",
-                        fillOpacity = 0.7,
-                        highlight = highlightOptions(weight = 2,
-                                                     color = "#666",
-                                                     dashArray = "",
-                                                     fillOpacity = 0.7,
-                                                     bringToFront = TRUE),
+            addPolygons(fillColor = ~ pal(parameter),weight = 2, opacity = 1,
+                        color = "white", dashArray = "3", fillOpacity = 0.7,
+                        highlight = highlightOptions(weight = 2, color = "#666", dashArray = "", 
+                                                     fillOpacity = 0.7, bringToFront = TRUE),
                         label = labels) %>%
-            
             addPolygons(data = covid_zip_code[covid_zip_code$GEOID10 == input$restaurant_ZipCode, ], 
                         color = "blue", weight = 5, fill = FALSE) %>%
-            
             # add legend
-            addLegend(pal = pal, 
-                      values = ~parameter, 
-                      opacity = 0.7, 
-                      title = htmltools::HTML("Confirmed COVID Cases <br> 
-                                     in NYC by Zip Code"),
+            addLegend(pal = pal, values = ~ parameter, opacity = 0.7, 
+                      title = htmltools::HTML("Confirmed COVID Cases <br> in NYC by Zip Code"),
                       position = "bottomright")%>%
-            
             # add markers for boroughs
-            addMarkers(data=case_by_boro, ~ Long, ~Lat, popup = pop_boro) %>%
-            
+            addMarkers(data = case_by_boro, ~ Long, ~ Lat, popup = pop_boro) %>%
             # add markers for Restaurant
-            addAwesomeMarkers(data = Restaurant, ~ Longitude, ~ Latitude, popup = pop_restaurant, icon = myIcon) %>%
-            
-            addAwesomeMarkers(data = Restaurant[Restaurant$Postcode == input$restaurant_ZipCode, ], 
+            addAwesomeMarkers(data = Restaurant[Restaurant$Postcode == input$restaurant_ZipCode & 
+                                                    Restaurant$GRADE %in% input$Grade & 
+                                                    Restaurant$categories %in% input$categories, ], 
                               ~ Longitude, ~ Latitude, popup = pop_restaurant,icon = myIcon_selected)
         
     }) 
-    
-    
     output$restaurant_Info <- DT::renderDataTable(
         if (sum(input$restaurant_ZipCode %in% Restaurant$Postcode) != 0){
-            restaurant_selected <- Restaurant[Restaurant$Postcode == input$restaurant_ZipCode & as.character(Restaurant$GRADE) == input$Grade, c('Restaurant.Name','CUISINE.DESCRIPTION','Business.Address','GRADE')]
-            colnames(restaurant_selected) <- c('Restaurant.Name','CUISINE.DESCRIPTION','Business.Address','GRADE')
-            No. <- seq(1,nrow(restaurant_selected))
+            restaurant_selected <- Restaurant[Restaurant$Postcode == input$restaurant_ZipCode & 
+                                                  Restaurant$GRADE %in% input$Grade & 
+                                                  Restaurant$categories %in% input$categories, 
+                                              c('Restaurant.Name','GRADE', 'categories', 'CUISINE.DESCRIPTION','Business.Address')]
+            colnames(restaurant_selected) <- c('Restaurant.Name','GRADE', 'categories', 'CUISINE.DESCRIPTION','Business.Address')
+            No. <- seq(1, nrow(restaurant_selected))
             tb <- cbind(No., restaurant_selected)
-            DT::datatable(tb, options = list(lengthMenu = list(c(5, 15, -1), c('5', '15', 'All')),
-                                             pageLength = 5))
-            
+            DT::datatable(tb, options = list(lengthMenu = list(c(5, 15, -1), c('5', '15', 'All')), pageLength = 5))
         }
         else{print('Cannot find restaurants in this area.')}
-        
-        
     )
-    
     
     #----------------------------------------
     #tab panel 7 - Averages 
