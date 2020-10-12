@@ -21,7 +21,7 @@ library(ggplot2)
 #update data with automated script
 
 
-load("/Users/60171/Documents/GitHub/Fall2020-Project2-group1/app/output/covid_zip_code.RData")
+load("~/Documents/Columbia/2020Fall/Applied Data Science/Project 2/ADS-group-1/app/output/covid_zip_code.RData")
 #setwd("~/")
 #load("~/covid_zip_code.RData")
 
@@ -116,9 +116,9 @@ shinyServer(function(input, output) {
     }) 
     
     #----------------------------------------
-    #tab panel 3 - Hospitals
+    #tab panel 3 - Hospitals & Testing Center
     
-    output$hosMap <- renderLeaflet({
+    output$hos_tc_Map <- renderLeaflet({
         
         parameter <- covid_zip_code$COVID_CASE_COUNT
         
@@ -141,10 +141,13 @@ shinyServer(function(input, output) {
                           'Hospitalized cases:',case_by_boro$HOSPITALIZED_COUNT)
         
         pop_hos=paste(hospitals$Facility.Name)
+        pop_test=paste(testingcenter$Testing_Name)
         
         # add icon feature
         myIcon = makeAwesomeIcon(icon = "medkit", library = "fa",markerColor = "blue",iconColor = "black")
         myIcon_selected = makeAwesomeIcon(icon = "medkit", library = "fa",markerColor = "red",iconColor = "black")
+        
+        df <- if (input$choice=="hos"){hospitals}else{testingcenter}
         
         covid_zip_code %>%
             leaflet %>% 
@@ -165,7 +168,7 @@ shinyServer(function(input, output) {
                                                      bringToFront = TRUE),
                         label = labels) %>%
             
-            addPolygons(data = covid_zip_code[covid_zip_code$GEOID10 == input$hos_ZipCode, ], 
+            addPolygons(data = covid_zip_code[covid_zip_code$GEOID10 == input$hos_tc_ZipCode, ], 
                         color = "blue", weight = 5, fill = FALSE) %>%
             
             # add legend
@@ -180,26 +183,49 @@ shinyServer(function(input, output) {
             addMarkers(data=case_by_boro,~Long, ~Lat, popup = pop_boro) %>%
             
             # add markers for hospitals
-            addAwesomeMarkers(data = hospitals,~long, ~lat, popup = pop_hos,icon=myIcon) %>%
+        
+            addAwesomeMarkers(data = df,if (input$choice=="hos"){~long}else{~lon}, ~lat, 
+                              popup = if (input$choice=="hos"){pop_hos}else{pop_test},icon=myIcon) %>%
             
-            addAwesomeMarkers(data = hospitals[hospitals$zipcode == input$hos_ZipCode, ], 
-                              ~long, ~lat, popup = pop_hos,icon=myIcon_selected)
+            addAwesomeMarkers(data = df[df$zip == input$hos_tc_ZipCode, ], 
+                              if (input$choice=="hos"){~long}else{~lon}, ~lat, 
+                              popup = if (input$choice=="hos"){pop_hos}else{pop_test},icon=myIcon_selected)
         
     }) 
     
     
-    output$hosInfo <- renderTable(
+    output$hos_tc_Info <- renderTable(
         
-        if (sum(input$hos_ZipCode %in% hospitals$zipcode) != 0){
+        if (input$choice=="hos"){
             
-            hos_selected <- hospitals[hospitals$zipcode == input$hos_ZipCode,c('Facility.Name','Facility.Type','address','Phone')]
-            colnames(hos_selected) <- c('Hospital Name','Type','Address','Phone')
-            No. <- seq(1,nrow(hos_selected))
-            print(cbind(No., hos_selected))
+            if (sum(input$hos_tc_ZipCode %in% hospitals$zipcode) != 0){
+                
+                hos_selected <- hospitals[hospitals$zipcode == input$hos_tc_ZipCode,c('Facility.Name','Facility.Type','address','Phone')]
+                colnames(hos_selected) <- c('Hospital Name','Type','Address','Phone')
+                No. <- seq(1,nrow(hos_selected))
+                print(cbind(No., hos_selected))
+                
+            }
+            
+            else{print('Cannot find hospitals in this area.')}
             
         }
         
-        else{print('Cannot find hospitals in this area.')}
+        else{
+            
+            if (sum(input$hos_tc_ZipCode %in% testingcenter$zip) != 0){
+                
+                testcenter_selected <- testingcenter[testingcenter$zip == input$hos_tc_ZipCode,c('Testing_Name','Address')]
+                colnames(testcenter_selected) <- c('Test Center Name','Address')
+                No. <- seq(1,nrow(testcenter_selected))
+                print(cbind(No., testcenter_selected))
+                
+            }
+            
+            else{print('Cannot find testing centers in this area.')}
+            
+        }
+        
     )
     
     #----------------------------------------

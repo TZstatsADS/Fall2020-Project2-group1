@@ -17,7 +17,7 @@ library(leaflet)
 library(tidyverse)
 
 
-load("/Users/60171/Documents/GitHub/Fall2020-Project2-group1/app/output/covid_zip_code.RData")
+load("~/Documents/Columbia/2020Fall/Applied Data Science/Project 2/ADS-group-1/app/output/covid_zip_code.RData")
 
 #setwd("~/")
 #load("~/covid_zip_code.RData")
@@ -31,7 +31,7 @@ shinyUI(navbarPage(title = 'Safe Travel in NYC',
                    #--------------------------
                    #tab panel 1 - Home
                    tabPanel("Home",icon = icon("home"),
-                            fluidRow(column(tags$img(src="homepic_crop.png",width="260px",height="260px"),width=2),
+                            fluidRow(column(tags$img(src="homepic_crop.png",width="180px",height="180px"),width=2),
                                      column(
                                        
                                        br(),
@@ -153,31 +153,36 @@ shinyUI(navbarPage(title = 'Safe Travel in NYC',
                    
                    
                    #--------------------------
-                   #tab panel 3 - Hospitals
-                   tabPanel("Hospital", icon = icon("fas fa-hospital"),
+                   #tab panel 3 - Hospitals & Testing Center
+                   tabPanel("Hospital & Testing Center", icon = icon("fas fa-hospital"),
                             
-                            titlePanel("NYC Hospital Map"),
+                            titlePanel("NYC Hospital/Testing Center Map"),
                             
                             # Sidebar with a slider input for number of bins
                             sidebarLayout(
                               
                               sidebarPanel(
                                 
-                                helpText("Enter or select a zip code to find hospital information in this area.", br()),
+                                radioButtons("choice", label = "", 
+                                             choices = list("Hospital Information" = "hos",
+                                                            "Testing Center Information" = "test"), inline = TRUE),
                                 
-                                selectInput("hos_ZipCode", 
+                                helpText("Enter or select a zip code to find hospital or testing center information in this area.", br()),
+                                
+                                selectInput("hos_tc_ZipCode", 
                                             label = "Zip Code:",
                                             choices = covid_zip_code$GEOID10, selected = 10001),
                                 
-                                helpText("Hospital List", br()),
+                                helpText("Hospital/Testing Center List", br()),
                                 
-                                tableOutput("hosInfo"),
+                                tableOutput("hos_tc_Info"),
                                 
                                 width = 12
                                 
+                                
                               ), # end sidebar panel
                               
-                              mainPanel(leafletOutput("hosMap", height = 600), width = 12)
+                              mainPanel(leafletOutput("hos_tc_Map", height = 600), width = 12)
                               
                             ) # end side bar layout
                             
@@ -189,34 +194,34 @@ shinyUI(navbarPage(title = 'Safe Travel in NYC',
                    #--------------------------
                    #tab panel 4 - Testing Center
                    tabPanel("Testing Center", icon = icon("fas fa-hospital"),
-                                     
-                                     titlePanel("NYC Testing Center Map"),
-                                     
-                                     # Sidebar with a slider input for number of bins
-                                     sidebarLayout(
-                                       
-                                       sidebarPanel(
-                                         
-                                         helpText("Enter or select a zip code to find Testing Center information in this area.", br()),
-                                         
-                                         selectInput("testingcentercode", 
-                                                     label = "Zip Code:",
-                                                     choices = covid_zip_code$GEOID10, selected = 10001),
-                                         
-                                         helpText("Testing Center List", br()),
-                                         
-                                         tableOutput("testingcenterInfo"),
-                                         
-                                         width = 12
-                                         
-                                       ), # end sidebar panel
-                                       
-                                       mainPanel(leafletOutput("testmap", height = 600), width = 12)
-                                       
-                                     ) # end side bar layout
-                                     
-                                     
-                                     
+                            
+                            titlePanel("NYC Testing Center Map"),
+                            
+                            # Sidebar with a slider input for number of bins
+                            sidebarLayout(
+                              
+                              sidebarPanel(
+                                
+                                helpText("Enter or select a zip code to find Testing Center information in this area.", br()),
+                                
+                                selectInput("testingcentercode", 
+                                            label = "Zip Code:",
+                                            choices = covid_zip_code$GEOID10, selected = 10001),
+                                
+                                helpText("Testing Center List", br()),
+                                
+                                tableOutput("testingcenterInfo"),
+                                
+                                width = 12
+                                
+                              ), # end sidebar panel
+                              
+                              mainPanel(leafletOutput("testmap", height = 600), width = 12)
+                              
+                            ) # end side bar layout
+                            
+                            
+                            
                    ), # end tab 4 panel 
                    
                    
@@ -226,7 +231,7 @@ shinyUI(navbarPage(title = 'Safe Travel in NYC',
                    #tab panel 5 - Hotels
                    tabPanel("Hotel", icon = icon("fas fa-hotel"),
                             
-                                  titlePanel("NYC Hotel Map"),
+                            titlePanel("NYC Hotel Map"),
                             
                             # Create a new Row in the UI for selectInputs of hotel's zipcode, city, and rate
                             fluidRow(
@@ -254,8 +259,8 @@ shinyUI(navbarPage(title = 'Safe Travel in NYC',
                             
                             #Adding the map at the bottom of table     
                             mainPanel(leafletOutput("hotelMap", height = 600), width = 12)
-
-
+                            
+                            
                             
                    ), # end tab 5 panel
                    

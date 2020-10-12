@@ -77,7 +77,7 @@ if (!require("leaflet")) {
 
 #=======================================================================
 
-setwd("../data/coronavirus-data-master")
+setwd("~/Documents/Columbia/2020Fall/Applied Data Science/Project 2/ADS-group-1/data/coronavirus-data-master")
 
 
 library(tigris)
@@ -137,7 +137,7 @@ case_by_boro <-
 
 #=======================================================================
 
-setwd("/Users/60171/Documents/GitHub/Fall2020-Project2-group1/app/output")
+setwd("~/Documents/Columbia/2020Fall/Applied Data Science/Project 2/ADS-group-1/app/output")
 save(covid_zip_code, file = "covid_zip_code.RData")
 
 #=======================================================================
