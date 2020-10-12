@@ -19,7 +19,8 @@ library(ggplot2)
 #can run RData directly to get the necessary date for the app
 #global.r will enable us to get new data everyday
 #update data with automated script
-load('../data/covid_zip_code.RData')
+load('../app/output/covid_zip_code.RData')
+
 
 
 shinyServer(function(input, output) {
@@ -286,15 +287,15 @@ shinyServer(function(input, output) {
                                      in NYC by Zip Code"),
                       position = "bottomright")%>%
             
-            # add markers for boroughs
-            addMarkers(data=case_by_boro,~Long, ~Lat, popup = pop_boro) %>%
-            
-            # add markers for hotels
-            #addAwesomeMarkers(data = hotels, ~longitude, ~latitude, popup = pop_hotels, icon=myIcon) %>%
-            
-            addAwesomeMarkers(data = hotels[(hotels$postal_code == input$hotelcode | hotels$city == input$hotelcity) & 
-                                                hotels$rating == input$hotelrate, ] ,
-                              ~longitude, ~latitude, popup = pop_hotels,icon=myIcon_selected)
+          # add markers for boroughs
+          # addMarkers(data=case_by_boro,~Long, ~Lat, popup = pop_boro) %>%
+          
+          # add markers for hotels
+          addAwesomeMarkers(data = hotels[hotels$postal_code == input$hotelcode, ], ~longitude, ~latitude, popup = pop_hotels, icon=myIcon) %>%
+          
+          addAwesomeMarkers(data = hotels[(hotels$postal_code == input$hotelcode | hotels$city == input$hotelcity) & 
+                                            hotels$rating == input$hotelrate, ] ,
+                            ~longitude, ~latitude, popup = pop_hotels,icon = myIcon_selected)
         
     }) 
     
@@ -369,12 +370,13 @@ shinyServer(function(input, output) {
         if (sum(input$restaurant_ZipCode %in% Restaurant$Postcode) != 0){
             restaurant_selected <- Restaurant[Restaurant$Postcode == input$restaurant_ZipCode & 
                                                   Restaurant$GRADE %in% input$Grade & 
-                                                  Restaurant$categories %in% input$categories, 
-                                              c('Restaurant.Name','GRADE', 'categories', 'CUISINE.DESCRIPTION','Business.Address')]
-            colnames(restaurant_selected) <- c('Restaurant.Name','GRADE', 'categories', 'CUISINE.DESCRIPTION','Business.Address')
-            No. <- seq(1, nrow(restaurant_selected))
-            tb <- cbind(No., restaurant_selected)
-            DT::datatable(tb, options = list(lengthMenu = list(c(5, 15, -1), c('5', '15', 'All')), pageLength = 5))
+                                                  Restaurant$categories %in% input$categories, ] %>%
+              select('Restaurant.Name', 'GRADE', 'categories', 'CUISINE.DESCRIPTION','Business.Address')
+            
+            #colnames(restaurant_selected) <- c('Restaurant.Name','GRADE', 'categories', 'CUISINE.DESCRIPTION','Business.Address')
+            #No. <- seq(1, nrow(restaurant_selected))
+            #tb <- cbind(No., restaurant_selected)
+            DT::datatable(restaurant_selected, options = list(lengthMenu = list(c(5, 15, -1), c('5', '15', 'All')), pageLength = 5))
         }
         else{print('Cannot find restaurants in this area.')}
     )

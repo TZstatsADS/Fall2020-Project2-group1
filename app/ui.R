@@ -16,7 +16,8 @@ library(tigris)
 library(leaflet)
 library(tidyverse)
 
-load('../data/covid_zip_code.RData')
+load('../app/output/covid_zip_code.RData')
+
 
 shinyUI(navbarPage(title = 'Safe Travel in NYC',
                    fluid = TRUE,
@@ -189,16 +190,14 @@ shinyUI(navbarPage(title = 'Safe Travel in NYC',
                    #--------------------------
                    #tab panel 5 - Hotels
                    tabPanel("Hotel", icon = icon("fas fa-hotel"),
-                            
                             titlePanel("NYC Hotel Map"),
-                            
                             # Create a new Row in the UI for selectInputs of hotel's zipcode, city, and rate
                             fluidRow(
                               column(4,
                                      selectInput("hotelcode",
-                                                 "Zip Code:",
-                                                 c("All",
-                                                   sort(unique(hotels$postal_code, decreasing=F))))
+                                                 "Zip Code:", 
+                                                 choices = sort(unique(hotels$postal_code, decreasing=F)), 
+                                                 selected = "10001")
                               ),
                               column(4,
                                      selectInput("hotelcity",
@@ -208,8 +207,7 @@ shinyUI(navbarPage(title = 'Safe Travel in NYC',
                               column(4,
                                      selectInput("hotelrate",
                                                  "Rate:",
-                                                 choices =  c("All",sort(unique(hotels$rating),decreasing=T), selected = "All")
-                                                 )
+                                                 choices = sort(unique(hotels$rating), decreasing = T))
                               )
                             ),
                             # Create a new row for the table of hotel information.
@@ -217,9 +215,7 @@ shinyUI(navbarPage(title = 'Safe Travel in NYC',
                             
                             #Adding the map at the bottom of table     
                             mainPanel(leafletOutput("hotelMap", height = 600), width = 12)
-                            
-                            
-                            
+
                    ), # end tab 5 panel
                    
                    #--------------------------

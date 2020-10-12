@@ -88,11 +88,11 @@ library(readr)
 # read in data file
 data_modzcta <- read.csv("../data/coronavirus-data-master/data-by-modzcta.csv")
 case_by_boro <- read.csv("../data/coronavirus-data-master/by-boro.csv")
-hospitals <- read.csv("../data/hospital.csv")
-testingcenter <- read.csv("../data/testingcenter_geocode.csv")
-hotels <- read.csv("../data/hotels.csv")
-Restaurant <- read.csv("../data/Restaurant_cleaned.csv")
-center_zipcode <- read.csv("../data/center_zipcode.csv")
-load('../data/covid_zip_code.RData')
+hospitals <- read.csv("../app/output/hospital.csv")
+testingcenter <- read.csv("../app/output/testingcenter_geocode.csv")
+hotels <- read.csv("../app/output/hotels.csv")
+Restaurant <- read.csv("../app/output/Restaurant_cleaned.csv")
+center_zipcode <- read.csv("../app/output/center_zipcode.csv")
+load('../app/output/covid_zip_code.RData')
 
 #=======================================================================
