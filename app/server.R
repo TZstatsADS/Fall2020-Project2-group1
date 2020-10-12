@@ -19,12 +19,7 @@ library(ggplot2)
 #can run RData directly to get the necessary date for the app
 #global.r will enable us to get new data everyday
 #update data with automated script
-
-load("/Users/tianle/Documents/GitHub/Fall2020-Project2-group1/app/output/covid_zip_code.RData")
-
-#load("~/Documents/Columbia/2020Fall/Applied Data Science/Project 2/ADS-group-1/app/output/covid_zip_code.RData")
-#setwd("~/")
-#load("~/covid_zip_code.RData")
+load('../data/covid_zip_code.RData')
 
 
 shinyServer(function(input, output) {
@@ -229,94 +224,7 @@ shinyServer(function(input, output) {
         
     )
     
-    #----------------------------------------
-    #tab panel 4 - Testing Centers
-    
-    output$testmap <- renderLeaflet({
-        
-        parameter <- covid_zip_code$COVID_CASE_COUNT
-        
-        # create color palette 
-        pal <- colorNumeric(
-            palette = "Greens",
-            domain = parameter)
-        
-        # create labels for zipcodes
-        labels <- paste(
-            "Zip Code: ", covid_zip_code$GEOID10, "<br/>",
-            "District: ", covid_zip_code$NEIGHBORHOOD_NAME, "<br/>",
-            "Confirmed Case: ", covid_zip_code$COVID_CASE_COUNT) %>%
-            lapply(htmltools::HTML)
-        
-        # add popup features
-        pop_boro <- paste('Borough name:',case_by_boro$region,'</br>',
-                          'Confirmed cases:',case_by_boro$CASE_COUNT,'</br>',
-                          'Death cases:',case_by_boro$DEATH_COUNT,'</br>',
-                          'Hospitalized cases:',case_by_boro$HOSPITALIZED_COUNT)
-        
-        pop_hos=paste(testingcenter$Testing_Name)
-        
-        # add icon feature
-        myIcon = makeAwesomeIcon(icon = "medkit", library = "fa",markerColor = "blue",iconColor = "black")
-        myIcon_selected = makeAwesomeIcon(icon = "medkit", library = "fa",markerColor = "red",iconColor = "black")
-        
-        covid_zip_code %>%
-            leaflet %>% 
-            # add base map
-            addProviderTiles("CartoDB") %>% 
-            
-            # add zip codes
-            addPolygons(fillColor = ~pal(parameter),
-                        weight = 2,
-                        opacity = 1,
-                        color = "white",
-                        dashArray = "3",
-                        fillOpacity = 0.7,
-                        highlight = highlightOptions(weight = 2,
-                                                     color = "#666",
-                                                     dashArray = "",
-                                                     fillOpacity = 0.7,
-                                                     bringToFront = TRUE),
-                        label = labels) %>%
-            
-            addPolygons(data = covid_zip_code[covid_zip_code$GEOID10 == input$testingcentercode, ], 
-                        color = "blue", weight = 5, fill = FALSE) %>%
-            
-            # add legend
-            addLegend(pal = pal, 
-                      values = ~parameter, 
-                      opacity = 0.7, 
-                      title = htmltools::HTML("Confirmed COVID Cases <br> 
-                                     in NYC by Zip Code"),
-                      position = "bottomright")%>%
-            
-            # add markers for boroughs
-            addMarkers(data=case_by_boro,~Long, ~Lat, popup = pop_boro) %>%
-            
-            # add markers for testing centers
-            addAwesomeMarkers(data = testingcenter,~lon, ~lat, popup = pop_hos,icon=myIcon) %>%
-            
-            addAwesomeMarkers(data = testingcenter[testingcenter$zip == input$testingcentercode, ], 
-                              ~lon, ~lat, popup = pop_hos,icon=myIcon_selected)
-        
-    }) 
-    
-    
-    output$testingcenterInfo <- renderTable(
-        
-        if (sum(input$testingcentercode %in% testingcenter$zip) != 0){
-            
-            testcenter_selected <- testingcenter[testingcenter$zip == input$testingcentercode,c('Testing_Name','Address')]
-            colnames(testcenter_selected) <- c('Test Center Name','Address')
-            No. <- seq(1,nrow(testcenter_selected))
-            print(cbind(No., testcenter_selected))
-            
-        }
-        
-        else{print('Cannot find testing centers in this area.')}
-    )
-    
-    
+  
     #----------------------------------------
     #tab panel 5 - Hotels
     
@@ -348,7 +256,7 @@ shinyServer(function(input, output) {
         myIcon = makeAwesomeIcon(icon = "hotel", library = "fa",markerColor = "blue",iconColor = "black")
         myIcon_selected = makeAwesomeIcon(icon = "hotel", library = "fa",markerColor = "green",iconColor = "black")
         
-        covid_zip_code %>%
+        covid_zip_code[covid_zip_code$GEOID10 == input$hotelcode, ] %>%
             leaflet %>% 
             # add base map
             addProviderTiles("CartoDB") %>% 
@@ -384,10 +292,13 @@ shinyServer(function(input, output) {
             # add markers for hotels
             #addAwesomeMarkers(data = hotels, ~longitude, ~latitude, popup = pop_hotels, icon=myIcon) %>%
             
-            addAwesomeMarkers(data = filter(hotels, hotels$postal_code == input$hotelcode & hotels$rating == input$hotelrate),
+            addAwesomeMarkers(data = hotels[(hotels$postal_code == input$hotelcode | hotels$city == input$hotelcity) & 
+                                                hotels$rating == input$hotelrate, ] ,
                               ~longitude, ~latitude, popup = pop_hotels,icon=myIcon_selected)
         
     }) 
+    
+    
     
     #Adding the table contains hotel's information
     output$hotelInfo <- DT::renderDataTable(DT::datatable({
@@ -429,7 +340,8 @@ shinyServer(function(input, output) {
         pop_restaurant = paste(Restaurant$Restaurant.Name)
         # add icon feature
         myIcon_selected = makeAwesomeIcon(icon = "utensils", library = "fa", markerColor = "orange",iconColor = "black")
-        covid_zip_code %>% leaflet %>% setView(center_zipcode[center_zipcode$Zip == input$restaurant_ZipCode,]$Longitude, center_zipcode[center_zipcode$Zip == input$restaurant_ZipCode,]$Latitude, zoom = 15) %>%
+        covid_zip_code[covid_zip_code$GEOID10 == input$restaurant_ZipCode, ] %>% leaflet %>% 
+            #setView(center_zipcode[center_zipcode$Zip == input$restaurant_ZipCode,]$Longitude, center_zipcode[center_zipcode$Zip == input$restaurant_ZipCode,]$Latitude, zoom = 15) %>%
             # add base map
             addProviderTiles("CartoDB") %>% 
             # add zip codes
@@ -445,7 +357,7 @@ shinyServer(function(input, output) {
                       title = htmltools::HTML("Confirmed COVID Cases <br> in NYC by Zip Code"),
                       position = "bottomright")%>%
             # add markers for boroughs
-            addMarkers(data = case_by_boro, ~ Long, ~ Lat, popup = pop_boro) %>%
+            #addMarkers(data = case_by_boro, ~ Long, ~ Lat, popup = pop_boro) %>%
             # add markers for Restaurant
             addAwesomeMarkers(data = Restaurant[Restaurant$Postcode == input$restaurant_ZipCode & 
                                                     Restaurant$GRADE %in% input$Grade & 

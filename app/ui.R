@@ -16,14 +16,7 @@ library(tigris)
 library(leaflet)
 library(tidyverse)
 
-
-load("/Users/tianle/Documents/GitHub/Fall2020-Project2-group1/app/output/covid_zip_code.RData")
-
-#load("~/Documents/Columbia/2020Fall/Applied Data Science/Project 2/ADS-group-1/app/output/covid_zip_code.RData")
-
-#setwd("~/")
-#load("~/covid_zip_code.RData")
-
+load('../data/covid_zip_code.RData')
 
 shinyUI(navbarPage(title = 'Safe Travel in NYC',
                    fluid = TRUE,
@@ -192,43 +185,7 @@ shinyUI(navbarPage(title = 'Safe Travel in NYC',
                             
                    ), # end tab 3 panel 
                    
-                   
-                   #--------------------------
-                   #tab panel 4 - Testing Center
-                   tabPanel("Testing Center", icon = icon("fas fa-hospital"),
-                            
-                            titlePanel("NYC Testing Center Map"),
-                            
-                            # Sidebar with a slider input for number of bins
-                            sidebarLayout(
-                              
-                              sidebarPanel(
-                                
-                                helpText("Enter or select a zip code to find Testing Center information in this area.", br()),
-                                
-                                selectInput("testingcentercode", 
-                                            label = "Zip Code:",
-                                            choices = covid_zip_code$GEOID10, selected = 10001),
-                                
-                                helpText("Testing Center List", br()),
-                                
-                                tableOutput("testingcenterInfo"),
-                                
-                                width = 12
-                                
-                              ), # end sidebar panel
-                              
-                              mainPanel(leafletOutput("testmap", height = 600), width = 12)
-                              
-                            ) # end side bar layout
-                            
-                            
-                            
-                   ), # end tab 4 panel 
-                   
-                   
-                   
-                   
+    
                    #--------------------------
                    #tab panel 5 - Hotels
                    tabPanel("Hotel", icon = icon("fas fa-hotel"),
@@ -246,14 +203,13 @@ shinyUI(navbarPage(title = 'Safe Travel in NYC',
                               column(4,
                                      selectInput("hotelcity",
                                                  "City:",
-                                                 c("All",
-                                                   unique(as.character(hotels$city))))
+                                                 c("All", unique(as.character(hotels$city))))
                               ),
                               column(4,
                                      selectInput("hotelrate",
                                                  "Rate:",
-                                                 c("All",
-                                                   sort(unique(hotels$rating),decreasing=T)))
+                                                 choices =  c("All",sort(unique(hotels$rating),decreasing=T), selected = "All")
+                                                 )
                               )
                             ),
                             # Create a new row for the table of hotel information.
@@ -287,9 +243,9 @@ shinyUI(navbarPage(title = 'Safe Travel in NYC',
                                                                selected = c("European", "Fast_food", "Americas"))),
                                 ),
                                 helpText("Restaurant List", br()),
-                                DT::dataTableOutput("restaurant_Info"), width = 14
+                                DT::dataTableOutput("restaurant_Info"), width = 12
                               ), # end sidebar panel
-                              mainPanel(leafletOutput("restaurant_Map", height = 600), width = 14),
+                              mainPanel(leafletOutput("restaurant_Map", height = 600), width = 12),
                             ) # end side bar layout
                    ),
                    
