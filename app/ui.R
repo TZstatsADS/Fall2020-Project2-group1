@@ -16,11 +16,7 @@ library(tigris)
 library(leaflet)
 library(tidyverse)
 
-
-load("~/Documents/Columbia/2020Fall/Applied Data Science/Project 2/ADS-group-1/app/output/covid_zip_code.RData")
-
-#setwd("~/")
-#load("~/covid_zip_code.RData")
+load('../app/output/covid_zip_code.RData')
 
 
 shinyUI(navbarPage(title = 'Safe Travel in NYC',
@@ -190,68 +186,28 @@ shinyUI(navbarPage(title = 'Safe Travel in NYC',
                             
                    ), # end tab 3 panel 
                    
-                   
-                   #--------------------------
-                   #tab panel 4 - Testing Center
-                   tabPanel("Testing Center", icon = icon("fas fa-hospital"),
-                            
-                            titlePanel("NYC Testing Center Map"),
-                            
-                            # Sidebar with a slider input for number of bins
-                            sidebarLayout(
-                              
-                              sidebarPanel(
-                                
-                                helpText("Enter or select a zip code to find Testing Center information in this area.", br()),
-                                
-                                selectInput("testingcentercode", 
-                                            label = "Zip Code:",
-                                            choices = covid_zip_code$GEOID10, selected = 10001),
-                                
-                                helpText("Testing Center List", br()),
-                                
-                                tableOutput("testingcenterInfo"),
-                                
-                                width = 12
-                                
-                              ), # end sidebar panel
-                              
-                              mainPanel(leafletOutput("testmap", height = 600), width = 12)
-                              
-                            ) # end side bar layout
-                            
-                            
-                            
-                   ), # end tab 4 panel 
-                   
-                   
-                   
-                   
+    
                    #--------------------------
                    #tab panel 5 - Hotels
                    tabPanel("Hotel", icon = icon("fas fa-hotel"),
-                            
                             titlePanel("NYC Hotel Map"),
-                            
                             # Create a new Row in the UI for selectInputs of hotel's zipcode, city, and rate
                             fluidRow(
                               column(4,
                                      selectInput("hotelcode",
-                                                 "Zip Code:",
-                                                 c("All",
-                                                   sort(unique(hotels$postal_code, decreasing=F))))
+                                                 "Zip Code:", 
+                                                 choices = sort(unique(hotels$postal_code, decreasing=F)), 
+                                                 selected = "10001")
                               ),
                               column(4,
                                      selectInput("hotelcity",
                                                  "City:",
-                                                 c("All",
-                                                   unique(as.character(hotels$city))))
+                                                 c("All", unique(as.character(hotels$city))))
                               ),
                               column(4,
                                      selectInput("hotelrate",
                                                  "Rate:",
-                                                 c("All",
-                                                   sort(unique(hotels$rating),decreasing=T)))
+                                                 choices = sort(unique(hotels$rating), decreasing = T))
                               )
                             ),
                             # Create a new row for the table of hotel information.
@@ -259,44 +215,34 @@ shinyUI(navbarPage(title = 'Safe Travel in NYC',
                             
                             #Adding the map at the bottom of table     
                             mainPanel(leafletOutput("hotelMap", height = 600), width = 12)
-                            
-                            
-                            
+
                    ), # end tab 5 panel
                    
                    #--------------------------
                    #tab panel 6 - Restaurants
-                   tabPanel("Restaurant", icon = icon("fas fa-utensils"),
+                   tabPanel("Restaurants", icon = icon("fas fa-utensils"),
                             titlePanel("NYC Restaurant Map"),
-                            
                             # Sidebar with a slider input for number of bins
                             sidebarLayout(
-                              
                               sidebarPanel(
-                                
-                                helpText("Enter or select a zip code to find Restaurant information in this area.", br()),
-                                
-                                selectInput("restaurant_ZipCode", 
-                                            label = "Zip Code:",
-                                            choices = covid_zip_code$GEOID10, selected = 10025),
-                                
-                                selectInput("Grade", 
-                                            label = "Grade: ",
-                                            choices = c("A", "B", "C", "Z", "P"), selected = "C"),
-                                
+                                helpText("Enter a zip code and select Grade and Cuisine type to find Restaurant information in this area.", br()),
+                                fluidRow(
+                                  column(4, selectInput("restaurant_ZipCode", 
+                                                        label = "Zip Code:",
+                                                        choices = covid_zip_code$GEOID10, selected = 10025)),
+                                  column(4, checkboxGroupInput("Grade", "Choose Grade:",
+                                                               choices = c("A", "B", "C", "N", "Z"),
+                                                               selected = c("C"))),
+                                  column(4, checkboxGroupInput("categories", "Choose Categories:",
+                                                               choices = c("European", "Asian", "Fast_food", "Seafood", "Vegetarian", "Americas", 
+                                                                           "Dessert", "Others", "BBQ", "Oceanian", "Steak", "African"),
+                                                               selected = c("European", "Fast_food", "Americas"))),
+                                ),
                                 helpText("Restaurant List", br()),
-                                
-                                DT::dataTableOutput("restaurant_Info"),
-                                
-                                width = 12
-                                
+                                DT::dataTableOutput("restaurant_Info"), width = 12
                               ), # end sidebar panel
-                              
-                              mainPanel(leafletOutput("restaurant_Map", height = 600), width = 12)
-                              
+                              mainPanel(leafletOutput("restaurant_Map", height = 600), width = 12),
                             ) # end side bar layout
-                            
-                            
                    ),
                    
                    #--------------------------

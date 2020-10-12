@@ -22,7 +22,7 @@ Term: Fall 2020
 
 + Team #
 + **Projec title**: + Team members
-	+ team member 1
+	+ tm 1
 	+ team member 2
 	+ team member 3
 	+ team member 4

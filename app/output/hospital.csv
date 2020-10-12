@@ -1,0 +1,235 @@
+,Unnamed: 0,Facility Type,Borough,Facility Name,Cross Streets,Phone,Location 1,lat,long,zipcode,address
+0,0,Child Health Center,Brooklyn,Ida G. Israel Community Health Center,W. 22nd St. & W. 23rd St.,718-946-3400,"2201 Neptune Avenue
+Brooklyn, NY 11224
+(40.578488319967, -73.989497148121)",40.578488319959995,-73.9894971481, 11224,"2201 Neptune Avenue Brooklyn, NY 11224"
+1,1,Child Health Center,Queens,South Queens Community Health Center,,718-883-6699,"114 02 Guy R Brewer Blvd
+Jamaica, NY 11434
+(40.676945262114, -73.775306901692)",40.67694526211,-73.7753069016, 11434,"114 02 Guy R Brewer Blvd Jamaica, NY 11434"
+2,2,Child Health Center,Bronx,Melrose Houses Child Health Clinic,between Morris Ave. & Courtlandt Ave.,718-292-2820,"348 156th Street
+Bronx, NY 10451
+(40.821301194646, -73.917709787212)",40.82130119464,-73.9177097872, 10451,"348 156th Street Bronx, NY 10451"
+3,3,Child Health Center,Bronx,Daniel Webster Houses Child Health Clinic,corner of Webster Ave.,718-538-2147,"401 168th Street
+Bronx, NY 10456
+(40.832279848967, -73.909534601874)",40.83227984896,-73.9095346018, 10456,"401 168th Street Bronx, NY 10456"
+4,4,Diagnostic & Treatment Center,Bronx,Segundo Ruiz Belvis Diagnostic & Treatment Center,,718-579-4000,"545 142nd Street
+Bronx, NY 10454
+(40.810121864043, -73.916811846348)",40.810121864040006,-73.9168118463, 10454,"545 142nd Street Bronx, NY 10454"
+5,5,Child Health Center,Queens,Parsons Communicare Clinic,between Jamaica Ave. & 90th Ave.,718-334-6401,"90 37 Parsons Boulevard
+Jamaica, NY 11432
+(40.71311535449, -73.792820999789)",40.71311535449,-73.79282099978, 11432,"90 37 Parsons Boulevard Jamaica, NY 11432"
+6,6,Child Health Center,Queens,Queens Hospital Center,,718-883-3000,"82 68 164th Street
+Jamaica, NY 11432
+(40.71311535449, -73.792820999789)",40.71311535449,-73.79282099978, 11432,"82 68 164th Street Jamaica, NY 11432"
+7,7,Acute Care Hospital,Queens,Elmhurst Hospital Center,,718-334-4000,"79 01
+Elmhurst, NY 11373
+(40.738710402563, -73.878351155182)",40.738710402559995,-73.8783511551, 11373,"79 01 Elmhurst, NY 11373"
+8,8,Child Health Center,Brooklyn,Cumberland Diagnostic & Treatment Center,,718-260-7500,"100 Portland Avenue
+Brooklyn, NY 11205
+(40.695143584665, -73.976235572166)",40.695143584659995,-73.9762355721, 11205,"100 Portland Avenue Brooklyn, NY 11205"
+9,9,Child Health Center,Queens,Junction Boulevard Child Health Clinic,between 34th Ave. & 35th Ave.,718-334-6150,"34 33 Junction Boulevard Jackson Heights
+NY 11372
+(40.751630739367, -73.883612545283)",40.751630739359996,-73.88361254520001, 11372,34 33 Junction Boulevard Jackson Heights NY 11372
+10,10,Child Health Center,Brooklyn,Woodhull Medical and Mental Health Center,,718-963-8000,"760 Broadway
+Brooklyn, NY 11206
+(40.70052661478, -73.941643858765)",40.700526614779996,-73.94164385875999, 11206,"760 Broadway Brooklyn, NY 11206"
+11,11,Child Health Center,Brooklyn,Eleanor Roosevelt Houses Child Health Clinic,between Lewis Ave. & Stuyvesant Ave.,718-452-1146,"388 Pulaski Street
+Brooklyn, NY 11206
+(40.69392371549, -73.935456875218)",40.69392371549,-73.93545687521, 11206,"388 Pulaski Street Brooklyn, NY 11206"
+12,12,Acute Care Hospital,Bronx,Jacobi Medical Center,,718-918-5000,"1400 Pelham Parkway
+Bronx, NY 10461
+(40.857397104611, -73.846571204087)",40.85739710461,-73.846571204, 10461,"1400 Pelham Parkway Bronx, NY 10461"
+13,13,Acute Care Hospital,Manhattan,Metropolitan Hospital Center,,212-423-6262,"1901 First Avenue
+New York, NY 10029
+(40.784557024105, -73.943795653643)",40.784557024099996,-73.94379565359999, 10029,"1901 First Avenue New York, NY 10029"
+14,14,Child Health Center,Brooklyn,Bushwick Communicare,between Linden St. & Grove St.,718-573-4860,"335 Central Avenue
+Brooklyn, NY 11221
+(40.694738427187, -73.919223916666)",40.69473842718,-73.9192239166, 11221,"335 Central Avenue Brooklyn, NY 11221"
+15,15,Child Health Center,Brooklyn,Lafayette Houses Child Health Clinic,between Classon Ave. & Taffee Place,718-638-8258,"434 Dekalb Avenue
+Brooklyn, NY 11205
+(40.690366628996, -73.959782659483)",40.69036662899,-73.95978265939999, 11205,"434 Dekalb Avenue Brooklyn, NY 11205"
+16,16,Diagnostic & Treatment Center,Brooklyn,East New York Diagnostic & Treatment Center,,718-240-0400,"2094 Pitkin Avenue
+Brooklyn, NY 11207
+(40.671962495107, -73.89520529393)",40.671962495100004,-73.8952052939, 11207,"2094 Pitkin Avenue Brooklyn, NY 11207"
+17,17,Child Health Center,Brooklyn,Williamsburg Child Health Clinic,between Power & Grand St.,718-387-2211,"279 Graham Ave
+Brooklyn, NY 11206
+(40.712103238036, -73.943994071543)",40.71210323803,-73.9439940715, 11206,"279 Graham Ave Brooklyn, NY 11206"
+18,18,Acute Care Hospital,Bronx,North Central Bronx Hospital,,718-519-5000,"3424 Kossuth Avenue
+Bronx, NY 10467
+(40.880463372456, -73.881592877502)",40.88046337245,-73.8815928775, 10467,"3424 Kossuth Avenue Bronx, NY 10467"
+19,19,Child Health Center,Manhattan,Harlem Hospital Center,,212-939-1000,"506 Lenox Avenue
+New York, NY 10037
+(40.814275217502, -73.940602831291)",40.8142752175,-73.9406028312, 10037,"506 Lenox Avenue New York, NY 10037"
+20,20,Child Health Center,Manhattan,Sydenham Health Center,,212-932-6500,"215 125th Street
+New York, NY 10027
+(40.809338651192, -73.949197484073)",40.809338651190004,-73.949197484, 10027,"215 125th Street New York, NY 10027"
+21,21,Nursing Home,Brooklyn,Dr. Susan Smith McKinney Nursing and Rehabilitation Center,,718-245-7000,"594 Albany Avenue
+Brooklyn, NY 11203
+(40.66005451681, -73.939761495742)",40.66005451681,-73.93976149574, 11203,"594 Albany Avenue Brooklyn, NY 11203"
+22,22,Child Health Center,Bronx,Lincoln  Medical &  Mental Health Center,,718-579-5000,"234 149th Street
+Bronx, NY 10451
+(40.817688484049, -73.924200271483)",40.817688484040005,-73.9242002714, 10451,"234 149th Street Bronx, NY 10451"
+23,23,Child Health Center,Queens,Corona Child Health Clinic,between 104th St. & 106th St.,718-334-6100,"104 04 Corona Avenue
+Corona, NY 11368
+(40.749678220374, -73.853040688577)",40.74967822037,-73.8530406885, 11368,"104 04 Corona Avenue Corona, NY 11368"
+24,24,Nursing Home,Staten Island,Sea View Hospital Rehabilitation Center & Home,,718-317-3000,"460 Brielle Avenue Staten Island
+NY 10314
+(40.597953866387, -74.131766325901)",40.59795386638,-74.1317663259, 10314,460 Brielle Avenue Staten Island NY 10314
+25,25,Child Health Center,Queens,Springfield Gardens Medical Center,,718-883-6800,"134 64 Springfield Blvd Springfield Gardens
+NY 11413
+(40.669711181226, -73.750873933285)",40.66971118122,-73.7508739332, 11413,134 64 Springfield Blvd Springfield Gardens NY 11413
+26,26,Child Health Center,Bronx,Segundo Ruiz Belvis Diagnostic & Treatment Center,,718-579-4000,"454 142nd Street
+Bronx, NY 10454
+(40.810901316477, -73.919313161708)",40.81090131647,-73.9193131617, 10454,"454 142nd Street Bronx, NY 10454"
+27,27,Diagnostic & Treatment Center,Bronx,Morrisania Diagnostic & Treatment Center,,718-960-2777,"1225 Gerard Avenue
+Bronx, NY 10452
+(40.835906387949, -73.920034037019)",40.83590638794,-73.920034037, 10452,"1225 Gerard Avenue Bronx, NY 10452"
+28,28,Child Health Center,Manhattan,Renaissance Health Care Network Diagnostic & Treatment Center,,212-932-6500,"215 125th Street
+New York, NY 10027
+(40.809338651192, -73.949197484073)",40.809338651190004,-73.949197484, 10027,"215 125th Street New York, NY 10027"
+29,29,Child Health Center,Manhattan,Washington Heights Child Health Care Center,corner of Broadway,212-795-0880,"600 168th Street
+New York, NY 10032
+(40.841127875341, -73.939961696627)",40.84112787534001,-73.9399616966, 10032,"600 168th Street New York, NY 10032"
+30,30,Child Health Center,Bronx,Jacobi Medical Center,,718-918-5000,"1400 Pelham Parkway
+Bronx, NY 10461
+(40.857397104611, -73.846571204087)",40.85739710461,-73.846571204, 10461,"1400 Pelham Parkway Bronx, NY 10461"
+31,31,Diagnostic & Treatment Center,Brooklyn,Cumberland Diagnostic & Treatment Center,,718-260-7500,"100 Portland Avenue
+Brooklyn, NY 11205
+(40.695143584665, -73.976235572166)",40.695143584659995,-73.9762355721, 11205,"100 Portland Avenue Brooklyn, NY 11205"
+32,32,Diagnostic & Treatment Center,Manhattan,Renaissance Health Care Network Diagnostic & Treatment Center,,212-932-6500 ,"215 125 Street
+New York, NY 10027
+(40.809338651192, -73.949197484073)",40.809338651190004,-73.949197484, 10027,"215 125 Street New York, NY 10027"
+33,33,Acute Care Hospital,Brooklyn,Kings County Hospital Center,,718-245-3131,"451 Clarkson Avenue
+Brooklyn, NY 11203
+(40.655761808605, -73.944662615537)",40.655761808600005,-73.94466261550001, 11203,"451 Clarkson Avenue Brooklyn, NY 11203"
+34,34,Nursing Home,Manhattan,Coler-Goldwater Specialty Hospital and Nursing Facility/Coler Campus,,212-848-6000 ,"900 Main Street Roosevelt Island
+New York, NY 10044
+(40.761976486226, -73.949999674945)",40.76197648622,-73.9499996749, 10044,"900 Main Street Roosevelt Island New York, NY 10044"
+35,35,Child Health Center,Brooklyn,Kings County Hospital Center,,718-245-3131,"451 Clarkson Avenue
+Brooklyn, NY 11203
+(40.655761808605, -73.944662615537)",40.655761808600005,-73.94466261550001, 11203,"451 Clarkson Avenue Brooklyn, NY 11203"
+36,36,Acute Care Hospital,Manhattan,Bellevue Hospital Center,,212-562-4141,"462 First Avenue
+New York, NY 10016
+(40.73962320748, -73.976572846645)",40.739623207479994,-73.97657284664001, 10016,"462 First Avenue New York, NY 10016"
+37,37,Child Health Center,Manhattan,Roberto Clemente Health Center,,212-387-7400,"540 13th Street
+New York, NY 10009
+(40.72930119329, -73.979916628238)",40.729301193290006,-73.97991662823001, 10009,"540 13th Street New York, NY 10009"
+38,38,Child Health Center,Brooklyn,Jonathan Williams Houses Child Health Clinic,between Roebling Street & Division Ave.,718-387-6407,"118 Roebling Street
+Brooklyn, NY 11211
+(40.715367609829, -73.956165823569)",40.71536760982001,-73.9561658235, 11211,"118 Roebling Street Brooklyn, NY 11211"
+39,39,Child Health Center,Manhattan,Grant Houses Clinic,,212-678-8420,"3170 Broadway
+New York, NY 10027
+(40.815255660488, -73.958430492697)",40.81525566048,-73.9584304926, 10027,"3170 Broadway New York, NY 10027"
+40,40,Child Health Center,Manhattan,Dyckman Clinica De Las Americas,corner of Nagle Ave. and Dyckman St.,212-544-2001,"175 Nagle Avenue
+New York, NY 10034
+(40.861957938597, -73.92380763599)",40.86195793859,-73.9238076359, 10034,"175 Nagle Avenue New York, NY 10034"
+41,41,Child Health Center,Brooklyn,East New York Diagnostic & Treatment Center,,718-240-0400,"2094 Pitkin Avenue
+Brooklyn, NY 11225
+(40.671962495107, -73.89520529393)",40.671962495100004,-73.8952052939, 11225,"2094 Pitkin Avenue Brooklyn, NY 11225"
+42,42,Child Health Center,Brooklyn,Brownsville Child Health Clinic,between Dumont Ave. & Blake Ave.,718-495-7283,"259 Bristol Street
+Brooklyn, NY 11212
+(40.664911170498, -73.911410916321)",40.66491117049,-73.9114109163, 11212,"259 Bristol Street Brooklyn, NY 11212"
+43,43,Acute Care Hospital,Brooklyn,Coney Island Hospital,,718-616-3000,"2601 Ocean Parkway
+Brooklyn, NY 11235
+(40.586645433957, -73.965830115778)",40.58664543395,-73.9658301157, 11235,"2601 Ocean Parkway Brooklyn, NY 11235"
+44,44,Child Health Center,Brooklyn,Williamsburg Health Center,,718-963-7820,"279 Graham Avenue
+Brooklyn, NY 11211
+(40.712103238036, -73.943994071543)",40.71210323803,-73.9439940715, 11211,"279 Graham Avenue Brooklyn, NY 11211"
+45,45,Child Health Center,Staten Island,Stapleton Child Health Clinic,between Water St. & Canal St.,718-390-0712,"111 Canal Street Staten Island
+NY 10304
+(40.626576449488, -74.076994470087)",40.62657644948,-74.07699447, 10304,111 Canal Street Staten Island NY 10304
+46,46,Child Health Center,Queens,Elmhurst Hospital Center,,718-334-4000,"79 01
+Elmhurst, NY 11373
+(40.738710402563, -73.878351155182)",40.738710402559995,-73.8783511551, 11373,"79 01 Elmhurst, NY 11373"
+47,47,Child Health Center,Brooklyn,Homecrest Child Health Clinic,between E. 16th St. & E. 17th St.,718-339-6243,"1601 Avenue
+Brooklyn, NY 11229
+(40.601233507321, -73.944368541175)",40.60123350732,-73.94436854109999, 11229,"1601 Avenue Brooklyn, NY 11229"
+48,48,Child Health Center,Staten Island,Mariner's Harbor Houses Child Health Clinic,,718-761-2060,"2040 Forest Avenue Staten Island
+NY 10303
+(40.62609762251, -74.157474896698)",40.62609762251,-74.15747489669, 10303,2040 Forest Avenue Staten Island NY 10303
+49,49,Child Health Center,Manhattan,Judson Health Center,,212-925-5000,"34 Spring Street
+New York, NY 10012
+(40.721735692317, -73.995719412648)",40.72173569231,-73.9957194126, 10012,"34 Spring Street New York, NY 10012"
+50,50,Child Health Center,Manhattan,Metropolitan Hospital Center,,212-423-6262,"1901 First Avenue
+New York, NY 10029
+(40.784557024105, -73.943795653643)",40.784557024099996,-73.94379565359999, 10029,"1901 First Avenue New York, NY 10029"
+51,51,Child Health Center,Bronx,Gunhill Health Center,between Paulding Ave. & Hone Ave.,718-918-8850,"1012 Gunhill Road
+Bronx, NY 10469
+(40.874626006887, -73.857887416826)",40.87462600688,-73.8578874168, 10469,"1012 Gunhill Road Bronx, NY 10469"
+52,52,Child Health Center,Brooklyn,Greenpoint Community Health Center,,718-630-3220,"875 Manhattan Avenue
+Brooklyn, NY 11222
+(40.729665609686, -73.954045460054)",40.72966560968,-73.95404546, 11222,"875 Manhattan Avenue Brooklyn, NY 11222"
+53,53,Acute Care Hospital,Queens,Queens Hospital Center,,718-883-3000,"82 70 164th Street
+Jamaica, NY 11432
+(40.71311535449, -73.792820999789)",40.71311535449,-73.79282099978, 11432,"82 70 164th Street Jamaica, NY 11432"
+54,54,Diagnostic & Treatment Center,Manhattan,Gouverneur Healthcare Services,,212-238-7000,"227 Madison Street
+New York, NY 10002
+(40.712841397448, -73.987598534724)",40.71284139744,-73.9875985347, 10002,"227 Madison Street New York, NY 10002"
+55,55,Child Health Center,Manhattan,Gouverneur Diagnostic & Treatment Center,,212-238-7200,"227 Madison Street
+New York, NY 10002
+(40.712841397448, -73.987598534724)",40.71284139744,-73.9875985347, 10002,"227 Madison Street New York, NY 10002"
+56,56,Nursing Home,Manhattan,Gouverneur Healthcare Services,,212-238-7000,"227 Madison Street
+New York, NY 10002
+(40.712841397448, -73.987598534724)",40.71284139744,-73.9875985347, 10002,"227 Madison Street New York, NY 10002"
+57,57,Child Health Center,Brooklyn,Fort Greene Child Health Clinic,between DeKalb Ave. & Willoughby Ave.,718-260-7500 ext. 7859,"295 Flatbush Avenue Extension
+Brooklyn, NY 11201
+(40.692053402323, -73.982413019989)",40.692053402320006,-73.9824130199, 11201,"295 Flatbush Avenue Extension Brooklyn, NY 11201"
+58,58,Nursing Home,Manhattan,Coler-Goldwater Specialty Hospital and Nursing Facility/Goldwater Campus,,212-318-8000,"1 Main St Roosevelt Island
+New York, NY 10044
+(40.761976486226, -73.949999674945)",40.76197648622,-73.9499996749, 10044,"1 Main St Roosevelt Island New York, NY 10044"
+59,59,Child Health Center,Manhattan,La Clinica Del Barrio,,212-410-7940,"413 120th Street
+New York, NY 10035
+(40.798205044469, -73.932667945174)",40.79820504446,-73.93266794510001, 10035,"413 120th Street New York, NY 10035"
+60,60,Child Health Center,Brooklyn,Sutter Avenue Child Health Clinic,between Montauk Ave. & Atkins Ave.,718-647-0800,"1091 Sutter Avenue
+Brooklyn, NY 11208
+(40.67189903622, -73.878318817943)",40.671899036220005,-73.87831881794001, 11208,"1091 Sutter Avenue Brooklyn, NY 11208"
+61,61,Child Health Center,Manhattan,Drew Hamilton Houses Health Center,between W. 143rd St. & W. 144th St.,212-939-8950,"2698 Eighth Avenue
+New York, NY 10030
+(40.822139979421, -73.942389748859)",40.82213997942,-73.9423897488, 10030,"2698 Eighth Avenue New York, NY 10030"
+62,62,Child Health Center,Queens,Woodside Houses Child Health Clinic,between Northern Blvd. & 50th St.,718-334-6140,"50 53 Newtown Road
+Woodside, NY 11377
+(40.745193764481, -73.90484714408)",40.74519376448,-73.904847144, 11377,"50 53 Newtown Road Woodside, NY 11377"
+63,63,Acute Care Hospital,Bronx,Lincoln Medical and Mental Health Center,,718-579-5000,"234 149th Street
+Bronx, NY 10451
+(40.817688484049, -73.924200271483)",40.817688484040005,-73.9242002714, 10451,"234 149th Street Bronx, NY 10451"
+64,64,Acute Care Hospital,Manhattan,Harlem Hospital Center,,212-939-1000,"506 Lenox Avenue
+New York, NY 10037
+(40.814275217502, -73.940602831291)",40.8142752175,-73.9406028312, 10037,"506 Lenox Avenue New York, NY 10037"
+65,65,Child Health Center,Brooklyn,Coney Island Hospital,,718-616-3000,"2601 Ocean Parkway
+Brooklyn, NY 11235
+(40.586645433957, -73.965830115778)",40.58664543395,-73.9658301157, 11235,"2601 Ocean Parkway Brooklyn, NY 11235"
+66,66,Child Health Center,Bronx,Health Center at Tremont,corner of 175th St.,718-918-8700,"1826 Arthur Avenue
+Bronx, NY 10457
+(40.844000208275, -73.894548724404)",40.84400020827,-73.8945487244, 10457,"1826 Arthur Avenue Bronx, NY 10457"
+67,67,Child Health Center,Bronx,North Central Bronx Hospital,,718-519-5000,"3424 Kossuth Avenue
+Bronx, NY 10467
+(40.880463372456, -73.881592877502)",40.88046337245,-73.8815928775, 10467,"3424 Kossuth Avenue Bronx, NY 10467"
+68,68,Child Health Center,Brooklyn,Crown Heights Child Health Clinic,,718-735-0561,"1218 Prospect Place
+Brooklyn, NY 11213
+(40.673492222873, -73.935701697386)",40.67349222287,-73.93570169729999, 11213,"1218 Prospect Place Brooklyn, NY 11213"
+69,69,Child Health Center,Manhattan,Baruch Houses Family Health Center,corner of Columbia St.,212-673-5990,"280 Delancey Street
+New York, NY 10002
+(40.716367017869, -73.980135660503)",40.716367017859994,-73.9801356605, 10002,"280 Delancey Street New York, NY 10002"
+70,70,Child Health Center,Manhattan,Manhattanville/St. Nicholas Houses Child Health Care Center,between A.C. Powell & F. Douglas Blvds.,212-865-1300,"281 127th Street
+New York, NY 10027
+(40.811276995393, -73.949657755163)",40.81127699539,-73.9496577551, 10027,"281 127th Street New York, NY 10027"
+71,71,Child Health Center,Brooklyn,Sumner Avenue Houses Child Health Clinic,between Myrtle Ave. & Park Ave.,718-455-3884,"47 Marcus Garvey Boulevard
+Brooklyn, NY 11206
+(40.697855287659, -73.941006610822)",40.69785528765,-73.9410066108, 11206,"47 Marcus Garvey Boulevard Brooklyn, NY 11206"
+72,72,Acute Care Hospital,Brooklyn,Woodhull Medical and Mental Health Center,,718-963-8000,"760 Broadway
+Brooklyn, NY 11206
+(40.70052661478, -73.941643858765)",40.700526614779996,-73.94164385875999, 11206,"760 Broadway Brooklyn, NY 11206"
+73,73,Child Health Center,Brooklyn,Bushwick Community Health Center,,718-919-1200,"1420 Bushwick Avenue
+Brooklyn, NY 11207
+(40.684303566262, -73.909082385178)",40.68430356626,-73.9090823851, 11207,"1420 Bushwick Avenue Brooklyn, NY 11207"
+74,74,Child Health Center,Manhattan,Bellevue Hospital Center,,212-562-4141,"462 First Avenue
+New York, NY 10016
+(40.73962320748, -73.976572846645)",40.739623207479994,-73.97657284664001, 10016,"462 First Avenue New York, NY 10016"
+75,75,Child Health Center,Queens,Ridgewood Communicare Clinic,between Woodbine St. & Madison St.,718-334-6190,"769 Onderdonk Avenue
+Ridgewood, NY 11385
+(40.702949636008, -73.90543308997)",40.702949636,-73.9054330899, 11385,"769 Onderdonk Avenue Ridgewood, NY 11385"
+76,76,Child Health Center,Manhattan,Smith Communicare Health Center,corner of Catherine St.,212-346-0500,"60 Madison Street
+New York, NY 10038
+(40.711969729879, -73.997542215578)",40.71196972987,-73.9975422155, 10038,"60 Madison Street New York, NY 10038"
+77,77,Child Health Center,Bronx,Morrisania Diagnostic & Treatment Center,,718-960-2777,"1225 Gerard Avenue
+Bronx, NY 10452
+(40.835906387949, -73.920034037019)",40.83590638794,-73.920034037, 10452,"1225 Gerard Avenue Bronx, NY 10452"
