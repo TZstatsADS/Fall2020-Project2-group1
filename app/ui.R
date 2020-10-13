@@ -250,13 +250,23 @@ shinyUI(navbarPage(title = 'Safe Travel in NYC',
                    tabPanel("Average", icon = icon("fas fa-table"),
                             
                             titlePanel("NYC Cumulative Average"), 
-                            fluidRow(column(12, tableOutput("myTable1"))), 
+                            fluidRow(column(12, tableOutput("myTable1"))),
                             titlePanel("Borough Cumulative Averages"), 
-                            fluidRow(column(12, tableOutput("myTable3"))),   
+                            fluidRow(column(12, tableOutput("myTable3"))),
+                            titlePanel("Borough Cumulative Barplot - Case"), 
+                            fluidRow(column(12, plotOutput("boroplot1"))),
+                            titlePanel("Borough Cumulative Barplot - Death"), 
+                            fluidRow(column(12, plotOutput("boroplot2"))),
                             titlePanel("NYC Recent Four Week Average"), 
                             fluidRow(column(12, tableOutput("myTable2"))),   
                             titlePanel("Borough Recent Four Week Averages"), 
-                            fluidRow(column(12, tableOutput("myTable4"))), # end fluid row
+                            fluidRow(column(12, tableOutput("myTable4"))),
+                            titlePanel("Covid Case Count by Poverty Group"), 
+                            fluidRow(column(12, plotOutput("boroplot3"))),
+                            titlePanel("Covid Case Count by Race Group"), 
+                            fluidRow(column(12, plotOutput("boroplot4"))),
+                            titlePanel("Covid Case Count by Sex Group"), 
+                            fluidRow(column(12, plotOutput("boroplot5"))),# end fluid row
                             
                             HTML("NYCHealth Open Data Last Updated September 30th, 2020."), 
                    ), #end tab 7 panel
@@ -269,6 +279,7 @@ shinyUI(navbarPage(title = 'Safe Travel in NYC',
                               <h4><li>COVID-19 Cases : <a href='https://github.com/CSSEGISandData/COVID-19' target='_blank'>Github Johns Hopkins University</a></li></h4>
                               <h4><li>NYC COVID-19 Data : <a href='https://github.com/nychealth/coronavirus-data' target='_blank'>Github NYC Health</a></li></h4>
                               <h4><li>NYC hospitals Data : <a href='https://opendata.cityofnewyork.us/data/' target='_blank'>NYC Open Data</a></li></h4>
+                              <h4><li>NYC testing centers Data : <a href='https://www.nychealthandhospitals.org/covid-19-testing-sites/' target='_blank'>NYC Health Hospitals</a></li></h4>
                               <h4><li>Spatial Polygons : <a href='https://www.naturalearthdata.com/downloads/' target='_blank'> Natural Earth</a></li></h4>
                               <h4><li>NYC COVID-19 Policy : <a href='https://coronavirus.health.ny.gov/covid-19-travel-advisory' target='_blank'> New York State Official Website</a></li></h4>"
                             ))
