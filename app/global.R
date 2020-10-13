@@ -1,62 +1,15 @@
 #--------------------------------------------------------------------
 ###############################Install Related Packages #######################
-if (!require("dplyr")) {
-  install.packages("dplyr")
-  library(dplyr)
+packages.used = as.list(
+  c("dplyr", "tibble", "tidyverse", "shinythemes", "shiny", "sf", "RCurl",
+    "stringr", "tmap", "tidyr", "ggplot2", "data.table", "ggmap", "DT",
+    "choroplethr", "devtools", "DT", "readr", "lubridate", "leaflet", "tigris",
+    "emojifont", "viridis", "plotly", "rgdal", "tmap", "RCurl", "tigris", "choroplethrZip")
+)
+check.pkg = function(x){
+  if(!require(x, character.only = T)) install.packages(x, character.only=T, dependence=T)
 }
-if (!require("tibble")) {
-  install.packages("tibble")
-  library(tibble)
-}
-if (!require("tidyverse")) {
-  install.packages("tidyverse")
-  library(tidyverse)
-}
-if (!require("shinythemes")) {
-  install.packages("shinythemes")
-  library(shinythemes)
-}
-if (!require("tmap")) {
-  install.packages("tmap")
-  library(tmap)
-}
-if (!require("rgdal")) {
-  install.packages("rgdal")
-  library(rgdal)
-}
-if (!require("leaflet")) {
-  install.packages("leaflet")
-  library(leaflet)
-}
-if (!require("shiny")) {
-  install.packages("shiny")
-  library(shiny)
-}
-if (!require("ggplot2")) {
-  install.packages("ggplot2")
-  library(ggplot2)
-}
-
-#--------------------------------------------------------------------
-
-if (!require("tigris")) {
-  install.packages("tigris")
-  library(tigris)
-}
-
-
-if (!require("leaflet")) {
-  install.packages("leaflet")
-  library(leaflet)
-}
-
-#=======================================================================
-
-#setwd("~/Documents/Columbia/2020Fall/Applied Data Science/Project 2/ADS-group-1/data/coronavirus-data-master")
-#setwd("../data/coronavirus-data-master")
-library(tigris)
-library(leaflet)
-library(readr)
+lapply(packages.used, require, character.only = TRUE)
 
 #=======================================================================
 
