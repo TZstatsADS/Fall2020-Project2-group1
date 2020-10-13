@@ -138,13 +138,13 @@ shinyServer(function(input, output) {
                           'Hospitalized cases:',case_by_boro$HOSPITALIZED_COUNT)
         
         pop_hos=paste(hospitals$Facility.Name)
-        pop_test=paste(Testcode$Testing_Name)
+        pop_test=paste(testingcenter$Testing_Name)
         
         # add icon feature
         myIcon = makeAwesomeIcon(icon = "medkit", library = "fa",markerColor = "blue",iconColor = "black")
         myIcon_selected = makeAwesomeIcon(icon = "medkit", library = "fa",markerColor = "red",iconColor = "black")
         
-        df <- if (input$choice=="hos"){hospitals}else{Testcode}
+        df <- if (input$choice=="hos"){hospitals}else{testingcenter}
         
         covid_zip_code %>%
             leaflet %>% 
@@ -210,9 +210,9 @@ shinyServer(function(input, output) {
         
         else{
             
-            if (sum(input$hos_tc_ZipCode %in% Testcode$zip) != 0){
+            if (sum(input$hos_tc_ZipCode %in% testingcenter$zip) != 0){
                 
-                testcenter_selected <- Testcode[Testcode$zip == input$hos_tc_ZipCode,c('Testing_Name','Address')]
+                testcenter_selected <- testingcenter[testingcenter$zip == input$hos_tc_ZipCode,c('Testing_Name','Address')]
                 colnames(testcenter_selected) <- c('Test Center Name','Address')
                 No. <- seq(1,nrow(testcenter_selected))
                 print(cbind(No., testcenter_selected))
