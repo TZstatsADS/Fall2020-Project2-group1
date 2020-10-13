@@ -406,16 +406,42 @@ shinyServer(function(input, output) {
     
     output$myTable2 <- renderTable(averages_recent)
     output$myTable4 <- renderTable(averages_borough_recent)
-    
-    
-   
-    output$barplot1 <-renderPlot({
-        ggplot(data=case_by_boro, aes(x=case_by_boro$BOROUGH_GROUP, y = case_by_boro$CASE_COUNT )) +
-            geom_bar(stat="identity", fill="steelblue", width=0.5) +
-            geom_text(aes(label=case_by_boro$CASE_COUNT), position=position_dodge(width=0.9), vjust=-0.25) +
-            theme_classic()
+  
+
+    output$boroplot1 <-renderPlot({
+      ggplot(data=averages_borough_cumulative, aes(x=BOROUGH_GROUP, y=COVID_CASE_COUNT)) +
+        geom_bar(stat="identity",fill="steelblue", width=0.3) +
+        geom_text(aes(label=round(averages_borough_cumulative$COVID_CASE_COUNT)), position=position_dodge(width=0.9), vjust=-0.25) +
+        theme_gray()
     })
     
+    output$boroplot2 <-renderPlot({
+      ggplot(data=averages_borough_cumulative, aes(x=BOROUGH_GROUP, y=COVID_DEATH_COUNT)) +
+        geom_bar(stat="identity", fill="firebrick3", width=0.3) +
+        geom_text(aes(label=round(averages_borough_cumulative$COVID_DEATH_COUNT)), position=position_dodge(width=0.9), vjust=-0.25) +
+        theme_gray()
+    })
+    
+    output$boroplot3 <-renderPlot({
+      ggplot(data=by_poverty, aes(x=POVERTY_GROUP, y=CASE_COUNT)) +
+        geom_bar(stat="identity", fill="steelblue", width=0.3) +
+        geom_text(aes(label=by_poverty$CASE_COUNT), position=position_dodge(width=0.9), vjust=-0.25) +
+        theme_gray()
+    })
+    
+    output$boroplot4 <-renderPlot({
+      ggplot(data=by_race, aes(x=RACE_GROUP, y=CASE_COUNT)) +
+        geom_bar(stat="identity", fill="steelblue", width=0.3) +
+        geom_text(aes(label=by_race$CASE_COUNT), position=position_dodge(width=0.9), vjust=-0.25) +
+        theme_gray()
+    })
+    
+    output$boroplot5 <-renderPlot({
+      ggplot(data=by_sex, aes(x=SEX_GROUP, y=CASE_COUNT)) +
+        geom_bar(stat="identity", fill="steelblue", width=0.3) +
+        geom_text(aes(label=by_sex$CASE_COUNT), position=position_dodge(width=0.9), vjust=-0.25) +
+        theme_gray()
+    })
     
     #----------------------------------------
     #tab panel 8 - Sources
