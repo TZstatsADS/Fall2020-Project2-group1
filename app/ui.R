@@ -25,17 +25,17 @@ dashboardPage(
   dashboardHeader(title = "Safe Travel in NYC"),
   dashboardSidebar(sidebarMenu(
     menuItem("Home", tabName = "Home", icon = icon("home")),
-    menuItem("Our Map", tabName = "Our Map", icon = icon("map-marker-alt"),startExpanded = TRUE,
-             menuSubItem("Map", tabName = "Map", icon = icon("map-marker-alt")),
+    menuItem("Our Map", tabName = "Our Map", icon = icon("map-marker-alt"), startExpanded = TRUE,
+             menuSubItem("Zip Code Tracker", tabName = "Zip Code Tracker", icon = icon("fas fa-map-marked-alt")),
              
-             menuSubItem("Hospitals & Testing Center", tabName = "Hospitals & Testing Center", icon = icon("fas fa-hospital")),
+             menuSubItem("Hospitals & Testing Centers", tabName = "Hospitals & Testing Centers", icon = icon("fas fa-hospital")),
              
-             menuSubItem("Hotel",tabName = "Hotel",icon = icon("fas fa-hotel")),
+             menuSubItem("Hotels",tabName = "Hotels",icon = icon("fas fa-hotel")),
              
              menuSubItem("Restaurants",tabName = "Restaurants",icon = icon("fas fa-utensils"))        
     ),
     menuItem("Averages", tabName = "Averages", icon = icon("fas fa-table")),
-    menuItem("Data Source", tabName = "about", icon = icon("cloud-download"))
+    menuItem("Data Sources", tabName = "about", icon = icon("fas fa-asterisk"))
   )),
   
   dashboardBody(fill = FALSE,tabItems(
@@ -97,11 +97,13 @@ dashboardPage(
             HTML("1. Click on the Map tab to learn about COVID cases in your interested areas. <br />"), 
             HTML("2. If you need or want accommodations in a particular zip code or tourist spot, click the Hospitals, Hotels, and Restaurants tabs.  <br />"), 
             HTML("3. If you would like to learn more about the data, please take a look at the Averages and Sources tabs, where we show both recent and cumulative NYC and Borough averages as well as links to the raw data, respectively."), 
+            
+            helpText("", br()), 
     ),
 
     # Tab panel 2 MAP-------------------------------------------------------------------
     #sub1 ------------------------------------------------------------------------------
-    tabItem(tabName = "Map",
+    tabItem(tabName = "Zip Code Tracker",
             titlePanel("Local NYC COVID-19 Cases"),
             
             # Sidebar with a slider input for number of bins
@@ -154,7 +156,7 @@ dashboardPage(
     
     # Tab panel 2 MAP Hospitals & Testing Center -------------------------------------
     #sub2 ----------------------------------------------------------------------------
-    tabItem(tabName = "Hospital & Testing Center",
+    tabItem(tabName = "Hospitals & Testing Centers",
             titlePanel("NYC Hospital/Testing Center Map"),
             # Sidebar with a slider input for number of bins
             sidebarLayout(
@@ -177,7 +179,7 @@ dashboardPage(
     
     # Tab panel 2 MAP Hotel ----------------------------------------------------------
     #sub3 ----------------------------------------------------------------------------
-    tabItem(tabName = "Hotel",
+    tabItem(tabName = "Hotels",
             titlePanel("NYC Hotel Map"),
             # Create a new Row in the UI for selectInputs of hotel's zipcode, city, and rate
             fluidRow(
@@ -194,7 +196,7 @@ dashboardPage(
               ),
               column(4,
                      selectInput("hotelrate",
-                                 "Rate:",
+                                 "Rating:",
                                  choices = sort(unique(hotels$rating), decreasing = T))
               )
             ),
@@ -235,41 +237,51 @@ dashboardPage(
     ),
     # Tab panel 3  Averages----------------------------------------------------------------
     tabItem(tabName = "Averages",
+            
             titlePanel("NYC Cumulative Average"), 
             fluidRow(column(12, tableOutput("myTable1"))),
             titlePanel("Borough Cumulative Averages"), 
             fluidRow(column(12, tableOutput("myTable3"))),
-            titlePanel("Borough Cumulative Barplot - Case"), 
+            titlePanel("Borough Cumulative Barplot - Case Averages"), 
             fluidRow(column(12, plotOutput("boroplot1"))),
-            titlePanel("Borough Cumulative Barplot - Death"), 
+            titlePanel("Borough Cumulative Barplot - Death Averages"), 
             fluidRow(column(12, plotOutput("boroplot2"))),
             titlePanel("NYC Recent Four Week Average"), 
             fluidRow(column(12, tableOutput("myTable2"))),   
             titlePanel("Borough Recent Four Week Averages"), 
             fluidRow(column(12, tableOutput("myTable4"))),
-            titlePanel("Covid Case Count by Poverty Group"), 
+            titlePanel("Covid Case Count by Poverty"), 
             fluidRow(column(12, plotOutput("boroplot3"))),
-            titlePanel("Covid Case Count by Race Group"), 
+            titlePanel("Covid Case Count by Race"), 
             fluidRow(column(12, plotOutput("boroplot4"))),
-            titlePanel("Covid Case Count by Sex Group"), 
+            titlePanel("Covid Case Count by Sex"), 
             fluidRow(column(12, plotOutput("boroplot5"))),# end fluid row
             
             HTML("NYCHealth Open Data Last Updated September 30th, 2020."), 
     ), 
     
     # Tab panel 4  Data Source-------------------------------------------------------------
-    tabItem(tabName = "Data Source",
+    tabItem(tabName = "Data Sources", 
             HTML(
               "<h2> Data Source : </h2>
                               <h4> <p><li><a href='https://coronavirus.jhu.edu/map.html'>Coronavirus COVID-19 Global Cases map Johns Hopkins University</a></li></h4>
                               <h4><li>COVID-19 Cases : <a href='https://github.com/CSSEGISandData/COVID-19' target='_blank'>Github Johns Hopkins University</a></li></h4>
                               <h4><li>NYC COVID-19 Data : <a href='https://github.com/nychealth/coronavirus-data' target='_blank'>Github NYC Health</a></li></h4>
-                              <h4><li>NYC hospitals Data : <a href='https://opendata.cityofnewyork.us/data/' target='_blank'>NYC Open Data</a></li></h4>
-                              <h4><li>Spatial Polygons : <a href='https://www.naturalearthdata.com/downloads/' target='_blank'> Natural Earth</a></li></h4>
-                              <h4><li>NYC COVID-19 Policy : <a href='https://coronavirus.health.ny.gov/covid-19-travel-advisory' target='_blank'> New York State Official Website</a></li></h4>"
+                              <h4><li>NYC COVID-19 Policy : <a href='https://coronavirus.health.ny.gov/covid-19-travel-advisory' target='_blank'> New York State Official Website</a></li></h4>
+                              <h4><li>NYC Hospital Data : <a href='https://opendata.cityofnewyork.us/data/' target='_blank'>NYC Open Data</a></li></h4>
+                              <h4><li>NYC Restaruant Data : <a href='____' target='_blank'>____</a></li></h4>
+                              <h4><li>NYC Testing Center Data : <a href='https://www.nychealthandhospitals.org/covid-19-testing-sites/' target='_blank'>NYC Health + Hospitals</a></li></h4>
+                              <h4><li>Spatial Polygons : <a href='https://www.naturalearthdata.com/downloads/' target='_blank'> Natural Earth</a></li></h4>"
+              
             ),
             
-            titlePanel("Disclaimer : "),
+            titlePanel("Disclaimers : "),
+            HTML(
+              "<b>COVID-19 Guideslines : </b> <br>
+                              <li>Our goal is to provide general guidelines for the public to consider as they navigate NYC and to inform the public of openly available data. </li>
+                              <li>This is no way constitutes as professional medical advice. </li>
+                              <li>Please talk to your doctor or healthcare provider if you have any questions or concerns about COVID-19.</li>" 
+            ),
             
             HTML(
               "<b>NYC Health OpenData : </b> <br>
@@ -280,7 +292,7 @@ dashboardPage(
             
             HTML(
               "<b>NYC Hotel Data : </b> <br>
-                              <li>Room rates were updated in 2017, but hotels' information keeps changing, especially during the outbreak. Please visit their official website to obtain the latest information. </li>"
+                              <li>Room rates were updated in 2017, but hotel information keeps changing, especially during the outbreak. Please visit their official website to obtain the latest information. </li>"
             ),
             
             HTML(
@@ -288,6 +300,19 @@ dashboardPage(
                               <li>The data only contains facilities from the NYC Health + Hospitals health care system. </li>
                               <li>The data was updated on July 3, 2019, so some information may have changed. </li>"
             ),
+            
+            HTML(
+              "<b>NYC Restaurant Data : </b> <br>
+                              <li> ____ </li>
+                              <li> ____ </li>"
+            ),
+            
+            HTML(
+              "<b>NYC Testing Center Data : </b> <br>
+                              <li>The data only contains the most resent testing centers from NYC health hospitals website. </li>
+                              <li>Some testing centers are mobile, please go to the NYC health hospitals website to check the updated exact addresses for the testing centers. </li>"
+            ),
+            
             titlePanel("Credits : "),
             HTML(
               " <p>This website was built using RShiny.</p>",
@@ -296,7 +321,7 @@ dashboardPage(
                                 <code>base</code><code>dplyr</code><code>tibble</code>
                                 <code>leaflet</code><code>tidyverse</code><code>shinythemes</code>
                                 <code>padr</code><code>plotly</code><code>ggplot2</code>
-                                <code>tigris</code><code>shiny</code><code>sp</code><code>stringr</code>
+                                <code>tigris</code><code>shiny</code><code>shinydashboard</code><code>sp</code><code>stringr</code>
                                 <code>tidyr</code>
                                 </p>
                                 <p>This website is the result of 2020Fall GR5243 Project2 Group1, Class of 2020 of the M.A. Statistics program at Columbia University.</p>",
