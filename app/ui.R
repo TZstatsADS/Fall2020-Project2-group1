@@ -9,6 +9,15 @@
 # Define UI for application that draws a histogram
 
 
+library(shiny)
+library(shinythemes)
+library(tigris)
+library(leaflet)
+library(tidyverse)
+library(ggplot2)
+library(shinydashboard)
+
+
 load('../app/output/covid_zip_code.RData')
 
 dashboardPage(
@@ -145,7 +154,7 @@ dashboardPage(
     
     # Tab panel 2 MAP Hospitals & Testing Center -------------------------------------
     #sub2 ----------------------------------------------------------------------------
-    tabItem(tabName = "MAP",
+    tabItem(tabName = "Hospital & Testing Center",
             titlePanel("NYC Hospital/Testing Center Map"),
             # Sidebar with a slider input for number of bins
             sidebarLayout(

@@ -8,11 +8,21 @@
 #
 #-------------------------------------------------App Server----------------------------------
 
+library(shiny)
+library(shinythemes)
+library(tigris)
+library(leaflet)
+library(tidyverse)
+library(ggplot2)
+library(shinydashboard)
+
 
 #can run RData directly to get the necessary date for the app
 #global.r will enable us to get new data everyday
 #update data with automated script
 load('../app/output/covid_zip_code.RData')
+
+
 
 shinyServer(function(input, output) {
     #----------------------------------------
@@ -57,7 +67,7 @@ shinyServer(function(input, output) {
             "Zip Code: ", covid_zip_code$GEOID10, "<br/>",
             "Neighborhood: ", covid_zip_code$NEIGHBORHOOD_NAME, "<br/>",
             "Borough: ", covid_zip_code$BOROUGH_GROUP, "<br/>",
-            "Population Denominator (Estimate): ", floor(covid_zip_code$POP_DENOMINATOR), "<br/>",
+            "Population: ", floor(covid_zip_code$POP_DENOMINATOR), "<br/>",
             
             # this number change depending on the options the user has selected
             # did the user want recent or cumulative data?
@@ -65,7 +75,7 @@ shinyServer(function(input, output) {
             "COVID Case Count: ", if(input$checkbox == TRUE){covid_zip_code$COVID_CASE_COUNT_4WEEK} else{covid_zip_code$COVID_CASE_COUNT}, "<br/>",
             "COVID Death Count: ", if(input$checkbox == TRUE){covid_zip_code$COVID_DEATH_COUNT_4WEEK} else{covid_zip_code$COVID_DEATH_COUNT}, "<br/>",
             "Total COVID Tests: ", if(input$checkbox == TRUE){covid_zip_code$NUM_PEOP_TEST_4WEEK} else{covid_zip_code$TOTAL_COVID_TESTS}, "<br/>",
-            "Positive COVID Tests: ", if(input$checkbox == TRUE){covid_zip_code$NUM_PEOP_TEST_4WEEK} else{covid_zip_code$TOTAL_COVID_TESTS}, "<br/>",
+            "Positive COVID Tests: ", if(input$checkbox == TRUE){covid_zip_code$TOTAL_POSITIVE_TESTS_4WEEK} else{covid_zip_code$TOTAL_POSITIVE_TESTS}, "<br/>",
             "Percent Positive COVID Tests: ", if(input$checkbox == TRUE){covid_zip_code$PERCENT_POSITIVE_4WEEK} else{covid_zip_code$PERCENT_POSITIVE}
         ) %>%
             
@@ -119,14 +129,14 @@ shinyServer(function(input, output) {
         labels <- paste(
             "Zip Code: ", covid_zip_code$GEOID10, "<br/>",
             "District: ", covid_zip_code$NEIGHBORHOOD_NAME, "<br/>",
-            "Confirmed Case: ", covid_zip_code$COVID_CASE_COUNT) %>%
+            "Confirmed Cases: ", covid_zip_code$COVID_CASE_COUNT) %>%
             lapply(htmltools::HTML)
         
         # add popup features
-        pop_boro <- paste('Borough name:',case_by_boro$region,'</br>',
-                          'Confirmed cases:',case_by_boro$CASE_COUNT,'</br>',
-                          'Death cases:',case_by_boro$DEATH_COUNT,'</br>',
-                          'Hospitalized cases:',case_by_boro$HOSPITALIZED_COUNT)
+        pop_boro <- paste('Borough Name:',case_by_boro$region,'</br>',
+                          'Confirmed Cases:',case_by_boro$CASE_COUNT,'</br>',
+                          'Death Cases:',case_by_boro$DEATH_COUNT,'</br>',
+                          'Hospitalized Cases:',case_by_boro$HOSPITALIZED_COUNT)
         
         pop_hos=paste(hospitals$Facility.Name)
         pop_test=paste(testingcenter$Testing_Name)
@@ -428,9 +438,9 @@ shinyServer(function(input, output) {
     })
     
     output$boroplot5 <-renderPlot({
-      ggplot(data=by_sex, aes(x=SEX_GROUP, y=CASE_COUNT)) +
+      ggplot(data=by_sex[-3, ], aes(x=SEX_GROUP, y=CASE_COUNT)) +
         geom_bar(stat="identity", fill="steelblue", width=0.3) +
-        geom_text(aes(label=by_sex$CASE_COUNT), position=position_dodge(width=0.9), vjust=-0.25) +
+        geom_text(aes(label=by_sex[-3, ]$CASE_COUNT), position=position_dodge(width=0.9), vjust=-0.25) +
         theme_gray()
     })
     
