@@ -144,10 +144,7 @@ shinyUI(navbarPage(title = 'Safe Travel in NYC',
                             
                             
                    ), # end tab 2 panel 
-                   
-                   
-                   
-                   
+
                    #--------------------------
                    #tab panel 3 - Hospitals & Testing Center
                    tabPanel("Hospital & Testing Center", icon = icon("fas fa-hospital"),
