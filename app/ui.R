@@ -283,7 +283,7 @@ shinyUI(navbarPage(title = 'Safe Travel in NYC',
                               <h4><li>NYC COVID-19 Policy : <a href='https://coronavirus.health.ny.gov/covid-19-travel-advisory' target='_blank'> New York State Official Website</a></li></h4>"
                             ),
                             
-                            titlePanel("Potential Data Bias : "),
+                            titlePanel("Disclaimer : "),
                             
                             HTML(
                               "<b>NYC Health OpenData : </b> <br>
@@ -301,6 +301,25 @@ shinyUI(navbarPage(title = 'Safe Travel in NYC',
                               "<b>NYC Hospital Data : </b> <br>
                               <li>The data only contains facilities from the NYC Health + Hospitals health care system. </li>
                               <li>The data was updated on July 3, 2019, so some information may have changed. </li>"
-                            )
+                            ),
+                            titlePanel("Credits : "),
+                            HTML(
+                              " <p>This website was built using RShiny.</p>",
+                              "<p>The following R packages were used in to build this RShiny application:</p>
+                                <p>
+                                <code>base</code><code>dplyr</code><code>tibble</code>
+                                <code>leaflet</code><code>tidyverse</code><code>shinythemes</code>
+                                <code>padr</code><code>plotly</code><code>ggplot2</code>
+                                <code>tigris</code><code>shiny</code><code>sp</code><code>stringr</code>
+                                <code>tidyr</code>
+                                </p>
+                                <p>This website is the result of 2020Fall GR5243 Project2 Group1, Class of 2020 of the M.A. Statistics program at Columbia University.</p>",
+                               " <p>Chen, Zhenglei    |email: zc2494@columbia.edu </p>",
+                               " <p>Lee, Levi         |email: ll3248@columbia.edu </p>",
+                               " <p>Peng, Xinyuan     |email: xp2177@columbia.edu </p>",
+                               " <p>Tong, Yuwei       |email: yt2713@columbia.edu </p>",
+                               " <p>Zhu, Tianle       |email: tz2434@columbia.edu </p>"
+                            ),
+                            
                    )
 ))
