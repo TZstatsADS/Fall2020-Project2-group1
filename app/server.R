@@ -138,13 +138,13 @@ shinyServer(function(input, output) {
                           'Hospitalized cases:',case_by_boro$HOSPITALIZED_COUNT)
         
         pop_hos=paste(hospitals$Facility.Name)
-        pop_test=paste(testingcenter$Testing_Name)
+        pop_test=paste(Testcode$Testing_Name)
         
         # add icon feature
         myIcon = makeAwesomeIcon(icon = "medkit", library = "fa",markerColor = "blue",iconColor = "black")
         myIcon_selected = makeAwesomeIcon(icon = "medkit", library = "fa",markerColor = "red",iconColor = "black")
         
-        df <- if (input$choice=="hos"){hospitals}else{testingcenter}
+        df <- if (input$choice=="hos"){hospitals}else{Testcode}
         
         covid_zip_code %>%
             leaflet %>% 
@@ -210,9 +210,9 @@ shinyServer(function(input, output) {
         
         else{
             
-            if (sum(input$hos_tc_ZipCode %in% testingcenter$zip) != 0){
+            if (sum(input$hos_tc_ZipCode %in% Testcode$zip) != 0){
                 
-                testcenter_selected <- testingcenter[testingcenter$zip == input$hos_tc_ZipCode,c('Testing_Name','Address')]
+                testcenter_selected <- Testcode[Testcode$zip == input$hos_tc_ZipCode,c('Testing_Name','Address')]
                 colnames(testcenter_selected) <- c('Test Center Name','Address')
                 No. <- seq(1,nrow(testcenter_selected))
                 print(cbind(No., testcenter_selected))
@@ -240,7 +240,7 @@ shinyServer(function(input, output) {
         
         # create labels for zipcodes
         labels <- paste(
-            "Zip Code: ", covid_zip_code$GEOID10, "<br/>",
+            "Zip Code: ", input$hotelcode, "<br/>",
             "District: ", covid_zip_code$NEIGHBORHOOD_NAME, "<br/>",
             "Confirmed Case: ", covid_zip_code$COVID_CASE_COUNT) %>%
             lapply(htmltools::HTML)
@@ -329,7 +329,7 @@ shinyServer(function(input, output) {
             domain = parameter)
         # create labels for zipcodes
         labels <- paste(
-            "Zip Code: ", covid_zip_code$GEOID10, "<br/>",
+            "Zip Code: ", input$restaurant_ZipCode, "<br/>",
             "District: ", covid_zip_code$NEIGHBORHOOD_NAME, "<br/>",
             "Confirmed Case: ", covid_zip_code$COVID_CASE_COUNT) %>%
             lapply(htmltools::HTML)
@@ -360,8 +360,8 @@ shinyServer(function(input, output) {
             # add markers for boroughs
             #addMarkers(data = case_by_boro, ~ Long, ~ Lat, popup = pop_boro) %>%
             # add markers for Restaurant
-            addAwesomeMarkers(data = Restaurant[Restaurant$Postcode == input$restaurant_ZipCode & 
-                                                    Restaurant$GRADE %in% input$Grade & 
+            addAwesomeMarkers(data = Restaurant[Restaurant$Postcode == input$restaurant_ZipCode& 
+                                                    Restaurant$GRADE %in% input$Grade& 
                                                     Restaurant$categories %in% input$categories, ], 
                               ~ Longitude, ~ Latitude, popup = pop_restaurant,icon = myIcon_selected)
         

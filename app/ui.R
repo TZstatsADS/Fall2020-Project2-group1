@@ -27,7 +27,7 @@ shinyUI(navbarPage(title = 'Safe Travel in NYC',
                    #--------------------------
                    #tab panel 1 - Home
                    tabPanel("Home",icon = icon("home"),
-                            fluidRow(column(tags$img(src="homepic_crop.png",width="180px",height="180px"),width=2),
+                            fluidRow(column(tags$img(src="covid.png",width="200px",height="250px"),width=2, align="center"),
                                      column(
                                        
                                        br(),
@@ -44,7 +44,7 @@ shinyUI(navbarPage(title = 'Safe Travel in NYC',
                                        width=8),
                                      column(
                                        br(),
-                                       tags$img(src="Gobernacion.png",width="200px",height="130px"),
+                                       tags$img(src="nyc.jpg",width="180px",height="230px"),
                                        br(),
                                        br(),
                                        p("For more information please check the New York State official page",
