@@ -279,8 +279,28 @@ shinyUI(navbarPage(title = 'Safe Travel in NYC',
                               <h4><li>COVID-19 Cases : <a href='https://github.com/CSSEGISandData/COVID-19' target='_blank'>Github Johns Hopkins University</a></li></h4>
                               <h4><li>NYC COVID-19 Data : <a href='https://github.com/nychealth/coronavirus-data' target='_blank'>Github NYC Health</a></li></h4>
                               <h4><li>NYC hospitals Data : <a href='https://opendata.cityofnewyork.us/data/' target='_blank'>NYC Open Data</a></li></h4>
-                              <h4><li>NYC testing centers Data : <a href='https://www.nychealthandhospitals.org/covid-19-testing-sites/' target='_blank'>NYC Health Hospitals</a></li></h4>
                               <h4><li>Spatial Polygons : <a href='https://www.naturalearthdata.com/downloads/' target='_blank'> Natural Earth</a></li></h4>
                               <h4><li>NYC COVID-19 Policy : <a href='https://coronavirus.health.ny.gov/covid-19-travel-advisory' target='_blank'> New York State Official Website</a></li></h4>"
-                            ))
+                            ),
+                            
+                            titlePanel("Potential Data Bias : "),
+                            
+                            HTML(
+                              "<b>NYC Health OpenData : </b> <br>
+                              <li>The COVID-19 data is an observational study and any inferences drawn from this map should be treated with caution. </li>
+                              <li>The data shown here only reflects the currently situation in NYC, and thus, is not representative of the entire United States as a whole.</li>
+                              <li>Data about COVID-19 is always continuously updated but the data here is only a snapshot of something that is continuously changing.</li>" 
+                            ),
+                            
+                            HTML(
+                              "<b>NYC Hotel Data : </b> <br>
+                              <li>Room rates were updated in 2017, but hotels' information keeps changing, especially during the outbreak. Please visit their official website to obtain the latest information. </li>"
+                            ),
+                            
+                            HTML(
+                              "<b>NYC Hospital Data : </b> <br>
+                              <li>The data only contains facilities from the NYC Health + Hospitals health care system. </li>
+                              <li>The data was updated on July 3, 2019, so some information may have changed. </li>"
+                            )
+                   )
 ))
