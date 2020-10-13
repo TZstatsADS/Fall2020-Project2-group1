@@ -93,6 +93,9 @@ testingcenter <- read.csv("../app/output/testingcenter_geocode.csv")
 hotels <- read.csv("../app/output/hotels.csv")
 Restaurant <- read.csv("../app/output/Restaurant_cleaned.csv")
 center_zipcode <- read.csv("../app/output/center_zipcode.csv")
+by_poverty <- read.csv("../data/coronavirus-data-master/by-poverty.csv")
+by_race <- read.csv("../data/coronavirus-data-master/by-race.csv")
+by_sex <- read.csv("../data/coronavirus-data-master/by-sex.csv")
 load('../app/output/covid_zip_code.RData')
 
 #=======================================================================
