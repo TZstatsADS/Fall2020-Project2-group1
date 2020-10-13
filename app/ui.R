@@ -27,7 +27,10 @@ shinyUI(navbarPage(title = 'Safe Travel in NYC',
                    #--------------------------
                    #tab panel 1 - Home
                    tabPanel("Home",icon = icon("home"),
-                            fluidRow(column(tags$img(src="covid.png",width="200px",height="250px"),width=2, align="center"),
+                            fluidRow(column(tags$img(src="covid.png",width="200px",height="250px"),width=2, align="center",
+                                            p(strong("NOTICE:"),"all out-of-state travelers from designated states must complete the form upon entering New York.",
+                                              br(),
+                                              a(href="https://coronavirus.health.ny.gov/covid-19-travel-advisory", "COMPLETE THE ONLINE TRAVELER HEALTH FORM",target="_blank"),style="text-align:center;color:black")),
                                      column(
                                        
                                        br(),
