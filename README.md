@@ -8,7 +8,7 @@
 Term: Fall 2020
 
 + Team 1
-+ **Projec title**: + Team members
++ **Projec title**: 
 	+ Levi Lee
 	+ Tianle Zhu
 	+ Xinyuan Peng
@@ -30,7 +30,7 @@ Tianle Zhu carried out data pre-processing for testing center and restaurant dat
 
 Xinyuan Peng worked on the hotel tab, homepage's policy and DataSource's credits
 
-Yuwei Tong
+Yuwei Tong worked on the hospitals part, combined hospitals part and testing centers part into a single tab, and added disclaimer information into Data Source tab.
 
 Zhenglei Chen worked on the testing centers part, added data visualization to the average page, polished the home page by adding pictures
 
