@@ -6,5 +6,16 @@ The data directory contains data used in the analysis. This is treated as read o
 
 The coronavirus-data-master folder, provided by NYCHealth Open Data was used for the Maps and Averages tabs. Main files used where data-by-modzcta.csv and recent-4-week-by-modzcta.csv. Please see the subfolders for a more detail description of these files.
 
+We note several single .csv files of raw data below: 
 
+	combine_data_res.csv: processed data of NYC restaurants (due to the large size of the original file, we are unable to include the original NYC restaurant dataset)
 
+	Res_cleaned_Or.csv: processed data of NYC restaurants (due to the large size of the original file, we are unable to include the original NYC restaurant dataset)
+
+	testingcenter.csv: raw data on NYC testing centers
+
+	us-zip-code-latitude-and-longitude.csv: contains geographical information on zipcodes to help center the map
+
+Temporary log files:
+
+	.DS_Store
