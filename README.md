@@ -10,7 +10,7 @@
 ![screenshot](doc/figs/screenshot6.png)
 ![screenshot](doc/figs/screenshot7.png)
 
-## Project 2: 
+## Safe Travel in NYC
 Term: Fall 2020
 
 + Team 1
