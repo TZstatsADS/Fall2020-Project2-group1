@@ -341,7 +341,7 @@ shinyServer(function(input, output) {
                           'Hospitalized cases:',case_by_boro$HOSPITALIZED_COUNT)
         pop_restaurant = paste(Restaurant$Restaurant.Name)
         # add icon feature
-        myIcon_selected = makeAwesomeIcon(icon = "utensils", library = "fa", markerColor = "orange",iconColor = "black")
+        myIcon_selected = makeAwesomeIcon(icon = "coffee", library = "fa", markerColor = "orange",iconColor = "black")
         covid_zip_code[covid_zip_code$GEOID10 == input$restaurant_ZipCode, ] %>% leaflet %>% 
             #setView(center_zipcode[center_zipcode$Zip == input$restaurant_ZipCode,]$Longitude, center_zipcode[center_zipcode$Zip == input$restaurant_ZipCode,]$Latitude, zoom = 15) %>%
             # add base map
@@ -361,22 +361,25 @@ shinyServer(function(input, output) {
             # add markers for boroughs
             #addMarkers(data = case_by_boro, ~ Long, ~ Lat, popup = pop_boro) %>%
             # add markers for Restaurant
-            addAwesomeMarkers(data = Restaurant[Restaurant$Postcode == input$restaurant_ZipCode& 
-                                                    Restaurant$GRADE %in% input$Grade& 
-                                                    Restaurant$categories %in% input$categories, ], 
+            addAwesomeMarkers(data = Restaurant[Restaurant$Postcode == input$restaurant_ZipCode & 
+                                                Restaurant$GRADE %in% input$Grade & 
+                                                Restaurant$categories %in% input$categories & 
+                                                Restaurant$Qualify.Alcohol %in% input$Alcohol_NoAlcohol &
+                                                Restaurant$Approved.for.Roadway.Seating %in% input$Roadway_Seating &
+                                                Restaurant$Approved.for.Sidewalk.Seating %in% input$Sidewalk_Seating, ], 
                               ~ Longitude, ~ Latitude, popup = pop_restaurant,icon = myIcon_selected)
         
     }) 
     output$restaurant_Info <- DT::renderDataTable(
         if (sum(input$restaurant_ZipCode %in% Restaurant$Postcode) != 0){
             restaurant_selected <- Restaurant[Restaurant$Postcode == input$restaurant_ZipCode & 
-                                                  Restaurant$GRADE %in% input$Grade & 
-                                                  Restaurant$categories %in% input$categories, ] %>%
-              select('Restaurant.Name', 'GRADE', 'categories', 'CUISINE.DESCRIPTION','Business.Address')
-            
-            #colnames(restaurant_selected) <- c('Restaurant.Name','GRADE', 'categories', 'CUISINE.DESCRIPTION','Business.Address')
-            #No. <- seq(1, nrow(restaurant_selected))
-            #tb <- cbind(No., restaurant_selected)
+                                              Restaurant$GRADE %in% input$Grade & 
+                                              Restaurant$categories %in% input$categories & 
+                                              Restaurant$Qualify.Alcohol %in% input$Alcohol_NoAlcohol &
+                                              Restaurant$Approved.for.Roadway.Seating %in% input$Roadway_Seating &
+                                              Restaurant$Approved.for.Sidewalk.Seating %in% input$Sidewalk_Seating, ] %>%
+              select('Restaurant.Name', 'GRADE', 'CUISINE.DESCRIPTION','Business.Address')
+
             DT::datatable(restaurant_selected, options = list(lengthMenu = list(c(5, 15, -1), c('5', '15', 'All')), pageLength = 5))
         }
         else{print('Cannot find restaurants in this area.')}

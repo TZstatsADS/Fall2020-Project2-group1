@@ -20,33 +20,45 @@ library(shinydashboard)
 
 load('../app/output/covid_zip_code.RData')
 
+welcome_box <- box(title = "Welcome",
+                   status = "primary", solidHeader = TRUE,
+                   width = 12,
+                   fluidRow(column(10,
+                                   fluidPage(includeMarkdown("output/Welcome.md")))
+                            
+                   ))
 dashboardPage(
   skin = "yellow",
   dashboardHeader(title = "Safe Travel in NYC"),
   dashboardSidebar(sidebarMenu(
     menuItem("Home", tabName = "Home", icon = icon("home")),
     menuItem("Our Map", tabName = "Our Map", icon = icon("map-marker-alt"), startExpanded = TRUE,
-             menuSubItem("Zip Code Tracker", tabName = "Zip Code Tracker", icon = icon("fas fa-map-marked-alt")),
+             menuSubItem("Zip_Code_Tracker", tabName = "Zip_Code_Tracker", icon = icon("fas fa-map-marked-alt")),
              
-             menuSubItem("Hospitals & Testing Centers", tabName = "Hospitals & Testing Centers", icon = icon("fas fa-hospital")),
+             menuSubItem("Hospitals_TestingCenter", tabName = "Hospitals_TestingCenter", icon = icon("fas fa-hospital")),
              
              menuSubItem("Hotels",tabName = "Hotels",icon = icon("fas fa-hotel")),
              
-             menuSubItem("Restaurants",tabName = "Restaurants",icon = icon("fas fa-utensils"))        
+             menuSubItem("Restaurants",tabName = "Restaurants",icon = icon("fas fa-coffee"))   
+
     ),
     menuItem("Averages", tabName = "Averages", icon = icon("fas fa-table")),
-    menuItem("Data Sources", tabName = "about", icon = icon("fas fa-asterisk"))
-  )),
+    menuItem("Data_Sources", tabName = "Data_Sources", icon = icon("fas fa-asterisk"))
+  )
+  ),
   
   dashboardBody(fill = FALSE,tabItems(
     # Tab panel 1 Home -------------------------------------------------------------------------------------------------------
     tabItem(tabName = "Home",
-            fluidRow(column(tags$img(src="covid.png",width="200px",height="250px"),width=2, align="center",
+            #fluidRow(), 
+            
+            fluidRow(
+              
+              column(tags$img(src="covid.png",width="200px",height="250px"),width=2, align="center",
                             p(strong("NOTICE:"),"all out-of-state travelers from designated states must complete the form upon entering New York.",
                               br(),
                               a(href="https://coronavirus.health.ny.gov/covid-19-travel-advisory", "COMPLETE THE ONLINE TRAVELER HEALTH FORM",target="_blank"),style="text-align:center;color:black")),
                      column(
-                       
                        br(),
                        p(strong("Warning:"),"Travel increases your chance of getting and spreading COVID-19. Staying home is the best way to protect yourself and others from COVID-19.
                                        Dont't travel if you are sick or if you have been around someone with COVID-19 in the past 14 days.",style="text-align:justify;color:black;background-color:yellow;padding:15px;border-radius:10px"),
@@ -57,7 +69,6 @@ dashboardPage(
                          HTML("<h5><li>Indoor dining in New York City will be allowed to reopen starting September 30 with a 25 percent occupancy but will be subject to strict safety protocols. </li></h5>"), 
                          HTML("<h5><li>Governor Cuomo issued Executive Order 205, requiring all travelers coming from states with significant rates of transmission of COVID-19 to quarantine for a 14-day period from the time of their last contact. </li></h5>"),                             
                          style="text-align:justify;color:black;background-color:orange;padding:15px;border-radius:14px"),
-                       
                        width=8),
                      column(
                        br(),
@@ -71,7 +82,7 @@ dashboardPage(
             hr(),
             
             titlePanel("Welcome"),
-            
+          
             HTML("Thank you for using our COVID-19 Travel Advisory app. <br />"), 
             
             HTML("If you are planning to travel to and from NYC. Our app will provide you information about recent cases and local policies, guide you nearby hospitals and testing centers. In addition, we 
@@ -93,6 +104,7 @@ dashboardPage(
             
             titlePanel("How to Use this App"),
             
+            
             HTML("It's easy!<br />"), 
             HTML("1. Click on the Map tab to learn about COVID cases in your interested areas. <br />"), 
             HTML("2. If you need or want accommodations in a particular zip code or tourist spot, click the Hospitals, Hotels, and Restaurants tabs.  <br />"), 
@@ -103,19 +115,17 @@ dashboardPage(
 
     # Tab panel 2 MAP-------------------------------------------------------------------
     #sub1 ------------------------------------------------------------------------------
-    tabItem(tabName = "Zip Code Tracker",
+    tabItem(tabName = "Zip_Code_Tracker",
             titlePanel("Local NYC COVID-19 Cases"),
-            
+
             # Sidebar with a slider input for number of bins
             sidebarLayout(
-              
               sidebarPanel(
                 helpText("Locate an area zip code on the map using the dropdown menu below.", br(), 
                          "Select up to two zip codes at a time.", br()), 
                 selectInput("ZipCode", 
                             label = "Zip Code:",
                             choices = covid_zip_code$GEOID10, selected = 10001, multiple = TRUE),
-                
                 helpText("To see cases near popular tourist attractions, use the following guide.", br(), 
                          "Central Park: 10019", br(),
                          "Chinatown: 10002 & 10038", br(),
@@ -126,7 +136,7 @@ dashboardPage(
                          "Statue of Liberty: 10004", br(),
                          "Times Square: 10036", br(), 
                          "", br()), 
-                
+
                 helpText("Select what information that should be displayed on the legend.", 
                          "Colors and scale will adjust according to user selection."), 
                 
@@ -143,7 +153,6 @@ dashboardPage(
                          "Most recent 4 week data available: June 21st, 2020 to July 18th, 2020", 
                          "", br()), 
                 
-                
                 checkboxInput("checkbox", label = "Recent 4 Week Data?", value = FALSE), 
                 
                 helpText("", br(), 
@@ -156,7 +165,7 @@ dashboardPage(
     
     # Tab panel 2 MAP Hospitals & Testing Center -------------------------------------
     #sub2 ----------------------------------------------------------------------------
-    tabItem(tabName = "Hospitals & Testing Centers",
+    tabItem(tabName = "Hospitals_TestingCenter",
             titlePanel("NYC Hospital/Testing Center Map"),
             # Sidebar with a slider input for number of bins
             sidebarLayout(
@@ -183,22 +192,16 @@ dashboardPage(
             titlePanel("NYC Hotel Map"),
             # Create a new Row in the UI for selectInputs of hotel's zipcode, city, and rate
             fluidRow(
-              column(4,
-                     selectInput("hotelcode",
+              column(4, selectInput("hotelcode",
                                  "Zip Code:", 
                                  choices = sort(unique(hotels$postal_code, decreasing=F)), 
-                                 selected = "10001")
-              ),
-              column(4,
-                     selectInput("hotelcity",
+                                 selected = "10001")),
+              column(4, selectInput("hotelcity",
                                  "City:",
-                                 c("All", unique(as.character(hotels$city))))
-              ),
-              column(4,
-                     selectInput("hotelrate",
+                                 c("All", unique(as.character(hotels$city))))),
+              column(4, selectInput("hotelrate",
                                  "Rating:",
-                                 choices = sort(unique(hotels$rating), decreasing = T))
-              )
+                                 choices = sort(unique(hotels$rating), decreasing = T)))
             ),
             # Create a new row for the table of hotel information.
             DT::dataTableOutput("hotelInfo"),
@@ -223,11 +226,16 @@ dashboardPage(
                                         choices = covid_zip_code$GEOID10, selected = 10025)),
                   column(4, checkboxGroupInput("Grade", "Choose Grade:",
                                                choices = c("A", "B", "C", "N", "Z"),
-                                               selected = c("C"))),
+                                               selected = c("A", "B","C"))),
                   column(4, checkboxGroupInput("categories", "Choose Categories:",
                                                choices = c("European", "Asian", "Fast_food", "Seafood", "Vegetarian", "Americas", 
                                                            "Dessert", "Others", "BBQ", "Oceanian", "Steak", "African"),
                                                selected = c("European", "Fast_food", "Americas"))),
+                ),
+                fluidRow(
+                  column(4, checkboxGroupButtons("Alcohol_NoAlcohol", "Choose Alcohol/No Alcohol:", choices = c("yes","no"), selected = "no")),
+                  column(4, checkboxGroupButtons("Roadway_Seating", "Choose Roadway Seating/No Roadway Seating:", choices = c("yes","no"), selected = "yes")),
+                  column(4, checkboxGroupButtons("Sidewalk_Seating", "Choose Sidewalk Seating/No Sidewalk Seating:", choices = c("yes","no"), selected = "yes")),
                 ),
                 helpText("Restaurant List", br()),
                 DT::dataTableOutput("restaurant_Info"), width = 12
@@ -261,7 +269,7 @@ dashboardPage(
     ), 
     
     # Tab panel 4  Data Source-------------------------------------------------------------
-    tabItem(tabName = "Data Sources", 
+    tabItem(tabName = "Data_Sources", 
             HTML(
               "<h2> Data Source : </h2>
                               <h4> <p><li><a href='https://coronavirus.jhu.edu/map.html'>Coronavirus COVID-19 Global Cases map Johns Hopkins University</a></li></h4>

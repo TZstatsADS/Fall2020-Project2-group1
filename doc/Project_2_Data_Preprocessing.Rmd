@@ -167,12 +167,22 @@ Res_cleaned_Or <- Res_cleaned
 
 write.csv(Res_cleaned_Or, file="../data/Res_cleaned_Or.csv", row.names = FALSE)
 
-Res_cleaned <- Res_cleaned %>% select("Restaurant.Name", "Business.Address","GRADE", "Postcode", "Latitude", "Longitude", "CUISINE.DESCRIPTION", "categories")
+Res_cleaned <- Res_cleaned %>% select("Restaurant.Name", "Business.Address","GRADE", "Postcode", "Latitude", "Longitude", "CUISINE.DESCRIPTION", "categories", "Approved.for.Sidewalk.Seating", "Approved.for.Roadway.Seating", "Qualify.Alcohol")
 
-write.csv(Res_cleaned, file="../data/Restaurant_cleaned.csv", row.names = FALSE)
+Res_cleaned$Qualify.Alcohol <- as.character(Res_cleaned$Qualify.Alcohol)
+Res_cleaned$Approved.for.Sidewalk.Seating <- as.character(Res_cleaned$Approved.for.Sidewalk.Seating)
+Res_cleaned$Approved.for.Roadway.Seating <- as.character(Res_cleaned$Approved.for.Roadway.Seating)
+write.csv(Res_cleaned, file="../app/output/Restaurant_cleaned.csv", row.names = FALSE)
 
-read_csv("../data/Restaurant_cleaned.csv")
 ```
+
+```{r}
+
+
+Restaurant[Restaurant$Postcode == 10025 & Restaurant$GRADE %in% c("B", "C") & Restaurant$categories %in% c("European", "Fast_food", "Americas") & Restaurant$Qualify.Alcohol %in% "no" & Restaurant$Approved.for.Roadway.Seating %in% "yes" & Restaurant$Approved.for.Sidewalk.Seating == "yes", ]
+
+```
+
 
 ```{r nyc restaurant GRADE, warning = FALSE}
 # # register_google(key = "") 
