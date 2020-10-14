@@ -32,46 +32,37 @@ dashboardPage(
   dashboardBody(fill = FALSE,tabItems(
     # Tab panel 1 Home -------------------------------------------------------------------------------------------------------
     tabItem(tabName = "Home",
-            #fluidRow(), 
-            
-            fluidRow(
-              column(tags$img(src="covid.png",width="200px",height="250px"),width=2, align="center",
+            fluidRow(column(width = 3,img(src="covid.png",width = "100%", height = "35%"),align = "left",
                             p(strong("NOTICE:"),"all out-of-state travelers from designated states must complete the form upon entering New York.",
                               br(),
                               a(href="https://coronavirus.health.ny.gov/covid-19-travel-advisory", "COMPLETE THE ONLINE TRAVELER HEALTH FORM",target="_blank"),style="text-align:center;color:black")),
-                     column(
-                       br(),
-                       p(strong("Warning:"),"Travel increases your chance of getting and spreading COVID-19. Staying home is the best way to protect yourself and others from COVID-19.
-                                       Dont't travel if you are sick or if you have been around someone with COVID-19 in the past 14 days.",style="text-align:justify;color:black;background-color:yellow;padding:15px;border-radius:10px"),
-                       br(),
-                       
-                       p(strong("Latest Policies in NYC (Last Updated: Sep 30, 2020):"),
-                         HTML("<h5><li>A travel advisory is in effect for individuals traveling to New York from states with significant community spread of COVID-19, requiring a quarantine for 14 days. </li></h5>"), 
-                         HTML("<h5><li>Indoor dining in New York City will be allowed to reopen starting September 30 with a 25 percent occupancy but will be subject to strict safety protocols. </li></h5>"), 
-                         HTML("<h5><li>Governor Cuomo issued Executive Order 205, requiring all travelers coming from states with significant rates of transmission of COVID-19 to quarantine for a 14-day period from the time of their last contact. </li></h5>"),                             
-                         style="text-align:justify;color:black;background-color:orange;padding:15px;border-radius:14px"),
-                       width=8),
-        
-                column(
-                       br(),
-                       tags$img(src="nyc.jpg",width="180px",height="230px"),
-                       br(),
-                       br(),
-                       p("For more information please check the New York State official page",
-                         br(),
-                         a(href="https://coronavirus.health.ny.gov/home", "Here",target="_blank"),style="text-align:center;color:black"),
-                       width=2)),
-            hr(),
-            
-           
-            column(10, fluidPage(includeMarkdown("output/Welcome.md"))),
-
-            column(10, fluidPage(includeMarkdown("output/Who.md"))),
-            
-            column(10, fluidPage(includeMarkdown("output/How.md")))
-          
+                     box(width = 6, height = "20%", h2(strong("Welcome"),align = "center"),
+                         background = "yellow",solidHeader = TRUE,
+                         h3(hr()),
+                         h3("Thank you for using our COVID-19 Travel Advisory app."),
+                         h3("If you are planning to travel to and from NYC. Our app will provide you information about recent cases and local policies, guide you nearby hospitals and testing centers. In addition, we have recommendations on hotels and restaurants in safe areas! "),
+                         h3("We got you covered! Wish you had a safe trip in NYC! ")),
+                     column(width = 3,img(src="nyc.jpg",width = "100%", height = "35%"),align = "right", 
+                            p("For more information please check the New York State official page",
+                              br(),
+                              a(href="https://coronavirus.health.ny.gov/home", "Here",target="_blank"),style="text-align:center;color:black"))
+            ),
+            fluidRow(
+              box(width = 12, height = "20%", h2(strong("Warning:"),align = "center"),
+                  background = "yellow",solidHeader = TRUE,
+                  h3(hr()),
+                  h3("Travel increases your chance of getting and spreading COVID-19. Staying home is the best way to protect yourself and others from COVID-19.
+                                       Dont't travel if you are sick or if you have been around someone with COVID-19 in the past 14 days."),
+                  h3("Employees appointed to civil service positions enjoy stable"))
+            ),
+            fluidRow(
+              column(4, fluidPage(includeMarkdown("output/Latest.md"))),
+              
+              column(4, fluidPage(includeMarkdown("output/How.md"))),
+              
+              column(4, fluidPage(includeMarkdown("output/Who.md"))),
+            ),
     ),
-
     # Tab panel 2 MAP-------------------------------------------------------------------
     #sub1 ------------------------------------------------------------------------------
     tabItem(tabName = "Zip_Code_Tracker",
