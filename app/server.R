@@ -11,9 +11,8 @@
 #can run RData directly to get the necessary date for the app
 #global.r will enable us to get new data everyday
 #update data with automated script
-load('../app/output/covid_zip_code.RData')
-load('../app/output/Collected_Pre_Processed_Data.RData')
 
+source("global.R")
 
 shinyServer(function(input, output) {
     #----------------------------------------

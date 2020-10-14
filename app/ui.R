@@ -8,8 +8,6 @@
 #
 # Define UI for application that draws a histogram
 
-load('../app/output/covid_zip_code.RData')
-load('../app/output/Collected_Pre_Processed_Data.RData')
 
 dashboardPage(
   skin = "yellow",
@@ -17,7 +15,7 @@ dashboardPage(
   dashboardSidebar(sidebarMenu(
     menuItem("Home", tabName = "Home", icon = icon("home")),
     menuItem("Our Map", tabName = "Our Map", icon = icon("fas fa-globe"), startExpanded = TRUE,
-             menuSubItem("Zip_Code_Tracker", tabName = "Zip_Code_Tracker", icon = icon("fas fa-map-marked-alt")),
+             menuSubItem("Zip_Code_Tracker", tabName = "Zip_Code_Tracker", icon = icon("fas fa-map-signs")),
              
              menuSubItem("Hospitals_TestingCenter", tabName = "Hospitals_TestingCenter", icon = icon("fas fa-hospital")),
              

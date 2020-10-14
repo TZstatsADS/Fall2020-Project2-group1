@@ -5,9 +5,8 @@ account: ll3248
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 3009382
-bundleId: 3737363
+bundleId: 3737564
 url: https://ll3248.shinyapps.io/COVID19Tracker/
-when: 1602643321.85936
+when: 1602648767.41993
 asMultiple: FALSE
 asStatic: FALSE
-ignoredFiles: .RData|README.md

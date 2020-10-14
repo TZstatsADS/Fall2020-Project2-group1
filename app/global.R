@@ -99,7 +99,9 @@ if (!require("shinyWidgets")) {
 #by_poverty <- read.csv("../data/coronavirus-data-master/by-poverty.csv")
 #by_race <- read.csv("../data/coronavirus-data-master/by-race.csv")
 #by_sex <- read.csv("../data/coronavirus-data-master/by-sex.csv")
-load('../app/output/Collected_Pre_Processed_Data.RData')
-load('../app/output/covid_zip_code.RData')
+
+load('./output/covid_zip_code.RData')
+load('./output/collected_preprocessed_data.RData')
+
 
 #=======================================================================
