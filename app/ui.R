@@ -8,21 +8,8 @@
 #
 # Define UI for application that draws a histogram
 
-library(readr)
-library(shiny)
-library(shinythemes)
-library(tigris)
-library(leaflet)
-library(tidyverse)
-library(ggplot2)
-library(shinydashboard)
-library(shinyWidgets)
-library(emojifont)
-library(lubridate)
-library(plotly)
-
 load('../app/output/covid_zip_code.RData')
-
+load('../app/output/Collected_Pre_Processed_Data.RData')
 
 dashboardPage(
   skin = "yellow",
@@ -150,7 +137,7 @@ dashboardPage(
                 helpText("Enter or select a zip code to find hospital or testing center information in this area.", br()),
                 selectInput("hos_tc_ZipCode", 
                             label = "Zip Code:",
-                            choices = covid_zip_code$GEOID10, selected = 10001),
+                            choices = covid_zip_code$GEOID10, selected = 10002),
                 helpText("Hospital/Testing Center List", br()),
                 tableOutput("hos_tc_Info"),
                 width = 12
@@ -251,7 +238,7 @@ dashboardPage(
                               <h4><li>NYC COVID-19 Data : <a href='https://github.com/nychealth/coronavirus-data' target='_blank'>Github NYC Health</a></li></h4>
                               <h4><li>NYC COVID-19 Policy : <a href='https://coronavirus.health.ny.gov/covid-19-travel-advisory' target='_blank'> New York State Official Website</a></li></h4>
                               <h4><li>NYC Hospital Data : <a href='https://opendata.cityofnewyork.us/data/' target='_blank'>NYC Open Data</a></li></h4>
-                              <h4><li>NYC Restaruant Data : <a href='____' target='_blank'>____</a></li></h4>
+                              <h4><li>NYC Restaruant Data : <a href='https://data.cityofnewyork.us/Transportation/Open-Restaurant-Applications/pitm-atqc' target='_blank'>NYC Open Data</a></li></h4>
                               <h4><li>NYC Testing Center Data : <a href='https://www.nychealthandhospitals.org/covid-19-testing-sites/' target='_blank'>NYC Health + Hospitals</a></li></h4>
                               <h4><li>Spatial Polygons : <a href='https://www.naturalearthdata.com/downloads/' target='_blank'> Natural Earth</a></li></h4>"
               
