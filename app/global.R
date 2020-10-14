@@ -106,4 +106,28 @@ load('./output/collected_preprocessed_data.RData')
 
 #=======================================================================
 
+# Plot some Pie charts
+
+plot_pie <- plot_ly() %>%
+  add_pie(data = by_poverty , labels = ~ POVERTY_GROUP, values = ~CASE_COUNT,
+          name = "POVERTY_GROUP",
+          title = "POVERTY_GROUP",
+          domain = list(row = 0, column = 0))%>%
+  add_pie(data = by_race, labels = ~ RACE_GROUP, values = ~CASE_COUNT,
+          name = "RACE_GROUP",
+          title = "RACE_GROUP",
+          domain = list(row = 0, column = 1))%>%
+  add_pie(data = by_sex[-3, ] , labels = ~ SEX_GROUP, values = ~CASE_COUNT,
+          name = "SEX_GROUP",
+          title = "SEX_GROUP",
+          domain = list(row = 0, column = 2))%>%  
+  
+  layout(title = "The Summary of NYC Confirmed Case By Groups", showlegend = F,
+         grid=list(rows=1, columns=3),
+         paper_bgcolor='transparent',
+         xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
+         yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE)
+  )
+plot_pie 
+
 

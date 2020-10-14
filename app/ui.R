@@ -61,7 +61,7 @@ dashboardPage(
               column(4, fluidPage(includeMarkdown("output/How.md"))),
               
               column(4, fluidPage(includeMarkdown("output/Who.md"))),
-            ),
+            )
     ),
     # Tab panel 2 MAP-------------------------------------------------------------------
     #sub1 ------------------------------------------------------------------------------
@@ -200,20 +200,20 @@ dashboardPage(
             fluidRow(column(12, tableOutput("myTable1"))),
             titlePanel("Borough Cumulative Averages"), 
             fluidRow(column(12, tableOutput("myTable3"))),
-            titlePanel("Borough Cumulative Barplot - Case Averages"), 
-            fluidRow(column(12, plotOutput("boroplot1"))),
-            titlePanel("Borough Cumulative Barplot - Death Averages"), 
-            fluidRow(column(12, plotOutput("boroplot2"))),
             titlePanel("NYC Recent Four Week Average"), 
-            fluidRow(column(12, tableOutput("myTable2"))),   
+            fluidRow(column(12, tableOutput("myTable2"))),
             titlePanel("Borough Recent Four Week Averages"), 
             fluidRow(column(12, tableOutput("myTable4"))),
-            titlePanel("Covid Case Count by Poverty"), 
-            fluidRow(column(12, plotOutput("boroplot3"))),
-            titlePanel("Covid Case Count by Race"), 
-            fluidRow(column(12, plotOutput("boroplot4"))),
-            titlePanel("Covid Case Count by Sex"), 
-            fluidRow(column(12, plotOutput("boroplot5"))),# end fluid row
+            
+            
+            fluidRow(column(4, title = "Borough Cumulative - Confirmed Case Averages", plotOutput("plot_bar_1")),
+                     column(4, title = "Borough Cumulative - Death Case Averages", plotOutput("plot_bar_2")),
+                     column(4, title = "Borough Cumulative - Positive rate", plotOutput("plot_bar_3"))),
+            
+            
+            fluidRow(column(12, title = "The Summary of NYC Confirmed Case By Groups", 
+                            plotlyOutput("Pie_chart"))),
+            
             
             HTML("NYCHealth Open Data Last Updated September 30th, 2020."), 
     ), 
@@ -261,8 +261,8 @@ dashboardPage(
             
             HTML(
               "<b>NYC Restaurant Data : </b> <br>
-                              <li> ____ </li>
-                              <li> ____ </li>"
+                              <li> DOHMH New York City Restaurant Inspection Results is a data contains NYC restaurant inspection results for up to three years prior to the most recent inspection. </li>
+                              <li> Open Restaurant Applications is a dataset of applications from food service establishments seeking authorization to re-open under Phase Two of the State’s New York Forward Plan, and place outdoor seating in front of their business on the sidewalk and/or roadway. </li>"
             ),
             
             HTML(

@@ -402,41 +402,52 @@ shinyServer(function(input, output) {
     output$myTable4 <- renderTable(averages_borough_recent)
   
 
-    output$boroplot1 <-renderPlot({
-      ggplot(data=averages_borough_cumulative, aes(x=BOROUGH_GROUP, y=COVID_CASE_COUNT)) +
-        geom_bar(stat="identity",fill="steelblue", width=0.3) +
-        geom_text(aes(label=round(averages_borough_cumulative$COVID_CASE_COUNT)), position=position_dodge(width=0.9), vjust=-0.25) +
-        theme_gray()
+    plot_bar_1 <- plot_ly(averages_borough_cumulative, x = ~BOROUGH_GROUP, y = ~COVID_CASE_COUNT, type = "bar", 
+                          marker = list(color = 'rgb(158,202,225)',line = list(color = 'rgb(8,48,107)',width = 1.5)))  %>% 
+      layout(title = "Borough Cumulative - Confirmed Case Averages", showlegend = F,
+             paper_bgcolor='transparent',
+             xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
+             yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE)
+      )
+    plot_bar_1
+    
+    plot_bar_2 <- plot_ly(averages_borough_cumulative, x = ~COVID_DEATH_COUNTP, y = ~COVID_CASE_COUNT, type = "bar", 
+                          marker = list(color = 'rgb(158,202,225)',line = list(color = 'rgb(8,48,107)',width = 1.5))) %>% 
+      layout(title = "Borough Cumulative - Death Case Averages", showlegend = F,
+             paper_bgcolor='transparent',
+             xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
+             yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE)
+      )
+    plot_bar_2
+    
+    
+    plot_bar_3 <- plot_ly(averages_borough_cumulative, x = ~COVID_DEATH_COUNTP, y = ~PERCENT_POSITIVE, type = "bar", 
+                          marker = list(color = 'rgb(158,202,225)',line = list(color = 'rgb(8,48,107)',width = 1.5)))  %>% 
+      layout(title = "Borough Cumulative - Positive rate", showlegend = F,
+             paper_bgcolor='transparent',
+             xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
+             yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE)
+      )
+    plot_bar_3
+    
+    # Plot Some Pie Chart 
+    output$plot_bar_1 <- renderPlotly({
+      ggplotly(plot_bar_1)
     })
     
-    output$boroplot2 <-renderPlot({
-      ggplot(data=averages_borough_cumulative, aes(x=BOROUGH_GROUP, y=COVID_DEATH_COUNT)) +
-        geom_bar(stat="identity", fill="firebrick3", width=0.3) +
-        geom_text(aes(label=round(averages_borough_cumulative$COVID_DEATH_COUNT)), position=position_dodge(width=0.9), vjust=-0.25) +
-        theme_gray()
+    output$plot_bar_2 <- renderPlotly({
+      ggplotly(plot_bar_2)
     })
     
-    output$boroplot3 <-renderPlot({
-      ggplot(data=by_poverty, aes(x=POVERTY_GROUP, y=CASE_COUNT)) +
-        geom_bar(stat="identity", fill="steelblue", width=0.3) +
-        geom_text(aes(label=by_poverty$CASE_COUNT), position=position_dodge(width=0.9), vjust=-0.25) +
-        theme_gray()
+    output$plot_bar_3 <- renderPlotly({
+      ggplotly(plot_bar_3)
     })
     
-    output$boroplot4 <-renderPlot({
-      ggplot(data=by_race, aes(x=RACE_GROUP, y=CASE_COUNT)) +
-        geom_bar(stat="identity", fill="steelblue", width=0.3) +
-        geom_text(aes(label=by_race$CASE_COUNT), position=position_dodge(width=0.9), vjust=-0.25) +
-        theme_gray()
-    })
+    # Plot Some Pie Chart 
     
-    output$boroplot5 <-renderPlot({
-      ggplot(data=by_sex[-3, ], aes(x=SEX_GROUP, y=CASE_COUNT)) +
-        geom_bar(stat="identity", fill="steelblue", width=0.3) +
-        geom_text(aes(label=by_sex[-3, ]$CASE_COUNT), position=position_dodge(width=0.9), vjust=-0.25) +
-        theme_gray()
+    output$Pie_chart <- renderPlotly({
+      ggplotly(plot_pie)
     })
-    
     #----------------------------------------
     #tab panel 8 - Sources
     
