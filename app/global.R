@@ -4,8 +4,7 @@ packages.used = as.list(
   c("dplyr", "tibble", "tidyverse", "shinythemes", "shiny", "sf", "RCurl",
     "stringr", "tmap", "tidyr", "ggplot2", "data.table", "ggmap", "DT",
     "choroplethr", "devtools", "DT", "readr", "lubridate", "leaflet", "tigris",
-    "emojifont", "viridis", "plotly", "rgdal", "tmap", "RCurl", "tigris", "choroplethrZip", 
-    "shinydashboard", "shinyWidgets")
+    "emojifont", "viridis", "plotly", "rgdal", "tmap", "RCurl", "tigris", "choroplethrZip")
 )
 check.pkg = function(x){
   if(!require(x, character.only = T)) install.packages(x, character.only=T, dependence=T)
