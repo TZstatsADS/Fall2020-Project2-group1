@@ -403,9 +403,7 @@ shinyServer(function(input, output) {
 
     
 
-    # Plot Some Pie Chart 
-    
-    
+    # Plot Some bar plots
     output$boroplot1 <-renderPlot({
       ggplot(data=averages_borough_cumulative, aes(x=BOROUGH_GROUP, y=COVID_CASE_COUNT)) +
         geom_bar(stat="identity",fill="steelblue", width=0.3) +

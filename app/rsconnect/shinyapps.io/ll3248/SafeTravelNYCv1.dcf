@@ -1,0 +1,12 @@
+name: SafeTravelNYCv1
+title: SafeTravelNYCv1
+username:
+account: ll3248
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 3014573
+bundleId: 3740409
+url: https://ll3248.shinyapps.io/SafeTravelNYCv1/
+when: 1602691816.33237
+asMultiple: FALSE
+asStatic: FALSE

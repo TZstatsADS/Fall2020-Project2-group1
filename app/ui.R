@@ -15,9 +15,9 @@ dashboardPage(
   dashboardSidebar(sidebarMenu(
     menuItem("Home", tabName = "Home", icon = icon("home")),
     menuItem("Our Map", tabName = "Our Map", icon = icon("fas fa-globe"), startExpanded = TRUE,
-             menuSubItem("Zip_Code_Tracker", tabName = "Zip_Code_Tracker", icon = icon("fas fa-map-signs")),
+             menuSubItem("Zip Code Tracker", tabName = "Zip Code Tracker", icon = icon("fas fa-map-signs")),
              
-             menuSubItem("Hospitals_TestingCenter", tabName = "Hospitals_TestingCenter", icon = icon("fas fa-hospital")),
+             menuSubItem("Hospitals and Testing Centers", tabName = "Hospitals and Testing Centers", icon = icon("fas fa-hospital")),
              
              menuSubItem("Hotels",tabName = "Hotels",icon = icon("fas fa-hotel")),
              
@@ -25,7 +25,7 @@ dashboardPage(
 
     ),
     menuItem("Averages", tabName = "Averages", icon = icon("fas fa-table")),
-    menuItem("Data_Sources", tabName = "Data_Sources", icon = icon("fas fa-asterisk"))
+    menuItem("About", tabName = "About", icon = icon("fas fa-asterisk"))
   )
   ),
   
@@ -51,21 +51,21 @@ dashboardPage(
             ),
             hr(),
             fluidRow(
-              column(12, fluidPage(includeMarkdown("output/warning.md")))
+              column(12, fluidPage(includeMarkdown("./output/warning.md")))
             ),
             fluidRow(
               
-              column(4, fluidPage(includeMarkdown("output/latest.md"))),
+              column(4, fluidPage(includeMarkdown("./output/latest.md"))),
               
-              column(4, fluidPage(includeMarkdown("output/how.md"))),
+              column(4, fluidPage(includeMarkdown("./output/how.md"))),
               
-              column(4, fluidPage(includeMarkdown("output/who.md")))
+              column(4, fluidPage(includeMarkdown("./output/who.md")))
             )
             
     ),
     # Tab panel 2 MAP-------------------------------------------------------------------
     #sub1 ------------------------------------------------------------------------------
-    tabItem(tabName = "Zip_Code_Tracker",
+    tabItem(tabName = "Zip Code Tracker",
             titlePanel("Local NYC COVID-19 Cases"),
 
             # Sidebar with a slider input for number of bins
@@ -115,7 +115,7 @@ dashboardPage(
     
     # Tab panel 2 MAP Hospitals & Testing Center -------------------------------------
     #sub2 ----------------------------------------------------------------------------
-    tabItem(tabName = "Hospitals_TestingCenter",
+    tabItem(tabName = "Hospitals and Testing Centers",
             titlePanel("NYC Hospital/Testing Center Map"),
             # Sidebar with a slider input for number of bins
             sidebarLayout(
@@ -219,7 +219,7 @@ dashboardPage(
     ), 
     
     # Tab panel 4  Data Source-------------------------------------------------------------
-    tabItem(tabName = "Data_Sources", 
+    tabItem(tabName = "About", 
             HTML(
               "<h2> Data Source : </h2>
                               <h4> <p><li><a href='https://coronavirus.jhu.edu/map.html'>Coronavirus COVID-19 Global Cases map Johns Hopkins University</a></li></h4>

@@ -8,6 +8,8 @@ The covid_zip_code.RData file is pre-processed data from the gloabl.R file. It c
 
 The collected_preprocessed_data.RData file contained pre-processed that includes both the covid_zip_code.RData above and data from the .csv files below. 
 
+	center_zipcode.csv: geographical data of zip code 'centers' to orient map when rendering
+	
 	hospital.csv: data on NYC hospitals 
 	
 	hotels.csv: data on NYC hotels
@@ -16,12 +18,14 @@ The collected_preprocessed_data.RData file contained pre-processed that includes
 
 	testingcenter_geocode.csv: data on NYC testing centers
 
-We note several log files below:
+We note several log files below, some used in the app itself:
 
 	.DS_Store
 	
 	How.md: how to use this app
 
-	Welcome.md: welcome message
+	latest.md: what the latest safety protocols are for COVID-19
+
+	warning.md: advisory message
 
 	Who.md: who can benefit from this app?
