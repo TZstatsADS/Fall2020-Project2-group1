@@ -55,7 +55,7 @@ dashboardPage(
             ),
             fluidRow(
               
-              column(4, fluidPage(includeMarkdown("output/who.md"))),
+              column(4, fluidPage(includeMarkdown("output/latest.md"))),
               
               column(4, fluidPage(includeMarkdown("output/how.md"))),
               
