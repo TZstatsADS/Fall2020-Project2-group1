@@ -22,10 +22,10 @@ We note several log files below, some used in the app itself:
 
 	.DS_Store
 	
-	How.md: how to use this app
+	how.md: how to use this app
 
 	latest.md: what the latest safety protocols are for COVID-19
 
 	warning.md: advisory message
 
-	Who.md: who can benefit from this app?
+	who.md: who can benefit from this app?
