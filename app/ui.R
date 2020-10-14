@@ -16,7 +16,7 @@ dashboardPage(
   dashboardHeader(title = "Safe Travel in NYC"),
   dashboardSidebar(sidebarMenu(
     menuItem("Home", tabName = "Home", icon = icon("home")),
-    menuItem("Our Map", tabName = "Our Map", icon = icon("map-marker-alt"), startExpanded = TRUE,
+    menuItem("Our Map", tabName = "Our Map", icon = icon("fas fa-globe"), startExpanded = TRUE,
              menuSubItem("Zip_Code_Tracker", tabName = "Zip_Code_Tracker", icon = icon("fas fa-map-marked-alt")),
              
              menuSubItem("Hospitals_TestingCenter", tabName = "Hospitals_TestingCenter", icon = icon("fas fa-hospital")),
