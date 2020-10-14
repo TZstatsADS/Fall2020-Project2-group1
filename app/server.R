@@ -409,26 +409,25 @@ shinyServer(function(input, output) {
              xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
              yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE)
       )
-    plot_bar_1
     
-    plot_bar_2 <- plot_ly(averages_borough_cumulative, x = ~COVID_DEATH_COUNTP, y = ~COVID_CASE_COUNT, type = "bar", 
+    
+    plot_bar_2 <- plot_ly(averages_borough_cumulative, x = ~COVID_DEATH_COUNT, y = ~COVID_CASE_COUNT, type = "bar", 
                           marker = list(color = 'rgb(158,202,225)',line = list(color = 'rgb(8,48,107)',width = 1.5))) %>% 
       layout(title = "Borough Cumulative - Death Case Averages", showlegend = F,
              paper_bgcolor='transparent',
              xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
              yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE)
       )
-    plot_bar_2
+
     
     
-    plot_bar_3 <- plot_ly(averages_borough_cumulative, x = ~COVID_DEATH_COUNTP, y = ~PERCENT_POSITIVE, type = "bar", 
+    plot_bar_3 <- plot_ly(averages_borough_cumulative, x = ~COVID_DEATH_COUNT, y = ~PERCENT_POSITIVE, type = "bar", 
                           marker = list(color = 'rgb(158,202,225)',line = list(color = 'rgb(8,48,107)',width = 1.5)))  %>% 
       layout(title = "Borough Cumulative - Positive rate", showlegend = F,
              paper_bgcolor='transparent',
              xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
              yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE)
       )
-    plot_bar_3
     
     # Plot Some Pie Chart 
     output$plot_bar_1 <- renderPlotly({
@@ -444,7 +443,26 @@ shinyServer(function(input, output) {
     })
     
     # Plot Some Pie Chart 
-    
+    plot_pie <- plot_ly() %>%
+      add_pie(data = by_poverty , labels = ~ POVERTY_GROUP, values = ~CASE_COUNT,
+              name = "POVERTY_GROUP",
+              title = "POVERTY_GROUP",
+              domain = list(row = 0, column = 0))%>%
+      add_pie(data = by_race, labels = ~ RACE_GROUP, values = ~CASE_COUNT,
+              name = "RACE_GROUP",
+              title = "RACE_GROUP",
+              domain = list(row = 0, column = 1))%>%
+      add_pie(data = by_sex[-3, ] , labels = ~ SEX_GROUP, values = ~CASE_COUNT,
+              name = "SEX_GROUP",
+              title = "SEX_GROUP",
+              domain = list(row = 0, column = 2))%>%  
+      
+      layout(title = "The Summary of NYC Confirmed Case By Groups", showlegend = F,
+             grid=list(rows=1, columns=3),
+             paper_bgcolor='transparent',
+             xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
+             yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE)
+      )
     output$Pie_chart <- renderPlotly({
       ggplotly(plot_pie)
     })

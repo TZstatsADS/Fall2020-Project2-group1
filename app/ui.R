@@ -32,6 +32,8 @@ dashboardPage(
   dashboardBody(fill = FALSE,tabItems(
     # Tab panel 1 Home -------------------------------------------------------------------------------------------------------
     tabItem(tabName = "Home",
+            #fluidRow(), 
+            
             fluidRow(column(width = 3,img(src="covid.png",width = "100%", height = "35%"),align = "left",
                             p(strong("NOTICE:"),"all out-of-state travelers from designated states must complete the form upon entering New York.",
                               br(),
@@ -45,23 +47,21 @@ dashboardPage(
                      column(width = 3,img(src="nyc.jpg",width = "100%", height = "35%"),align = "right", 
                             p("For more information please check the New York State official page",
                               br(),
-                              a(href="https://coronavirus.health.ny.gov/home", "Here",target="_blank"),style="text-align:center;color:black"))
+                              a(href="https://coronavirus.health.ny.gov/home", "Here",target="_blank"),style="text-align:center;color:black")),
+            ),
+            hr(),
+            fluidRow(
+              column(12, fluidPage(includeMarkdown("output/warning.md")))
             ),
             fluidRow(
-              box(width = 12, height = "20%", h2(strong("Warning:"),align = "center"),
-                  background = "yellow",solidHeader = TRUE,
-                  h3(hr()),
-                  h3("Travel increases your chance of getting and spreading COVID-19. Staying home is the best way to protect yourself and others from COVID-19.
-                                       Dont't travel if you are sick or if you have been around someone with COVID-19 in the past 14 days."),
-                  h3("Employees appointed to civil service positions enjoy stable"))
-            ),
-            fluidRow(
-              column(4, fluidPage(includeMarkdown("output/Latest.md"))),
               
-              column(4, fluidPage(includeMarkdown("output/How.md"))),
+              column(4, fluidPage(includeMarkdown("output/who.md"))),
               
-              column(4, fluidPage(includeMarkdown("output/Who.md"))),
+              column(4, fluidPage(includeMarkdown("output/how.md"))),
+              
+              column(4, fluidPage(includeMarkdown("output/who.md")))
             )
+            
     ),
     # Tab panel 2 MAP-------------------------------------------------------------------
     #sub1 ------------------------------------------------------------------------------
@@ -204,16 +204,13 @@ dashboardPage(
             fluidRow(column(12, tableOutput("myTable2"))),
             titlePanel("Borough Recent Four Week Averages"), 
             fluidRow(column(12, tableOutput("myTable4"))),
-            
-            
+
             fluidRow(column(4, title = "Borough Cumulative - Confirmed Case Averages", plotOutput("plot_bar_1")),
                      column(4, title = "Borough Cumulative - Death Case Averages", plotOutput("plot_bar_2")),
                      column(4, title = "Borough Cumulative - Positive rate", plotOutput("plot_bar_3"))),
-            
-            
+
             fluidRow(column(12, title = "The Summary of NYC Confirmed Case By Groups", 
                             plotlyOutput("Pie_chart"))),
-            
             
             HTML("NYCHealth Open Data Last Updated September 30th, 2020."), 
     ), 
