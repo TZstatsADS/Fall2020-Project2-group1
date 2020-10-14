@@ -8,7 +8,7 @@
 #
 # Define UI for application that draws a histogram
 
-
+library(readr)
 library(shiny)
 library(shinythemes)
 library(tigris)
@@ -16,7 +16,10 @@ library(leaflet)
 library(tidyverse)
 library(ggplot2)
 library(shinydashboard)
-
+library(shinyWidgets)
+library(emojifont)
+library(lubridate)
+library(plotly)
 
 load('../app/output/covid_zip_code.RData')
 

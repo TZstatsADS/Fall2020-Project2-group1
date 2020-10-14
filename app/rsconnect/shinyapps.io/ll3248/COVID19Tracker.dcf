@@ -1,0 +1,12 @@
+name: COVID19Tracker
+title: COVID19Tracker
+username:
+account: ll3248
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 3009382
+bundleId: 3737244
+url: https://ll3248.shinyapps.io/COVID19Tracker/
+when: 1602641037.36153
+asMultiple: FALSE
+asStatic: FALSE

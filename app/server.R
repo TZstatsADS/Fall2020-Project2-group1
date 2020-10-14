@@ -8,6 +8,7 @@
 #
 #-------------------------------------------------App Server----------------------------------
 
+library(readr)
 library(shiny)
 library(shinythemes)
 library(tigris)
@@ -15,7 +16,10 @@ library(leaflet)
 library(tidyverse)
 library(ggplot2)
 library(shinydashboard)
-
+library(shinyWidgets)
+library(emojifont)
+library(lubridate)
+library(plotly)
 
 #can run RData directly to get the necessary date for the app
 #global.r will enable us to get new data everyday

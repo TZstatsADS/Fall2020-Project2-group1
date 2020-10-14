@@ -1,11 +1,12 @@
 #--------------------------------------------------------------------
 ###############################Install Related Packages #######################
 packages.used = as.list(
-  c("dplyr", "tibble", "tidyverse", "shinythemes", "shiny", "sf",
-    "stringr", "tidyr", "ggplot2", "ggmap", "DT",
-    "choroplethr", "devtools", "DT", "readr", "lubridate", "leaflet", "tigris",
-    "emojifont", "viridis", "plotly", "rgdal", "tmap", "RCurl", "tigris", "choroplethrZip", "shinyWidgets")
+  c("tidyverse", "shinythemes", "shiny",
+    "ggplot2", "shinydashboard",
+    "readr", "leaflet", "tigris", "plotly",
+    "emojifont", "tigris", "shinyWidgets")
 )
+
 check.pkg = function(x){
   if(!require(x, character.only = T)) install.packages(x, character.only=T, dependence=T)
 }
