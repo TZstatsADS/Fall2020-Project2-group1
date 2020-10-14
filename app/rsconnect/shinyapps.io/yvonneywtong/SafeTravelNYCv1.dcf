@@ -5,8 +5,9 @@ account: yvonneywtong
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 3014920
-bundleId: 3740893
+bundleId: 3742039
 url: https://yvonneywtong.shinyapps.io/SafeTravelNYCv1/
-when: 1602697908.26677
+when: 1602712831.6765
 asMultiple: FALSE
 asStatic: FALSE
+ignoredFiles: www/.DS_Store

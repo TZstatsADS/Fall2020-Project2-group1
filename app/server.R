@@ -421,7 +421,7 @@ shinyServer(function(input, output) {
     output$boroplot3 <-renderPlot({
       ggplot(data=averages_borough_cumulative, aes(x=BOROUGH_GROUP, y=PERCENT_POSITIVE)) +
         geom_bar(stat="identity", fill="blue", width=0.3) +
-        geom_text(aes(label=round(averages_borough_cumulative$COVID_DEATH_COUNT)), position=position_dodge(width=0.9), vjust=-0.25) +
+        geom_text(aes(label=round(averages_borough_cumulative$PERCENT_POSITIVE)), position=position_dodge(width=0.9), vjust=-0.25) +
         theme_light()
     })
     
