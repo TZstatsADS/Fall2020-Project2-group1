@@ -47,7 +47,6 @@ dashboardPage(
             #fluidRow(), 
             
             fluidRow(
-              
               column(tags$img(src="covid.png",width="200px",height="250px"),width=2, align="center",
                             p(strong("NOTICE:"),"all out-of-state travelers from designated states must complete the form upon entering New York.",
                               br(),
@@ -64,7 +63,8 @@ dashboardPage(
                          HTML("<h5><li>Governor Cuomo issued Executive Order 205, requiring all travelers coming from states with significant rates of transmission of COVID-19 to quarantine for a 14-day period from the time of their last contact. </li></h5>"),                             
                          style="text-align:justify;color:black;background-color:orange;padding:15px;border-radius:14px"),
                        width=8),
-                     column(
+        
+                column(
                        br(),
                        tags$img(src="nyc.jpg",width="180px",height="230px"),
                        br(),
@@ -75,36 +75,13 @@ dashboardPage(
                        width=2)),
             hr(),
             
-            titlePanel("Welcome"),
+           
+            column(10, fluidPage(includeMarkdown("output/Welcome.md"))),
+
+            column(10, fluidPage(includeMarkdown("output/Who.md"))),
+            
+            column(10, fluidPage(includeMarkdown("output/How.md")))
           
-            HTML("Thank you for using our COVID-19 Travel Advisory app. <br />"), 
-            
-            HTML("If you are planning to travel to and from NYC. Our app will provide you information about recent cases and local policies, guide you nearby hospitals and testing centers. In addition, we 
-                            have recommendations on hotels and restaurants in safe areas! <br />"), 
-            
-            HTML("We got you covered! Wish you had a safe trip in NYC! <br />"), 
-            
-            titlePanel("Who can benefit?"),
-            
-            HTML("<b>Individuals:</b> We hope that this app can help locals and travelers alike in making informed decisons in how they choose to spend their time in here in New York City. 
-                                 They are able to select hospitals, hotels, and restuarants based on a zip code of their choice. <br />"),
-            
-            HTML("<b>Local Healthcare Providers:</b> Since our app contains recent cases of COVID-19, local clinics and hospitals can use this information to make predictions about future cases in their areas. <br />"),
-            
-            HTML("<b>Local Newspapers:</b> We also believe that local papers can help keep the public more informed about <i>recent and local</i> cases so that those living in severely affected neighborhoods know to take proper precautions. <br />"),
-            
-            HTML("<b>Local Businesses:</b> Local shops can get a better sense of how COVID-19 is spreading throughout their area so they can change store hours and inventory as needed. 
-                                 Mobile store and restaurants, such as food trucks, can also use this app to move and set up shop accordingly. <br />"),
-            
-            titlePanel("How to Use this App"),
-            
-            
-            HTML("It's easy!<br />"), 
-            HTML("1. Click on the Map tab to learn about COVID cases in your interested areas. <br />"), 
-            HTML("2. If you need or want accommodations in a particular zip code or tourist spot, click the Hospitals, Hotels, and Restaurants tabs.  <br />"), 
-            HTML("3. If you would like to learn more about the data, please take a look at the Averages and Sources tabs, where we show both recent and cumulative NYC and Borough averages as well as links to the raw data, respectively."), 
-            
-            helpText("", br()), 
     ),
 
     # Tab panel 2 MAP-------------------------------------------------------------------

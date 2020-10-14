@@ -1,8 +1,8 @@
 #--------------------------------------------------------------------
 ###############################Install Related Packages #######################
 packages.used = as.list(
-  c("dplyr", "tibble", "tidyverse", "shinythemes", "shiny", "sf", "RCurl",
-    "stringr", "tmap", "tidyr", "ggplot2", "data.table", "ggmap", "DT",
+  c("dplyr", "tibble", "tidyverse", "shinythemes", "shiny", "sf",
+    "stringr", "tidyr", "ggplot2", "ggmap", "DT",
     "choroplethr", "devtools", "DT", "readr", "lubridate", "leaflet", "tigris",
     "emojifont", "viridis", "plotly", "rgdal", "tmap", "RCurl", "tigris", "choroplethrZip", "shinyWidgets")
 )
