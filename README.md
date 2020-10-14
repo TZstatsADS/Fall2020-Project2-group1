@@ -14,7 +14,7 @@
 Term: Fall 2020
 
 + Team 1
-+ **Projec title**: 
++ **Project title**: Safe Travel in NYC 
 	+ Levi Lee
 	+ Tianle Zhu
 	+ Xinyuan Peng
@@ -25,10 +25,10 @@ Term: Fall 2020
 
 + **Project summary**: This Shiny app is designed to help users (individuals, tourists, small businesses, local papers, and healthcare providers) nagivate and understand NYC COVID-19 data. We offer different features to allow people to understand recent and local NYC COVID-19 cases and offer recommendations for accommodations. 
 
-+ **Source of the Data Set**: NYC OpenHealth, NYC Health + Hospitals
++ **Source of the Data Set**: NYC OpenHealth, NYC Health + Hospitals, Department of Transportation, Department of Health and Mental Hygiene, and Johns Hopkins University
 
 + **Contribution statement**: 
-Five group members ( Levi Lee, Tianle Zhu, Xinyuan Peng, Yuwei Tong, Zhenglei Chen) contribute to the group project.
+Five group members (Levi Lee, Tianle Zhu, Xinyuan Peng, Yuwei Tong, Zhenglei Chen) contribute to the group project.
 
 Levi Lee worked on the basic framework and main COVID Zip Code tracker tab and added interactive features such as the dropdown menu, checkbox, and radio buttons. He also created tables of averages in the averages tab and added preliminary information onto the Home tab. 
 
