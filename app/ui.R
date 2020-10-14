@@ -15,9 +15,9 @@ dashboardPage(
   dashboardSidebar(sidebarMenu(
     menuItem("Home", tabName = "Home", icon = icon("home")),
     menuItem("Our Map", tabName = "Our Map", icon = icon("fas fa-globe"), startExpanded = TRUE,
-             menuSubItem("Zip Code Tracker", tabName = "Zip Code Tracker", icon = icon("fas fa-map-signs")),
+             menuSubItem("ZipCodeTracker", tabName = "ZipCodeTracker", icon = icon("fas fa-map-signs")),
              
-             menuSubItem("Hospitals and Testing Centers", tabName = "Hospitals and Testing Centers", icon = icon("fas fa-hospital")),
+             menuSubItem("Hospitals&TestingCenters", tabName = "HospitalsTestingCenters", icon = icon("fas fa-hospital")),
              
              menuSubItem("Hotels",tabName = "Hotels",icon = icon("fas fa-hotel")),
              
@@ -65,7 +65,7 @@ dashboardPage(
     ),
     # Tab panel 2 MAP-------------------------------------------------------------------
     #sub1 ------------------------------------------------------------------------------
-    tabItem(tabName = "Zip Code Tracker",
+    tabItem(tabName = "ZipCodeTracker",
             titlePanel("Local NYC COVID-19 Cases"),
 
             # Sidebar with a slider input for number of bins
@@ -115,7 +115,7 @@ dashboardPage(
     
     # Tab panel 2 MAP Hospitals & Testing Center -------------------------------------
     #sub2 ----------------------------------------------------------------------------
-    tabItem(tabName = "Hospitals and Testing Centers",
+    tabItem(tabName = "HospitalsTestingCenters",
             titlePanel("NYC Hospital/Testing Center Map"),
             # Sidebar with a slider input for number of bins
             sidebarLayout(
@@ -152,7 +152,7 @@ dashboardPage(
                                  c("All", unique(as.character(hotels$city))))),
               column(4, selectInput("hotelrate",
                                  "Rating:",
-                                 choices = sort(unique(hotels$rating), decreasing = T)))
+                                 choices = c('All',sort(unique(hotels$rating), decreasing = T))))
             ),
             
             # Create a new row for the table of hotel information.
