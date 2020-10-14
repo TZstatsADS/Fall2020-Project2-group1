@@ -167,11 +167,13 @@ Res_cleaned_Or <- Res_cleaned
 
 write.csv(Res_cleaned_Or, file="../data/Res_cleaned_Or.csv", row.names = FALSE)
 
-Res_cleaned <- Res_cleaned %>% select("Restaurant.Name", "Business.Address","GRADE", "Postcode", "Latitude", "Longitude", "CUISINE.DESCRIPTION", "categories")
 
-write.csv(Res_cleaned, file="../data/Restaurant_cleaned.csv", row.names = FALSE)
+Res_cleaned <- Res_cleaned %>% select("Restaurant.Name", "Business.Address","GRADE", "Postcode", "Latitude", "Longitude", "CUISINE.DESCRIPTION", "categories", "Qualify.Alcohol", "Approved.for.Roadway.Seating", "Approved.for.Sidewalk.Seating")
+Res_cleaned$Approved.for.Sidewalk.Seating <- as.character(Res_cleaned$Approved.for.Sidewalk.Seating)
+Res_cleaned$Approved.for.Roadway.Seating <- as.character(Res_cleaned$Approved.for.Roadway.Seating)
+Res_cleaned$Qualify.Alcohol <- as.character(Res_cleaned$Qualify.Alcohol)
 
-read_csv("../data/Restaurant_cleaned.csv")
+write.csv(Res_cleaned, file="../app/output/Restaurant_cleaned.csv", row.names = FALSE)
 ```
 
 ```{r nyc restaurant GRADE, warning = FALSE}
