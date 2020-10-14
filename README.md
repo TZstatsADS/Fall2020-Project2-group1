@@ -26,7 +26,7 @@ Five group members ( Levi Lee, Tianle Zhu, Xinyuan Peng, Yuwei Tong, Zhenglei Ch
 
 Levi Lee worked on the basic framework and main COVID Zip Code tracker tab and added interactive features such as the dropdown menu, checkbox, and radio buttons. He also created tables of averages in the averages tab and added preliminary information onto the Home Tab. 
 
-Tianle Zhu carried out data pre-processing, including cleaning and grouping, for testing center and restaurant data , developed the restaurant map by using informative features such as filters and checkbox, designed dashboard and panel layouts to complete the Shiny application.
+Tianle Zhu carried out data pre-processing, including cleaning and grouping, for testing center and restaurant data, plotted the pie chart for average tab, developed the restaurant map by using informative features such as filters and checkbox, designed dashboard and panel layouts to complete the Shiny application.
 
 Xinyuan Peng worked on the hotel tab, homepage's policy and DataSource's credits
 

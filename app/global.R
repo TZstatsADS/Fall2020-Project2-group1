@@ -103,10 +103,8 @@ if (!require("shinyWidgets")) {
 load('./output/covid_zip_code.RData')
 load('./output/collected_preprocessed_data.RData')
 
-
 #=======================================================================
 
-# Plot some Pie charts
 
 
 

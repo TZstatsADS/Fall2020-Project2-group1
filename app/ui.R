@@ -141,18 +141,20 @@ dashboardPage(
     tabItem(tabName = "Hotels",
             titlePanel("NYC Hotel Map"),
             # Create a new Row in the UI for selectInputs of hotel's zipcode, city, and rate
+            helpText("Select Zipcode or Neighborhood ('city')", br()),
             fluidRow(
               column(4, selectInput("hotelcode",
                                  "Zip Code:", 
                                  choices = sort(unique(hotels$postal_code, decreasing=F)), 
                                  selected = "10001")),
               column(4, selectInput("hotelcity",
-                                 "City:",
+                                 "Neighborhood ('city'):",
                                  c("All", unique(as.character(hotels$city))))),
               column(4, selectInput("hotelrate",
                                  "Rating:",
                                  choices = sort(unique(hotels$rating), decreasing = T)))
             ),
+            
             # Create a new row for the table of hotel information.
             DT::dataTableOutput("hotelInfo"),
             
@@ -204,13 +206,14 @@ dashboardPage(
             fluidRow(column(12, tableOutput("myTable2"))),
             titlePanel("Borough Recent Four Week Averages"), 
             fluidRow(column(12, tableOutput("myTable4"))),
+            
+            titlePanel("The Summary of NYC Confirmed Case by Groups"),
+            fluidRow(column(12, plotlyOutput("Pie_chart"))),
+            titlePanel("The Summary of Case Averages in NYC by Borough"),
+            fluidRow(column(4, title = "Borough Cumulative - Confirmed Case Averages", plotOutput("boroplot1")),
+                     column(4, title = "Borough Cumulative - Death Case Averages", plotOutput("boroplot2")),
+                     column(4, title = "Borough Cumulative - Positive rate", plotOutput("boroplot3"))),
 
-            fluidRow(column(4, title = "Borough Cumulative - Confirmed Case Averages", plotOutput("plot_bar_1")),
-                     column(4, title = "Borough Cumulative - Death Case Averages", plotOutput("plot_bar_2")),
-                     column(4, title = "Borough Cumulative - Positive rate", plotOutput("plot_bar_3"))),
-
-            fluidRow(column(12, title = "The Summary of NYC Confirmed Case By Groups", 
-                            plotlyOutput("Pie_chart"))),
             
             HTML("NYCHealth Open Data Last Updated September 30th, 2020."), 
     ), 
@@ -258,8 +261,8 @@ dashboardPage(
             
             HTML(
               "<b>NYC Restaurant Data : </b> <br>
-                              <li> DOHMH New York City Restaurant Inspection Results is a data contains NYC restaurant inspection results for up to three years prior to the most recent inspection. </li>
-                              <li> Open Restaurant Applications is a dataset of applications from food service establishments seeking authorization to re-open under Phase Two of the State’s New York Forward Plan, and place outdoor seating in front of their business on the sidewalk and/or roadway. </li>"
+                              <li> Department of Health and Mental Hygiene (DOHMH) New York City Restaurant Inspection Results is a data contains NYC restaurant inspection results for up to three years prior to the most recent inspection. </li>
+                              <li> Open Restaurant Applications is a dataset of applications from food service establishments seeking authorization to re-open under Phase Two of the State’s New York Forward Plan and place outdoor seating in front of their business on the sidewalk and/or roadway. </li>"
             ),
             
             HTML(
